@@ -1,0 +1,1200 @@
+# How much dimension does an $\varepsilon$-approximation to a non-attained quantum correlation cost? A Diophantine answer for $K_5$
+
+**Seth Douglas** — ORCID [0009-0007-4708-3252](https://orcid.org/0009-0007-4708-3252)
+
+Version 1.0.0, public edition, 2026-08-10.
+
+Companion verification code, shipped with this paper:
+`verification/verify_dimension_law.py`, `verification/verify_krs_dimension.py`,
+`verification/verify_transport_dimension.py`. *(The text below refers to these
+three engines by their working-draft location `appendix/…`; in this repository
+they are under `verification/`. Nothing else about them changed.)*
+
+> **Public-edition note, 2026-08-10.** This is the promoted text of record,
+> unchanged in every theorem, proof, constant, table and reference. Three blocks
+> of drafting apparatus that the working draft itself designated
+> `STRIP BEFORE CIRCULATION` have been removed here, and nothing else: (i) the
+> draft banner; (ii) the `DRAFTING NOTE` block auditing the paper's rendering
+> against its internal source statement; (iii) the `Editorial to-do` section.
+> All three were internal drafting scaffolding for the review rounds and carry no
+> mathematical content. The review record that generated them is shipped in full
+> under `review/`.
+
+---
+
+## Abstract
+
+Dykema, Paulsen and Prakash proved that the set $C_q(5,2)$ of finite-dimensional
+quantum correlations on five inputs and two outputs is not closed, by exhibiting
+a graph correlation function for $K_5$ whose infimum is not attained at any
+irrational parameter in an explicit window. Their argument is *existential in
+dimension*: the finite-dimensional carriers it invokes are produced "in $M_k$ for
+some natural number $k$", with no control on $k$, and no approximating sequence,
+rate or carrier is ever written down at the non-attained parameter.
+
+We ask the quantitative question their result leaves open. Let $D(\varepsilon)$ be
+the least *block* dimension of a finite-dimensional carrier whose value exceeds the
+infimum by at most $\varepsilon$, at exact marginals and at the distinguished
+parameter $t_\ast = 1/\sqrt5$ (§1.3 and §5.1 fix the convention and show the
+exponent survives all three natural choices). We prove
+$$D(\varepsilon) = \Theta\!\left(\varepsilon^{-1/4}\right),$$
+and we show that the exponent is *arithmetic in origin*: the lower bound is the
+Diophantine inequality $\lVert q\sqrt5\rVert > 1/(5q)$ transported through a
+variance identity, and the upper bound is attained by feeding consecutive
+continued-fraction convergents of $\sqrt5$ into a two-block carrier, where the
+deficit is exactly the **product of the two one-sided approximation errors**,
+$$\varepsilon = (\lambda_1-\sqrt5)(\sqrt5-\lambda_2).$$
+The constant is **bracketed to a factor $2.176$**, both ends in the *denominator*
+convention: $N\varepsilon^{1/4}\to 0.9732489895$ along the convergents, against an
+unconditional floor of $0.4472135955$ in the same convention (§5.1; in actual
+block dimension the corresponding bracket is a factor $10.9$–$21.8$). It is a
+bracket and not a pin: $D$ is a minimum over *all* carriers, and $0.9732489895$
+is the sharpest constant so far *attained*, not a matching lower bound. The
+ratio $N\varepsilon^{1/4}$ is computed across $3.76$ decades of dimension and
+$15.05$ decades of $\varepsilon$, and is flat to six significant figures over the
+last $1.88$ and $7.52$ of those respectively (from $N = 1292$ on).
+
+Two structural remarks accompany the law. First, the framework in which it lives
+— the star-quiver Coxeter functor $\Phi_5$, the window
+$[(5-\sqrt5)/2,(5+\sqrt5)/2]$, and the realisability trichotomy in $n$ — is not
+ours: it is Kruglyak's and Kruglyak–Rabanovich–Samoĭlenko's, and we use it as
+they built it. Second, and as a cautionary result, we show that *orbit topology
+and attainment are different invariants* on this object: the attained parameter
+$\lambda = 4/3$ has a $\Phi_5$-orbit conjugate to that of the unattained
+$\lambda=\sqrt5$, with the same multiplier $\varphi^{-4}$, so no orbit-closure or
+orbit-termination criterion can decide attainment here. Attainment is governed by
+the rationality of $\lambda$; orbit type is governed by the sign of the Tits form.
+
+We contrast $K_5$ with $I_{3322}$, where the analogous cost is only logarithmic,
+and conclude that dimension laws for non-closure witnesses are governed by the
+*arithmetic of the parameter*, not by a universal rate.
+
+**MSC.** 46L05, 46L10 (primary); 11J70, 81P40, 16G20 (secondary).
+**Keywords.** Sums of projections; tracial states; quantum correlations;
+non-closure; continued fractions; Coxeter functor; Tits form.
+
+---
+
+## 1. Introduction
+
+### 1.1 The incumbent result
+
+Fix a finite simple graph $G=(V,E)$ with $E$ a set of *ordered* pairs. Following
+Dykema–Paulsen–Prakash [DPP, Eq. (1)], the *graph correlation function* of $G$ at
+level $r$ is
+$$f_r(t) \;=\; \inf\Big\{ \sum_{(v,w)\in E} \tau(e_v e_w) \Big\},$$
+the infimum over tracial states $\tau$ on a $C^\ast$-algebra generated by
+projections $e_v$, $v\in V$, subject to $\tau(e_v)=t$ for every $v$, with $r$
+selecting the class of algebras allowed. For $r=q$ the algebra is required to be
+**finite-dimensional**. Synchronicity (DPP Thm. 2.11 and Cor. 2.12, after
+Paulsen–Severini–Stahlke–Todorov–Winter) collapses the bipartite $(n,2)$ scenario
+to a single tracial algebra generated by $n$ projections, which is why a
+statement about $n$ projections is a statement about a correlation set.
+
+For $G = K_n$ one has $|E| = n(n-1)$ and DPP Prop. 4.1 gives a three-branch
+piecewise vectorial bound whose middle branch — the one active on the whole
+window we work in — is
+$$f_{\mathrm{vect}}(t) \;=\; nt(nt-1),\qquad t\in\Big[\tfrac1n,\tfrac{n-1}{n}\Big]$$
+(the outer branches are $0$ for $t\le 1/n$ and $(n^2-n)(2t-1)$ for
+$t\ge (n-1)/n$; check C1 verifies that the middle branch is the maximum of the
+three exactly on $[1/n,(n-1)/n]$).
+For $n=5$, DPP Thm. 4.2 shows the *synchronous* set $C_q^s(5,2)$ is not closed;
+their Cor. 4.4 deduces that $C_q(5,2)$ and $C_{qs}(5,2)$ are not closed and that
+$C_{qs}(5,2)\neq C_{qa}(5,2)$. The engine of the
+proof is a theorem of Kruglyak, Rabanovich and Samoĭlenko [KRS02, Thm. 6]: for
+every **rational** $\lambda$ in the window
+$$W \;=\; \left[\tfrac{5-\sqrt5}{2},\;\tfrac{5+\sqrt5}{2}\right]
+\;=\; [1.381966\ldots,\;3.618033\ldots]$$
+there exist five projections in some matrix algebra summing to $\lambda\cdot I$.
+Setting $\lambda = 5t$ gives $f_q(t) = f_{\mathrm{vect}}(t) = 5t(5t-1)$ at every
+rational $t$ in the corresponding window; that function is strictly quadratic,
+hence linear on no subinterval, so DPP Prop. 3.6 forces non-attainment at every
+irrational $t$ there, and non-closure follows.
+
+### 1.2 What is not there
+
+DPP exhibit the limiting *correlation*. Their Remark 4.3 writes it out in full:
+for $v\neq w$,
+$$p(0,0|v,w)=\tfrac14 t(5t-1),\quad p(0,1|v,w)=p(1,0|v,w)=\tfrac54 t(1-t),
+\quad p(1,1|v,w)=\tfrac14(1-t)(4-5t),$$
+with $p(0,0|v,v)=t$, $p(1,1|v,v)=1-t$. What they never exhibit is a limiting
+*carrier*: no algebra, no representation, no approximating sequence, no rate, and
+no dimension. Their invocation of [KRS02] is purely existential in the dimension.
+Verbatim (DPP, proof of Thm. 4.2):
+
+> "… by Theorem 6 in [6], it follows that there exist five projections
+> $P_1,\dots,P_5\in M_k$ **for some natural number $k$**, such that
+> $P_1+\cdots+P_5=5tI_k$."
+
+The dimension $k$ is quantified over and then discarded. That is the gap this
+paper fills.
+
+### 1.3 The question, and the answer
+
+Work at the distinguished irrational parameter
+$$t_\ast \;=\; \frac{1}{\sqrt5} \;=\; 0.4472135955\ldots,\qquad
+\lambda_\ast \;=\; 5t_\ast \;=\; \sqrt5,$$
+which lies strictly inside $W$ and inside DPP's $t$-window
+$\big[\frac{\sqrt5-1}{2\sqrt5},\frac{\sqrt5+1}{2\sqrt5}\big]$ (check C2). Define
+the **deficit** of a finite-dimensional carrier to be the amount by which its
+value exceeds the infimum, and
+$$D(\varepsilon) \;:=\; \min\{\, N :\ \text{some finite-dimensional carrier at
+exact marginals has deficit} \le \varepsilon \,\},$$
+$N$ being the largest matrix-block dimension used. (§2.3 makes all of this
+precise; §5 records the three dimension conventions and shows the exponent is
+independent of the choice.)
+
+**Theorem 1.1 (the dimension law).**
+$$\boxed{\,D(\varepsilon) \;=\; \Theta\!\left(\varepsilon^{-1/4}\right)\,}$$
+The box holds in **every** convention of §5.1; the two constants below are both
+stated in the *denominator* convention, where the bracket is tightest. Explicitly:
+
+* **(A, lower, unconditional.)** Every finite-dimensional carrier at exact
+  marginals whose block values have reduced denominators $q_l$ has deficit
+  $\varepsilon > 1/(25Q^4)$ with $Q=\max_l q_l$, i.e.
+  $Q\varepsilon^{1/4} > 25^{-1/4} = 0.4472135955$; since $q_l$ divides the block
+  dimension $n_l$, $Q\le N=\max_l n_l$ and the same bound holds a fortiori in
+  actual block dimension. No block-scalar assumption is made; the bound is proved
+  through the law of total variance and holds for arbitrary finite-dimensional
+  carriers.
+* **(B, upper; the exponent and the constant are achieved along an explicit
+  family.)** Two-block carriers built from consecutive continued-fraction
+  convergents of $\sqrt5$ achieve
+  $N\varepsilon^{1/4}\to \big(\tfrac{2+\sqrt5}{2\sqrt5}\big)^{1/2}
+  = 0.9732489895$ in the denominator convention, computed across
+  $N = 17 \to 98\,209$ and
+  $\varepsilon = 1.08\times10^{-5}\to 9.64\times10^{-21}$ and flat to six
+  significant figures from $N = 1292$ on (i.e. across $N=1292\to98\,209$ and
+  $\varepsilon = 3.22\times10^{-13}\to 9.64\times10^{-21}$).
+
+The exponent is **Diophantine**: it is set by the irrationality measure of the
+parameter, not by any universal rate and not by the multiplier of the underlying
+dynamics. §5.4 records how *both* ends of the law move with the arithmetic of the
+parameter — and that they move in *opposite* directions, the golden ratio
+$\varphi$ having a strictly higher floor and a strictly lower attained constant
+than $\sqrt5$ — and §7 exhibits an object in the same family of questions where
+the answer is logarithmic instead.
+
+### 1.4 What is recovery and what is new
+
+We separate the two explicitly, because most of the structure used here is
+published mathematics that we quote and validate rather than derive.
+
+**Recovery — not ours, used as its authors built it.**
+
+| object | owner |
+|---|---|
+| the transfer map $\Phi_n(\lambda)=(n-\lambda)/(n-1-\lambda)$, $M_n=\begin{psmallmatrix}n-1&-n\\1&-1\end{psmallmatrix}$ | the star-quiver Coxeter transformation for the $n$-projection problem: Kruglyak [Kru02] |
+| the window $[\alpha_n,\beta_n]=\big[\frac{n-\sqrt{n^2-4n}}{2},\frac{n+\sqrt{n^2-4n}}{2}\big]$ and the trichotomy $\Sigma_2,\Sigma_3$ finite / $\Sigma_4$ discrete / $\Sigma_n\supseteq$ interval for $n\ge5$ | [KRS02] (as reported in [Shu07, p. 1]) |
+| realisability of every rational in the window; finite-dimensionality of the universal $C^\ast$-algebra | [KRS02, Thm. 6]; [Shu07] |
+| the non-closure of $C_q(5,2)$, and the limiting correlation | [DPP, Thm. 4.2, Rem. 4.3, Cor. 4.4] |
+| the $\mathbb Z_5$-shift direct-sum trick equalising the five traces | [DPP, proof of Thm. 4.2] |
+| the block-trace rationality argument | [DPP, §5] |
+
+**New here.**
+
+1. The object $D(\varepsilon)$ itself. No incumbent forms it.
+2. Theorem A: the unconditional lower bound $\varepsilon > 1/(25N^4)$, with the
+   *total-variance* form of the argument (Prop. 3.2), which removes the
+   block-scalar hypothesis a naive derivation would need.
+3. Theorem B and the identity $\varepsilon = (\lambda_1-\sqrt5)(\sqrt5-\lambda_2)$
+   (Prop. 4.1) — the product of two one-sided approximation errors — together
+   with the convergent construction that makes the exponent tight and brackets
+   the constant (to the factor $2.176$ of §4.2, in the denominator convention;
+   it is a bracket, not a pin).
+4. The observation that *orbit topology and attainment are different invariants*
+   on this object, with the explicit witness $\lambda=4/3$ (§6). This is a
+   clarifying negative result, not a theorem we are claiming as an advance; it is
+   included because it is the first thing one is tempted to believe here and it
+   is false.
+
+Section 7 states priority as our literature sweep actually found it, including
+the one document we were unable to read in full.
+
+---
+
+## 2. Setup
+
+### 2.1 The window and $\Sigma_5$
+
+For $n\ge2$ let $\Sigma_n \subseteq [0,n]$ be the set of $\alpha$ for which
+$\alpha\cdot 1$ is a sum of $n$ orthogonal projections **on some Hilbert space**;
+equivalently [Shu07, p. 1], the set of $\alpha$ for which the universal
+$C^\ast$-algebra $P_{n,\alpha}$ generated by $n$ projections summing to
+$\alpha\cdot 1$ is non-zero, i.e. has a representation on a separable Hilbert
+space. Write
+$$\Sigma_n^{\mathrm{fd}} \;\subseteq\; \Sigma_n$$
+for the subset of those $\alpha$ realisable in a *matrix algebra*. The two must be
+kept apart: $\Sigma_n$ is the set that contains intervals, $\Sigma_n^{\mathrm{fd}}$
+is a set of rationals, and every dimension statement in this paper is about
+$\Sigma_n^{\mathrm{fd}}$.
+
+The structure of $\Sigma_n$ is [KRS02]:
+$\Sigma_2=\{0,1,2\}$ and $\Sigma_3=\{0,1,\tfrac32,2,3\}$ are finite; $\Sigma_4$ is
+infinite, discrete and rational, accumulating at $2$ from both sides — explicitly
+$\Sigma_4=\{0,1\}\cup\{1+\tfrac{k}{k+2}\}_{k\ge0}\cup\{2\}\cup
+\{3-\tfrac{k}{k+2}\}_{k\ge0}\cup\{3,4\}$ [Shu07, p. 1] — and for
+$n\ge5$, $\Sigma_n$ contains the real interval $[\alpha_n,\beta_n]$ together with
+discrete rational parts outside it. ([Shu07, p. 1] also records the degenerate
+$\Sigma_1=\{0,1\}$.) [KRS02, Thm. 6] together with the trace obstruction
+(Lemma 4.2) is the sharp statement separating the two sets:
+$$\Sigma_n^{\mathrm{fd}} \;=\; \Sigma_n\cap\mathbb Q ,$$
+i.e. a finite-dimensional representation of $P_{n,\alpha}$ exists **iff** $\alpha$
+is rational and lies in $\Sigma_n$.
+
+For $n=5$, $[\alpha_5,\beta_5]=\big[\frac{5-\sqrt5}{2},\frac{5+\sqrt5}{2}\big]$,
+which is exactly $5\times$ DPP's $t$-window (check C2). We write $W$ for it and
+call it *the window* throughout.
+
+Ehrhardt [Ehr00] proves $[\tfrac32,\tfrac52]\subset\Sigma_5$ by a different
+method; this is a strictly smaller interval than $W$ and carries no dimension
+content. *(Provenance note: we were unable to obtain [Ehr00]. It is cited here
+exactly as [KRS02, Rem. 5] and [Sam04, Rem. 5] report it — both state that it
+proves the inclusion $[3/2,5/2]\subset\Sigma_5$ by another method. See §7.3.)*
+
+### 2.2 The Coxeter transformation $\Phi_5$
+
+Consider the star quiver $S_n$ with one central vertex and $n$ rays, and the
+symmetric dimension vector $(k;r,\dots,r)$ of an $n$-projection configuration
+($k=\dim H$, $r=\dim P_i H$). The reflection functors act by $r\mapsto k-r$ on the
+rays and $k\mapsto nr'-k$ at the centre; their composite is the Coxeter
+transformation
+$$M_n \;=\; \begin{pmatrix} n-1 & -n\\ 1 & -1\end{pmatrix},
+\qquad \det M_n = 1,\quad \operatorname{tr} M_n = n-2,$$
+inducing on $\lambda = nr/k$ the Möbius map
+$$\Phi_n(\lambda) \;=\; \frac{n-\lambda}{(n-1)-\lambda}.$$
+This is **Kruglyak's own instrument for this exact problem** [Kru02]; we validate
+it against recomputed ground truth (checks C3) and use it, and claim nothing
+about it. The $SL_2$ conjugacy class of $M_n$ is elliptic for $n\le3$, parabolic
+for $n=4$ and hyperbolic for $n\ge5$ — matching, and we suggest explaining, the
+trichotomy of $\Sigma_n$ (finite / discrete / interval-containing). We state that
+match as an *organising observation*, not a derivation: we prove no implication
+from the conjugacy class to the structure of $\Sigma_n$, and none is used below.
+The fixed points of $\Phi_n$ solve
+$\lambda^2-n\lambda+n=0$, giving $\lambda_\pm = \frac{n\pm\sqrt{n^2-4n}}{2}$; for
+$n=5$ these are exactly the endpoints of $W$ (check C3). The multiplier of
+$\Phi_5$ at $\lambda_-$ is
+$$\kappa \;=\; \varphi^{-4} \;=\; \frac{7-3\sqrt5}{2} \;=\; 0.1458980338\ldots,
+\qquad \varphi=\tfrac{1+\sqrt5}{2}.$$
+(We write $\kappa$, not $q$: from Lemma 3.3 onwards $q$ is reserved for the
+denominator of a rational block value, and $\mathfrak q$ for the Tits form.)
+
+### 2.3 The Tits form, and a naming convention
+
+The Tits form of $S_5$ on the symmetric dimension vector is
+$$\mathfrak q(k,r) \;=\; k^2 + 5r^2 - 5kr .$$
+It is Coxeter-invariant, and with $\lambda = 5r/k$ one has the identity
+$$\mathfrak q(k,r) \;=\; \frac{k^2}{5}\big(\lambda^2-5\lambda+5\big),$$
+so $\mathfrak q = 0$ exactly at the two window endpoints and
+$$W^{\circ} \;=\; \{\mathfrak q < 0\}$$
+(check C4). We state this as an *organising observation*, honestly labelled: it is
+elementary given $\Phi_5$, and it is the reason the window and the orbit type
+appear coupled — a coupling §6 shows is not real.
+
+### 2.4 The regime, the deficit, and $D(\varepsilon)$
+
+A **carrier** is a triple $(A,\tau,(P_i)_{i=1}^5)$ where $A=\bigoplus_{l} M_{n_l}$
+is a finite-dimensional $C^\ast$-algebra, $\tau=\bigoplus_l \lambda_l
+\operatorname{tr}_{n_l}$ is a tracial state ($\lambda_l>0$, $\sum_l\lambda_l=1$,
+$\operatorname{tr}$ normalised), and the $P_i$ are projections in $A$. Put
+$$S \;=\; \sum_{i=1}^5 P_i,\qquad
+s_l \;=\; \operatorname{tr}_{n_l}(S_l) \;=\;
+\frac{\sum_i \operatorname{rank} P_{i,l}}{n_l}\;\in\;\tfrac{1}{n_l}\mathbb Z,
+\qquad N \;=\; \max_l n_l .$$
+
+**Exact-marginal regime.** We require $\tau(P_i)=t_\ast=1/\sqrt5$ for every
+$i=1,\dots,5$.
+
+**The deficit.** For a carrier in this regime,
+$$\varepsilon \;:=\; \sum_{v\neq w}\tau(e_ve_w) \;-\; f_{\mathrm{vect}}(t_\ast)
+\;=\; \tau(S^2)-\tau(S)^2 \;=\; \operatorname{Var}_\tau(S) \;\ge\;0,$$
+by Prop. 3.1 below; and
+$$D(\varepsilon) \;:=\; \min\{\,N : \text{some carrier in the regime has deficit}
+\le \varepsilon\,\}.$$
+
+That $f_{\mathrm{vect}}(t_\ast)$ is in fact the *infimum* over finite-dimensional
+carriers, and not merely a lower bound for their values, is a corollary of
+Theorem B: Prop. 3.1 gives only the inequality, and it is the convergent family of
+§4.2 that drives the excess to $0$. Until §4 the reader may therefore read
+$\varepsilon$ as the excess over the vectorial bound; from §4.2 on, the two
+readings coincide.
+
+Two remarks fix the scope, both revisited in §5. (i) $N$ here is the largest
+*matrix block dimension*; §5.1 also records the "denominator convention", in which
+one reports the denominator $q$ of the block value instead, and the "total
+dimension" convention $\sum_l n_l$, and shows the exponent is the same under all
+three. (ii) The exact-marginal requirement is essential to the
+lower bound and is *not* a normalisation: if the marginals are allowed to drift by
+$\delta$ the Diophantine obstruction can be voided. This is §5.3, and it is open.
+
+---
+
+## 3. The lower bound
+
+### 3.1 The variance reformulation
+
+**Proposition 3.1.** *Let $(A,\tau,(P_i))$ be any carrier with
+$\sum_i \tau(P_i) = 5t$. Then*
+$$\sum_{v\neq w}\tau(e_ve_w) \;=\; \tau(S^2)-\tau(S)
+\;\ge\; \tau(S)^2-\tau(S) \;=\; f_{\mathrm{vect}}(t),$$
+*with equality iff $S = 5t\cdot 1$; and the deficit relative to
+$f_{\mathrm{vect}}(t)$ equals $\operatorname{Var}_\tau(S)$ exactly.*
+
+*Proof.* $S^2 = \sum_i P_i + \sum_{i\neq j}P_iP_j$, so
+$\tau(S^2)-\tau(S) = \sum_{v\neq w}\tau(e_ve_w)$. Cauchy–Schwarz for the trace
+gives $\tau(S^2)\ge\tau(S)^2$ with equality iff $S$ is scalar; and
+$\tau(S)=\sum_i\tau(P_i)=5t$ turns $\tau(S)^2-\tau(S)$ into
+$25t^2-5t = f_{\mathrm{vect}}(t)$. $\square$
+
+*Not novel.* This is the same move DPP make in their §5, where the argument runs
+verbatim: *"Since this algebra has a unique tracial state, and this trace takes
+rational values on all projections, we see that this value of $\lambda$ must be
+rational."* We record it
+because it is the shortest route to the non-attainment half of [DPP, Thm. 4.2]
+and because it is the identity the whole quantitative theory is built on. Combined
+with block-trace rationality it reproves non-attainment in two lines and never
+touches piecewise linearity: if $S=\lambda\cdot 1$ then $\lambda = s_l =
+(\sum_i\operatorname{rank}P_{i,l})/n_l\in\mathbb Q$ for every block, so no carrier
+attains at $\lambda_\ast=\sqrt5$.
+
+### 3.2 The total-variance strengthening
+
+The naive route to a lower bound assumes each block $S_l$ is a scalar $s_l\cdot
+I_{n_l}$. That hypothesis is unnecessary.
+
+**Proposition 3.2.** *For any carrier,*
+$$\operatorname{Var}_\tau(S)
+\;=\; \underbrace{\sum_l \lambda_l \operatorname{Var}_{\operatorname{tr}_{n_l}}(S_l)}_{\ \ge\ 0}
+\;+\; \operatorname{Var}_\lambda(s)
+\;\ge\; \operatorname{Var}_\lambda(s)
+\;=\; \sum_l \lambda_l\,(s_l - \tau(S))^2 .$$
+
+*Proof.* The law of total variance for the two-stage measure "pick block $l$ with
+probability $\lambda_l$, then evaluate $\operatorname{tr}_{n_l}$". Exactly:
+$\tau(S^2)=\sum_l\lambda_l\operatorname{tr}(S_l^2)$ and
+$\tau(S)=\sum_l\lambda_l s_l$, so
+$\tau(S^2)-\tau(S)^2 = \sum_l\lambda_l[\operatorname{tr}(S_l^2)-s_l^2]
++ [\sum_l\lambda_l s_l^2 - (\sum_l\lambda_l s_l)^2]$. $\square$
+
+Verified exactly on rational fixtures with deliberately non-scalar blocks, where
+the dropped term is strictly positive (check C6). The point is that only the
+*block-averaged* data $s_l$ — which is forced to be rational with denominator
+$n_l$ — survives the inequality, so the Diophantine argument applies with no
+structural hypothesis on the carrier at all.
+
+### 3.3 The Diophantine lemma
+
+**Lemma 3.3.** *For every integer $q\ge1$,
+$\lVert q\sqrt5\rVert > \dfrac{1}{5q}$, where $\lVert\cdot\rVert$ denotes the
+distance to the nearest integer.*
+
+*Proof.* Let $m$ be the nearest integer to $q\sqrt5$, so
+$\lVert q\sqrt5\rVert = |q\sqrt5 - m|$ and
+$$\lVert q\sqrt5\rVert \;=\; \frac{|5q^2-m^2|}{q\sqrt5+m}\;\ge\;\frac{1}{q\sqrt5+m},$$
+since $5q^2-m^2$ is a non-zero integer ($\sqrt5\notin\mathbb Q$). It remains to
+show $q\sqrt5+m<5q$. As $m\le q\sqrt5+\tfrac12$, it suffices that
+$2q\sqrt5+\tfrac12<5q$, i.e. $\tfrac12<(5-2\sqrt5)\,q$. Since
+$$5-2\sqrt5 \;=\; 0.5278640450\ldots\;>\;\tfrac12,$$
+this holds for every $q\ge1$. $\square$
+
+The inequality $5-2\sqrt5>1/2$ is check C7; the conclusion is verified
+independently by exhaustive exact integer arithmetic for all $q\le 200\,000$
+(check C8). The constant $1/5$ is valid for every $q$ and is conservative: the
+tight *asymptotic* constant is
+$\liminf_q q\lVert q\sqrt5\rVert = 1/\sqrt{20}=0.2236068$ (a classical fact;
+check C10 confirms the approach along the convergents), which would
+improve the floor below from $25^{-1/4}=0.4472$ to $20^{-1/4}=0.4729$
+asymptotically. The word "asymptotic" is load-bearing and cannot be dropped: the
+*infimum* over all $q$ is strictly smaller than the liminf — at $q=4$ one has
+$q\lVert q\sqrt5\rVert = 0.2229124\ldots<1/\sqrt{20}$ (also check C10) — so
+$1/\sqrt{20}$ is not a valid constant for every $q$ and $1/5$ is. We state the
+unconditional version.
+
+### 3.4 Theorem A
+
+**Theorem A (lower bound, unconditional; both conventions).** *Let
+$(A,\tau,(P_i))$ be a carrier at exact marginals. Write $s_l = p_l/q_l$ in lowest
+terms for the block values, and put $Q=\max_l q_l$, $N=\max_l n_l$. Then
+$q_l\mid n_l$ for every $l$, so $Q\le N$, and the deficit satisfies*
+$$\varepsilon \;>\; \frac{1}{25\,Q^4}\;\ge\;\frac{1}{25\,N^4},
+\qquad\text{equivalently}\qquad
+Q\,\varepsilon^{1/4} \;>\; 25^{-1/4} \;=\; 0.4472135955\ldots$$
+*Consequently $D(\varepsilon)\ >\ 0.4472\,\varepsilon^{-1/4}$ in the denominator
+convention, and a fortiori in actual block dimension.*
+
+*Proof.* Exact marginals give $\tau(S)=\sum_i\tau(P_i)=5t_\ast=\sqrt5$. By
+Prop. 3.1 the deficit is $\operatorname{Var}_\tau(S)$, and by Prop. 3.2
+$$\varepsilon \;\ge\; \sum_l \lambda_l\,(s_l-\sqrt5)^2 .$$
+Each $s_l = a_l/n_l$ with $a_l = \sum_i\operatorname{rank}P_{i,l}\in\mathbb Z$;
+writing $s_l=p_l/q_l$ in lowest terms, $q_l\mid n_l$, hence $q_l\le n_l\le N$.
+Then
+$$|s_l-\sqrt5| \;=\; \frac{|p_l-q_l\sqrt5|}{q_l}
+\;\ge\; \frac{\lVert q_l\sqrt5\rVert}{q_l}
+\;>\; \frac{1}{5q_l^2} \;\ge\; \frac{1}{5Q^2} \;\ge\; \frac{1}{5N^2}$$
+by Lemma 3.3. Since $\sum_l\lambda_l=1$, the sum exceeds $1/(25Q^4)$. $\square$
+
+**Remark 3.4 (what is used).** No block-scalar assumption; no assumption that the
+$P_i$ have equal ranks; no assumption on the number of blocks. The only inputs are
+that $A$ is finite-dimensional, that block traces of projections are integers, and
+that the total marginal is exactly $5t_\ast$.
+
+**Remark 3.4a (why the denominator form is worth stating).** Running the
+Diophantine step at the *reduced* denominator $q_l$ rather than at the block
+dimension $n_l$ costs nothing — Lemma 3.3 is a statement about integers — and
+gains a factor $2$ in the comparison of §5.1: without it, the lower constant in
+the denominator convention would have to be routed through Lemma 4.6's
+$q\le d\le 2q$ and would degrade to $0.2236$. As stated, Theorem A holds verbatim
+in *both* conventions with the *same* constant, and the lower bound is
+independent of Lemma 4.6 entirely. Check C9b verifies the reduced-denominator step
+on carriers whose block values are non-reduced.
+
+**Remark 3.5 (sharpness of the argument, not of the constant).** The chain has one
+lossy step that is *quantitatively controlled* — the passage from
+$\lVert q\sqrt5\rVert>1/(5q)$ to the asymptotically tight
+$1/(\sqrt{20}\,q)$, worth a factor $(5/\sqrt{20})^{1/2}=1.0574$ — plus two
+inequalities that are strict on the extremal family: the within-block variance
+dropped in Prop. 3.2 (strictly positive whenever a block is non-scalar; check C6),
+and $q_l\le Q$ (strict at the optimum, where the two-block carrier of §4.2 has
+denominators $k_n<k_{n+1}=Q$). Even with the tight Diophantine constant a factor
+$0.9732/0.4729=2.058$ remains between the floor and Theorem B's attained value.
+The residual gap is therefore genuine and not an artefact of the method: it is the
+gap between the worst case over all $Q$ and the achievable subsequence. Closing it
+would require knowing, for each $Q$, the best pair of rationals with denominators
+$\le Q$ straddling $\sqrt5$, which is the three-distance problem for $\sqrt5$
+rather than a new inequality.
+
+**Remark 3.6 (the hypothesis can be weakened; observation).** The proof uses only
+$\sum_i\tau(P_i)=5t_\ast$ — the *mean* marginal is exactly $t_\ast$ — and not the
+per-index condition $\tau(P_i)=t_\ast$. So Theorem A holds on the strictly larger
+class of carriers whose marginals average exactly to $t_\ast$. We do not use this
+anywhere below and flag it as an observation. It is check **C5b**, a two-block
+fixture whose five marginals are deliberately *unequal* and average to $t_\ast$,
+on which the value functional is still $\tau(S^2)-\tau(S)$ and Theorem A's bound
+still holds. (Check C5, on the $M_{15}$ carrier, cannot support this remark: that
+carrier's five marginals are all equal to $4/15$, so it does not distinguish the
+per-index hypothesis from the mean-marginal one.)
+
+---
+
+## 4. The upper bound
+
+### 4.1 Two-block carriers, and the identity that makes the law Diophantine
+
+Take $A = M_{n_1}\oplus M_{n_2}$ with weights $(\mu,1-\mu)$ and block values
+$\lambda_1>\sqrt5>\lambda_2$, both rational, each block realised with *equal
+ranks* (so $\operatorname{tr}_{n_l}(P_{i,l})=\lambda_l/5$ for every $i$).
+
+**Proposition 4.1.** *Exact marginals hold — $\tau(P_i)=t_\ast$ for every $i$ —
+precisely when $\mu\lambda_1+(1-\mu)\lambda_2=\sqrt5$, and then*
+$$\varepsilon \;=\; \mu(1-\mu)(\lambda_1-\lambda_2)^2
+\;=\; \big(\lambda_1-\sqrt5\big)\big(\sqrt5-\lambda_2\big).$$
+
+*Proof.* $\tau(P_i)=\mu\lambda_1/5+(1-\mu)\lambda_2/5$, independent of $i$; it
+equals $t_\ast=\sqrt5/5$ iff the stated affine condition holds. Then
+$\mu=(\sqrt5-\lambda_2)/(\lambda_1-\lambda_2)$ and
+$1-\mu=(\lambda_1-\sqrt5)/(\lambda_1-\lambda_2)$; the blocks are scalar, so
+$\operatorname{Var}_\tau(S)=\operatorname{Var}_\lambda(s)=\mu(1-\mu)(\lambda_1-\lambda_2)^2$,
+and substituting collapses the $(\lambda_1-\lambda_2)^2$. $\square$
+
+Checks C11, C12. This identity is the whole reason the law is Diophantine:
+**the deficit is the product of the two one-sided approximation errors to
+$\sqrt5$.** Minimising it at bounded denominator is therefore a simultaneous
+two-sided rational-approximation problem, and the extremisers are the
+continued-fraction convergents.
+
+### 4.2 The convergent construction
+
+$\sqrt5 = [2;\overline{4}\,]$, with convergents
+$$\frac21,\ \frac94,\ \frac{38}{17},\ \frac{161}{72},\ \frac{682}{305},\
+\frac{2889}{1292},\ \frac{12238}{5473},\ \frac{51841}{23184},\
+\frac{219602}{98209},\ \dots$$
+($h_{n+1}=4h_n+h_{n-1}$, $k_{n+1}=4k_n+k_{n-1}$), and consecutive convergents
+straddle $\sqrt5$ (check C13). Feeding a consecutive pair into Prop. 4.1 and using
+$|\,h_n/k_n-\sqrt5\,|\sim 1/(2\sqrt5\,k_n^2)$ gives
+$$\varepsilon_n \;\sim\; \frac{1}{20\,k_n^2k_{n+1}^2},\qquad
+N \;=\; k_{n+1},\qquad
+N\varepsilon_n^{1/4}\;\longrightarrow\;
+\left(\frac{k_{n+1}/k_n}{2\sqrt5}\right)^{1/2}
+=\left(\frac{2+\sqrt5}{2\sqrt5}\right)^{1/2}.$$
+
+**Theorem B (upper bound; the exponent and the constant are achieved along an
+explicit family).** *In the denominator convention,*
+$$N\,\varepsilon^{1/4} \;\longrightarrow\;
+\left(\frac{2+\sqrt5}{2\sqrt5}\right)^{1/2} \;=\; 0.9732489895\ldots$$
+*along the convergent family; the ratio agrees with its limit to six significant
+figures from $N=1292$ onwards.*
+
+The exact table (deficits computed in $\mathbb Q(\sqrt5)$, ratios evaluated in
+$80$-digit arithmetic; check C14):
+
+| $\lambda_1>\sqrt5$ | $\lambda_2<\sqrt5$ | $N$ | $\varepsilon$ | $N\varepsilon^{1/4}$ |
+|---|---|---:|---:|---:|
+| $5/2$ | $2$ | $2$ | $6.2306\times10^{-2}$ | $0.999223$ |
+| $9/4$ | $2$ | $4$ | $3.2889\times10^{-3}$ | $0.957906$ |
+| $9/4$ | $38/17$ | $17$ | $1.0781\times10^{-5}$ | $0.974133$ |
+| $161/72$ | $38/17$ | $72$ | $3.3379\times10^{-8}$ | $0.973200$ |
+| $161/72$ | $682/305$ | $305$ | $1.0368\times10^{-10}$ | $0.973252$ |
+| $2889/1292$ | $682/305$ | $1292$ | $3.2199\times10^{-13}$ | $0.973249$ |
+| $2889/1292$ | $12238/5473$ | $5473$ | $9.9999\times10^{-16}$ | $0.973249$ |
+| $51841/23184$ | $12238/5473$ | $23184$ | $3.1056\times10^{-18}$ | $0.973249$ |
+| $51841/23184$ | $219602/98209$ | $98209$ | $9.6447\times10^{-21}$ | $0.973249$ |
+
+Reading down the last column: the ratio is *not* flat from the start — it moves in
+the fourth and fifth significant figure through $N=17,72,305$
+($0.974133$, $0.973200$, $0.973252$; relative deviations from the limit
+$9.08\times10^{-4}$, $5.05\times10^{-5}$, $2.81\times10^{-6}$) and only settles to
+six significant figures at $N=1292$ ($0.9732488$, relative deviation
+$1.57\times10^{-7}$), thereafter $8.7\times10^{-9}$, $4.9\times10^{-10}$,
+$2.7\times10^{-11}$. The honest statement of the plateau is therefore: **flat to six
+significant figures across $N=1292\to98\,209$** — $1.88$ decades of $N$ and $7.52$
+decades of $\varepsilon$ — inside a table spanning $3.76$ and $15.05$ decades
+respectively. Check C14 asserts both tolerances separately
+($5\times10^{-3}$ on the $N\ge17$ tail, $5\times10^{-7}$ on the $N\ge1292$ tail),
+so the engine certifies the sentence actually printed.
+
+Two exact sample values: the crude pair $(5/2,2)$ has
+$\varepsilon = (9\sqrt5-20)/2$, and the first genuine convergent pair
+$(9/4,38/17)$ has $\varepsilon = (305\sqrt5-682)/68$ — a factor $5779$ smaller at
+denominator $17$ (check C18). Against Theorem A's floor the law is $\Theta$,
+**tight to a factor $2.176$ in the denominator convention** — both constants
+being denominator constants after Theorem A's reduced-denominator form (check
+C15). In actual block dimension the corresponding gap is wider, a factor
+$10.9$–$21.8$ ($0.4472$ against Cor. 4.8's $4.866$–$9.732$); the two numbers must
+not be crossed.
+
+### 4.3 Realising the block values: the dimension lemma
+
+Theorem B as stated reports $N=q$, the denominator. To convert it into a statement
+about actual matrix dimensions we need to know the cost of realising a rational
+block value.
+
+**Lemma 4.2 (trace bound).** *If $\lambda=p/q$ in lowest terms is realised as
+$\sum_{i=1}^5 P_i = \lambda I_d$ in $M_d$, then $q\mid d$.* (Check C19: the sum of
+ranks is $\lambda d\in\mathbb Z$.)
+
+**Lemma 4.3 (equal-rank cost).** *If in addition all five ranks are equal, then
+$5q\mid pd$; with $\gcd(p,q)=1$ this forces $q\mid d$ and, whenever $5\nmid p$,
+also $5\mid (d/q)$ and in particular $5\mid d$.* (Check C20 verifies the
+equivalence $5q\mid pd \iff \big(q\mid d$ and $(5\mid p$ or $5\mid d/q)\big)$.
+The exception $\lambda=5/2$ is genuine: the
+$M_2$ pentagon carrier $P_j=\tfrac12\begin{psmallmatrix}1&\bar\zeta^{\,j}\\
+\zeta^j&1\end{psmallmatrix}$, $\zeta=e^{2\pi i/5}$, is already equal-rank at
+$d=q=2$; check C23.)
+
+**Lemma 4.4 (symmetrisation, [DPP, proof of Thm. 4.2]).** *Any realisation in
+$M_k$ yields an equal-rank realisation in $M_{5k}$, by taking the direct sum of
+the five cyclic relabellings.*
+
+**Lemma 4.5 (KRS's construction is explicit, with dimension $2l$).** *For every
+$\alpha=m/l\in(3/2,2)$, the construction in [KRS02, Lemma 7 / Thm. 6] — the
+"sewing" of the explicit $(k_j+2)\times(k_j+2)$ blocks of [KRS02, Prop. 5] along
+the recursion $b_1=\alpha$, $b_{j+1}=\alpha-(3-b_j-k_j\epsilon)$ — terminates
+after $s=m-l$ blocks and produces five explicit projections in $M_{2l}$ summing to
+$\alpha I_{2l}$.*
+
+*Proof.* Write $\epsilon=\alpha-1=(m-l)/l\in(\tfrac12,1)$, $s=m-l$, and
+$u_j := 3-b_j$; the recursion is $r_j := u_j-k_j\epsilon$, $b_{j+1}=\alpha-r_j$,
+with $k_j$ required to satisfy $0<r_j\le\epsilon$, i.e.
+$k_j = \lceil u_j/\epsilon\rceil-1$.
+
+*(i) The step is always legal, with $k_j\in\{1,2,3\}$.* We show inductively
+$b_j\in[1,\alpha]$, equivalently $u_j\in[2-\epsilon,\,2]$. For $j=1$,
+$b_1=\alpha$ and $u_1=3-\alpha=2-\epsilon$. If $u_j\in[2-\epsilon,2]$ then
+$u_j/\epsilon\in[2/\epsilon-1,\,2/\epsilon]\subset(1,4)$, because
+$\epsilon<1$ gives $2/\epsilon-1>1$ and $\epsilon>\tfrac12$ gives $2/\epsilon<4$;
+hence $k_j=\lceil u_j/\epsilon\rceil-1\in\{1,2,3\}$ and $r_j\in(0,\epsilon]$ exists
+and is unique. Then $b_{j+1}=\alpha-r_j\in[\alpha-\epsilon,\alpha)=[1,\alpha)$, so
+$u_{j+1}=3-b_{j+1}\in(2-\epsilon,2]$, closing the induction. This is exactly the
+hypothesis $1\le b\le\alpha$ of [KRS02, Prop. 5], so the explicit
+$(k_j+2)\times(k_j+2)$ block exists at every step.
+
+*(ii) The terminal residue is $r_s=\epsilon$.* Work modulo $\epsilon$ in
+$\mathbb R/\epsilon\mathbb Z$. Since $r_j\equiv u_j$ and
+$u_{j+1}=3-\alpha+r_j=(2-\epsilon)+r_j\equiv 2+r_j$, induction from
+$r_1\equiv u_1=2-\epsilon\equiv 2$ gives $r_j\equiv 2j \pmod\epsilon$ for all $j$.
+At $j=s=m-l$ we have $2s = 2l\cdot\epsilon\in\epsilon\mathbb Z$, so $r_s\equiv0$;
+and $r_s\in(0,\epsilon]$ forces $r_s=\epsilon$ exactly. (This is KRS's stopping
+condition, and it is where the base interval enters: $2s/\epsilon=2l$ is an integer
+precisely because $\epsilon=s/l$.)
+
+*(iii) Dimension.* Telescoping $b_{j+1}=b_j+(k_j+1)\epsilon-2$ over $j=1,\dots,s$
+and using $r_s=\alpha-b_{s+1}=\epsilon$ gives
+$\epsilon = 2s-(\sum_j k_j+s)\epsilon$, i.e. $\sum_j k_j = 2l-s-1 = 3l-m-1$.
+Sewing $s$ blocks of sizes $k_j+2$ costs $-(s-1)$, and sewing with
+the $1\times1$ matrix $(1)$ is free, so
+$\dim=\sum_j (k_j+2)-(s-1)=\sum_j k_j+s+1 = (3l-m-1)+(m-l)+1 = 2l$. $\square$
+
+The proof was found by first re-executing the recursion in exact rational
+arithmetic for all $7\,921$ values $m/l\in(3/2,2)$ with $l\le179$ ($0$ failures,
+checks K1–K3); K1–K3 remain in the appendix as an independent confirmation of the
+three displayed conclusions ($k_j\in\{1,2,3\}$ at every step,
+$\sum_j k_j=3l-m-1$, $\dim=2l$), not as their support.
+
+**Lemma 4.6 (realisation dimension).** *Write $d_5(p/q)$ for the least $d$ with
+$\lambda=p/q$ realisable in $M_d$. Then for every $p/q$ in the window*
+$$q \;\le\; d_5(p/q) \;\le\; 2q .$$
+
+*Proof.* Lower: Lemma 4.2. Upper: Lemma 4.5 on the base interval $(3/2,2)$,
+transported by the Coxeter dimension maps of [KRS02, eq. (2.5)] (in English in
+[Sam04, p. 99]), which for $n=5$ read
+$$\Phi^+:\ \alpha\mapsto 1+\tfrac{1}{4-\alpha},\ d\mapsto(4-\alpha)d;\qquad
+\Phi^-:\ \alpha\mapsto 4-\tfrac{1}{\alpha-1},\ d\mapsto(\alpha-1)d;\qquad
+T:\ \alpha\mapsto 5-\alpha,\ d\mapsto d.$$
+
+*(a) Denominators.* For $\alpha=p/q$ in lowest terms,
+$\Phi^-(p/q)=(4p-5q)/(p-q)$ is already in lowest terms, since any common divisor
+of $4p-5q$ and $p-q$ divides $4(p-q)-(4p-5q)=q$ and hence divides
+$\gcd(q,p-q)=\gcd(q,p)=1$; and the dimension map sends
+$2q\mapsto((p-q)/q)\cdot 2q = 2(p-q)$, twice the new denominator. Identically
+$\Phi^+(p/q)=(5q-p)/(4q-p)$ is in lowest terms (a common divisor of $5q-p$ and
+$4q-p$ divides their difference $q$, hence divides $\gcd(q,p)=1$) with
+$2q\mapsto 2(4q-p)$, and $T(p/q)=(5q-p)/q$ with $d$ and the denominator both
+fixed. So **each map carries "$d=2\times$(denominator)" to itself**, in both
+directions.
+
+*(b) Every in-window rational reaches $[3/2,2]$ in finitely many steps.* Let
+$\alpha=p/q\in W$ in lowest terms. If $\alpha>3$, apply $T$ once: $5-\alpha\in
+(\lambda_-,2)$, denominator unchanged. If $\alpha\in(2,3]$, apply $\Phi^+$ once:
+$1+1/(4-\alpha)\in(3/2,2]$, since $4-\alpha\in[1,2)$. In both cases we are left
+with $\alpha\in[\lambda_-,2]$. While $\alpha<3/2$, apply $\Phi^-$: from
+$\lambda_-<\alpha<3/2$ we get $\Phi^-(\alpha)\in(\lambda_-,2)$ (with
+$\Phi^-(\lambda_-)=\lambda_-$ and $\Phi^-(3/2)=2$), while the denominator drops
+from $q$ to $p-q<q/2$, because $p<\tfrac32 q$. Denominators are positive integers,
+so this loop halts after at most $\log_2 q$ steps, necessarily in $[3/2,2]$.
+
+*(c) Base.* On $(3/2,2)$, Lemma 4.5 realises $\alpha=m/l$ in dimension $2l$. The
+two endpoints are seeds: $\alpha=3/2$ is realised in $M_2$ by the three coplanar
+rank-$1$ projections at $120^\circ$ padded with two zeros, and $\alpha=2$ in $M_1$
+by $1+1-0-0-0$; in both cases $d\le 2\times$(denominator), which is all that is
+needed, and taking direct sums makes the bookkeeping of (a) exact at
+$d=2\times$(denominator).
+
+Pulling the base realisation back along the recorded transport therefore produces
+a realisation of $p/q$ in dimension exactly $2q$. $\square$
+
+The transport is verified independently in engine 3: T2 checks the lowest-terms
+and dimension bookkeeping of (a) exhaustively for *all* in-window $p/q$ with
+$q<400$ — that part is a proof, not a sample — and T1 runs the reduction of (b)
+on $4\,000$ random in-window rationals, reducing into $[3/2,2]$ (never into
+$(2,3]$, where Lemma 4.5 says nothing), asserting at least one transport step for
+every sample outside the base interval and recovering $d=2q$ on every one:
+$4\,000/4\,000$, at most $4$ transport steps, step histogram
+$\{0{:}869,\,1{:}2878,\,2{:}218,\,3{:}29,\,4{:}6\}$, with all $4\,000$ landings in
+the *open* interval $(3/2,2)$ covered by Lemma 4.5 and none on a seed. The $869$
+zero-step samples are exactly the samples already in the base interval, where
+$d=2q$ is Lemma 4.5 itself and nothing is being assumed; the remaining $3\,131$
+exercise the transport.
+
+**Lemma 4.7 (secondary; the literature closes it).** [Shu07], in the proof of her
+Theorem 15, states on the authority of [KRS03] that an irreducible $p/q\in\Sigma_n$
+is realised as a sum of $n$ projections **in $q$-dimensional space**, i.e.
+$d_5(p/q)=q$. *We flag this as SECONDARY: we were unable to obtain [KRS03] in full
+(§7.3), and we have it only as quoted.* Under Lemma 4.7, combining with
+Lemmas 4.3–4.4 gives an equal-rank realisation in dimension exactly $5q$ for the
+convergents used here, whose numerators are never divisible by $5$.
+
+*(The side condition, proved.* The convergent numerators satisfy
+$h_{n+1}=4h_n+h_{n-1}$ with $(h_0,h_1)=(2,9)$, so modulo $5$ the pair
+$(h_n,h_{n+1})$ evolves by $(a,b)\mapsto(b,4b+a)\equiv(b,a-b)$ from $(2,4)$,
+giving the purely periodic cycle
+$(2,4)\to(4,3)\to(3,1)\to(1,2)\to(2,4)$ of period $4$; hence
+$h_n\equiv 2,4,3,1\pmod 5$ cyclically and never $\equiv0$. Asserted in check
+C14.)*
+
+**Corollary 4.8 (Theorem B in actual dimension).** *Along the convergent family,*
+$$N_{\mathrm{actual}}\,\varepsilon^{1/4} \;\longrightarrow\; C_{\mathrm{act}},
+\qquad
+4.866 \;\le\; C_{\mathrm{act}} \;\le\; 9.732,$$
+*with $C_{\mathrm{act}} = 5\times 0.9732489895 = 4.8662$ exactly under Lemma 4.7,
+and the upper end $2\times$ that on primary evidence alone (Lemma 4.6).* The
+exponent is unaffected. This residue — $q$ versus $2q$ — is the one loose constant
+in the paper, and §5.1 states it as such.
+
+---
+
+## 5. Conventions, constants and scope
+
+### 5.1 The three dimension conventions
+
+| convention | what $N$ is | lower constant | upper constant (convergents) | upper constant (uniform) | bracket |
+|---|---|---:|---:|---:|---:|
+| denominator | $\max_l q_l$ | $0.4472$ (Thm. A, directly) | $0.9732$ (Thm. B) | $4.123$ | $2.176$ |
+| actual block dimension | $\max_l n_l$ | $0.4472$ (Thm. A) | $4.866$–$9.732$ (Cor. 4.8) | $20.6$–$41.2$ ($\times(2+\sqrt5)$) | $10.9$–$21.8$ |
+| total Hilbert dimension | $\sum_l n_l$ | $0.4472$ (Thm. A) | $9.732$–$19.46$ | $41.2$–$82.4$ | $21.8$–$43.5$ |
+
+$\Theta(\varepsilon^{-1/4})$ holds under **all three**; only the constant moves,
+and the bracket is tightest — a factor $2.176$ — in the denominator convention,
+where both ends are proved directly. Theorem A is stated at the reduced
+denominator $q_l$ and, since $q_l\mid n_l\le\sum_l n_l$, the *same* constant
+$0.4472$ is a floor in every column; in particular **the lower bound does not go
+through Lemma 4.6 at all.** The upper bound is naturally stated in denominators
+(Prop. 4.1 is about $\lambda_1,\lambda_2$), and Lemma 4.6 is the bridge to actual
+dimension, at a cost of at most a factor $2$.
+
+The third row is the one a reader coming from $C_q(5,2)$ will want, since "the
+dimension of a quantum strategy" normally means $\dim H=\sum_l n_l$. It needs no
+new work: for the lower bound $\max_l n_l\le\sum_l n_l$, so Theorem A applies a
+fortiori; for the upper bound the carriers of §4.2 have exactly two blocks, so
+$\sum_l n_l\le 2\max_l n_l$, doubling Cor. 4.8's interval. Any published statement
+must say which convention it is in; we report all three, and every table in §4 is
+in the denominator convention and labelled.
+
+### 5.2 Subsequence versus uniform tightness
+
+The achievable deficits along the convergents form a geometric subsequence: two
+consecutive $\varepsilon$ differ by the fixed factor
+$$(2+\sqrt5)^4 \;=\; \varphi^{12} \;=\; 321.9968944\ldots$$
+(check C16). Hence Theorem B is a statement about a subsequence, and for an
+*arbitrary* $\varepsilon$ one must round up to the next available convergent,
+paying at most $((2+\sqrt5)^4)^{1/4}=2+\sqrt5=4.2360679$. The uniform constant in
+the denominator convention is therefore
+$$0.9732489895\times(2+\sqrt5)\;=\;4.12275\ldots,$$
+and in actual dimension $5\times$ that (subject to Cor. 4.8's residue). We report
+the subsequence constant as the sharpest *attained* one and the uniform constant as
+the honest one for a $\Theta$ statement. Neither is claimed to be the constant of
+$D$ itself: $D(\varepsilon)$ is a minimum over *all* carriers, and nothing here
+rules out a better one at a given $\varepsilon$ — a non-convergent straddling
+pair, or a carrier with three or more blocks. What is established is the bracket
+$[0.4472,\,0.9732]$ of §5.1, and Remark 3.5 says what closing it would require.
+
+### 5.3 Exact marginals, and the open drift lemma
+
+Everything above assumes exact marginals. The assumption is load-bearing and not
+cosmetic.
+
+**Open Lemma (drift).** *Suppose the marginals are allowed to drift:
+$|\tau(P_i)-t_\ast|\le\delta$ for each $i$. Then a rational $s_l$ may sit within
+$\delta$ of $\sqrt5$ and Lemma 3.3 gives nothing. Conjecturally $\delta$-drift
+costs $\Omega(\delta^{-1/2})$, so that
+$D(\varepsilon,\delta)=\Theta\!\big(\min(\varepsilon^{-1/4},\delta^{-1/2})\big)$.*
+
+This is **not proved and not claimed.** It is the natural next theorem, and the
+one place where the paper's regime is genuinely narrower than the physical
+question ("how well can a bounded-dimension device approximate the boundary
+correlation, marginals and all?"). We name it rather than hide it.
+
+### 5.4 The two ends of the law move in opposite directions
+
+It is tempting to say that $\sqrt5$, being badly approximable, is the hardest
+parameter in the window, or — noticing that $\varphi$ is worse-approximable
+still — that $\varphi$ is uniformly harder. Both are wrong, and the reason is
+worth the display, because it is what "Diophantine rather than universal" actually
+means here.
+
+Both arguments of §§3–4 generalise verbatim from $\sqrt5$ to any quadratic
+irrational $\alpha\in W$ with conjugate $\alpha'$ and convergent-denominator growth
+$\rho=\lim_n k_{n+1}/k_n$: Prop. 3.2 and Lemma 3.3 give the floor, and Prop. 4.1's
+product identity $\varepsilon=(\lambda_1-\alpha)(\alpha-\lambda_2)$ with
+$|h_n/k_n-\alpha|\sim 1/((\alpha-\alpha')k_n^2)$ gives the attained constant:
+$$N\varepsilon^{1/4}\;>\;\big(\liminf_q q\lVert q\alpha\rVert\big)^{1/2}
+\ \ \text{asymptotically (§3.3)}
+\qquad\text{and}\qquad
+N\varepsilon^{1/4}\;\longrightarrow\;\Big(\frac{\rho}{\alpha-\alpha'}\Big)^{1/2}.$$
+
+| $\alpha$ | $\liminf_q q\lVert q\alpha\rVert$ | asymptotic floor $(\cdot)^{1/2}$ | $\rho$ | $\alpha-\alpha'$ | attained $(\rho/(\alpha-\alpha'))^{1/2}$ |
+|---|---:|---:|---:|---:|---:|
+| $\sqrt5$ | $1/\sqrt{20}=0.2236$ | $0.4729$ | $2+\sqrt5$ | $2\sqrt5$ | $0.9732$ |
+| $\varphi=(1+\sqrt5)/2$ | $1/\sqrt5=0.4472$ | $0.6687$ | $\varphi$ | $\sqrt5$ | $0.8507$ |
+
+So $\varphi$'s liminf is exactly twice $\sqrt5$'s (Hurwitz: $\varphi$ is the
+worst-approximable point of $W$, and check C25 confirms the ratio $2$) — but the
+$D(\varepsilon)$ floors it induces differ by only $\sqrt2$, and the *attained*
+constant at $\varphi$ is $13\%$ **lower** than at $\sqrt5$, because $\varphi$'s
+convergent denominators grow by $\rho=\varphi$ per step against $2+\sqrt5$ for
+$\sqrt5$, so the rounding-up cost to the next available convergent is far smaller.
+Being badly approximable raises the floor and slow convergent growth lowers the
+ceiling, and at $\varphi$ the second effect wins: **$\varphi$ is not "twice as
+hard"; along its convergents it is strictly cheaper than $\sqrt5$.** All four
+constants are check C26 (recomputed in $140$-digit `Decimal` over $40$ ($\sqrt5$)
+and $90$ ($\varphi$) convergents).
+
+The two ends of the law therefore move in *opposite* directions with the
+arithmetic of the parameter, and no single scalar invariant of $\alpha$ orders
+"hardness". At the far end, Liouville-type parameters in $W$ are arbitrarily
+cheap: for them the exponent $-1/4$ itself is replaced by one governed by the
+irrationality measure. **This is the precise sense in which the law is Diophantine
+rather than universal.** We prove the law at $t_\ast=1/\sqrt5$; the two-parameter
+formula above is stated as the shape of the general answer, not as a theorem —
+its ingredients are proved here only for $\sqrt5$.
+
+---
+
+## 6. Orbit topology and attainment are different invariants
+
+This section is a *negative* result, included because the coupling it refutes is
+the first structure one is tempted to read off §2.
+
+### 6.1 The temptation
+
+$\Phi_5$ is hyperbolic; its two fixed points are the window endpoints; the window
+is exactly $\{\mathfrak q<0\}$; and at $\lambda_\ast=\sqrt5$ the orbit
+$$\sqrt5\ \to\ 1.566915\ldots\ \to\ 1.411000\ldots\ \to\ 1.386249\ldots\ \to\
+\cdots\ \to\ \lambda_-$$
+is infinite, aperiodic, strictly monotone and non-returning, with
+$z_m=\varphi^{-4m}z_0$ exactly in the cross-ratio coordinate
+$z=(\lambda-\lambda_-)/(\lambda-\lambda_+)$. Since no rung is rational, no rung
+carries an integral dimension vector $(k,r)\in\mathbb Z^2_{>0}$, so the reflection
+descent cannot terminate anywhere. It is natural to conjecture:
+
+> *(False.) $f_q$ is attained at $\lambda$ if and only if the $\Phi_5$-orbit of
+> $\lambda$ closes (equivalently, terminates under descent).*
+
+### 6.2 The counterexample: $\lambda=4/3$
+
+**Proposition 6.1.** *$\lambda = 4/3$ (i.e. $t=4/15$) is attained: there exist five
+rank-$4$ projections in $M_{15}(\mathbb Q)$ with $\sum_i P_i = \tfrac43 I_{15}$,
+$\tau(P_i)=4/15$ for every $i$, and value exactly $f_{\mathrm{vect}}(4/15)=4/9$.*
+
+*Construction.* Let $H$ be the $3\times4$ sign matrix obtained from the order-$4$
+Hadamard matrix by deleting its all-ones row, and let $P_j=\tfrac13 w_jw_j^{\!\top}$
+for its columns $w_j$. Then $|w_j|^2=3$ gives $P_j^2=P_j$ of rank $1$, and
+$HH^{\!\top}=4I_3$ gives $\sum_{j\le4}P_j=\tfrac43 I_3$ — the four-vector tight
+frame in $\mathbb C^3$. Pad with $P_5=0$ (five projections summing to
+$\tfrac43 I_3$, with unequal traces $\tfrac13,\tfrac13,\tfrac13,\tfrac13,0$) and
+apply Lemma 4.4: over $\bigoplus_5 M_3\subset M_{15}$ each index meets the zero slot
+exactly once, so every $P_i$ has rank $4$ and $\tau(P_i)=4/15$. Dimension vector
+$(k,r)=(15,4)$. $\square$ (Check C21; exact over $\mathbb Q$.)
+
+This is a point of the discrete part of $\Sigma_5$ below the window
+($4/3<\lambda_-=1.381966$); being rational it lies in $\Sigma_5^{\mathrm{fd}}$
+(§2.1), which the construction above exhibits directly and which [Shu07, p. 1]
+also records.
+
+**Proposition 6.2.** *The $\Phi_5$-orbit of $4/3$ is*
+$$\tfrac43\ \to\ \tfrac{11}{8}\ \to\ \tfrac{29}{21}\ \to\ \tfrac{76}{55}\ \to\
+\tfrac{199}{144}\ \to\ \cdots$$
+*(ratios of Fibonacci numbers): infinite, aperiodic, strictly monotone,
+non-returning, converging to $(5-\sqrt5)/2$ with the **same** multiplier
+$\varphi^{-4}$ as the orbit at $\sqrt5$. Every rung carries an integral dimension
+vector, generated by the Coxeter functor: $(15,4)\to(40,11)\to(105,29)\to(275,76)
+\to\cdots$, with $\mathfrak q\equiv+5$.* (Check C22.)
+
+So $4/3$ is attained and its orbit is topologically indistinguishable from the
+orbit at the unattained $\sqrt5$: same multiplier, exactly, not merely to leading
+order. **The conjecture of §6.1 is false.**
+
+### 6.3 The rescue, and its refutation
+
+The orbit of $4/3$ *does* terminate in the descending direction, at the seed
+$\lambda=1=(5,1)$ (the resolution of the identity in $M_5$), which suggests
+retreating to *"attained iff the descent terminates."* That fails too:
+
+**Proposition 6.3.** *$\lambda=5/2$ is attained (the $M_2$ pentagon carrier,
+exact over $\mathbb Q(\zeta_5)$: five rank-$1$ projections, $\tau(P_i)=1/2$, value
+$15/4=f_{\mathrm{vect}}(1/2)$), yet its integral dimension vectors grow without
+bound in **both** directions,*
+$$\cdots\leftarrow(18,13)\leftarrow(7,5)\leftarrow(3,2)\leftarrow(2,1)
+\rightarrow(3,1)\rightarrow(7,2)\rightarrow(18,5)\rightarrow(47,13)\rightarrow\cdots$$
+*at rate $\varphi^2$ per step, and the descent never reaches a realisable seed.*
+(Check C23.)
+
+So $4/3$ and $5/2$ are both attained and *disagree* on descent termination
+(check C24). Moreover the point is structural rather than a matter of two awkward
+examples — but it must be stated with care, and one tempting overstatement is
+false. By [KRS02, Thm. 6] every rational in the window is attained, and $\Phi_5$ is
+a Möbius map with integer coefficients and determinant $1$, so it maps $\mathbb Q$
+bijectively to $\mathbb Q$ and irrationals to irrationals: **rationality is an
+orbit invariant, and therefore attainment *is* an orbit invariant — an arithmetic
+one.** ("The orbit consists of rationals", equivalently "some rung carries an
+integral dimension vector", decides attainment in the window exactly; §6.1 uses
+precisely this to see that the $\sqrt5$ descent cannot terminate.)
+
+What §6.2–§6.3 establish is the narrower and correct statement: **no topological
+or dynamical invariant of the orbit** — closure, termination under descent,
+periodicity, multiplier, $SL_2$-conjugacy class of the linearisation — decides
+attainment. $4/3$ and $\sqrt5$ agree on all of them and disagree on attainment,
+while $4/3$ and $5/2$ are both attained and disagree on descent termination. The
+sign of $\mathfrak q$, being an orbit invariant that is constant on the window
+($W^\circ=\{\mathfrak q<0\}$, §2.3, check C4), is likewise useless for the
+purpose: it takes both values on $\Sigma_5$ — $\mathfrak q=-1$ at $\lambda=5/2$
+inside the window, $\mathfrak q=+5$ at $\lambda=4/3$ outside it — but only one
+value, $\mathfrak q<0$, *inside* the window, which is where the question is
+asked.
+
+### 6.4 Diagnosis
+
+Two invariants were being conflated.
+
+| question | invariant | $\lambda=4/3$ | $\lambda=5/2$ | $\lambda=\sqrt5$ |
+|---|---|---|---|---|
+| attained? | rationality of $\lambda$ (Prop. 3.1 + block traces) | yes | yes | **no** |
+| orbit type? | sign of $\mathfrak q(k,r)=k^2+5r^2-5kr$ | $+5$: half-infinite | $-1$: bi-infinite | (no integral vector) |
+
+Attainment is arithmetic; orbit type is the sign of a quadratic form. They agree
+on the parameters one first tests, and disagree at $4/3$. The window being exactly
+$\{\mathfrak q<0\}$ (§2.3) is precisely why they look coupled.
+
+This has a positive corollary for §3–§4: the mechanism that makes $D(\varepsilon)$
+polynomial is *not* the geometry of the orbit. It is the rationality obstruction,
+graded by Diophantine approximation. The orbit multiplier $\varphi^{-4}$ appears
+nowhere in the exponent $-1/4$ or in the constant $0.9732$.
+
+---
+
+## 7. Contrast, priority, and a folklore objection
+
+### 7.1 A logarithmic sibling: $I_{3322}$
+
+The same question — what does $\varepsilon$-approximation to a non-attained
+quantum value cost in dimension? — has a *logarithmic* answer for the
+$I_{3322}$ Bell functional. There the centred finite-dimensional carriers of the
+Pál–Vértesi family approach the exact wall $q_\ast$ geometrically in the local
+dimension $n$: the gaps reported at $n=31,63,127,191,255$ are
+$$3.8267\times10^{-4},\quad 2.4605\times10^{-5},\quad 1.8872\times10^{-7},
+\quad 1.5326\times10^{-9},\quad 1.2458\times10^{-11},$$
+whose successive exponential rates are
+$0.085757,\ 0.076101,\ 0.075208,\ 0.075193$ — the first of them $14\%$ above the
+limit, the last two within $2\times10^{-5}$ of it — approaching
+$0.07519366\ldots$ against a plateau value $\log R = 0.07519286\ldots$, i.e.
+$q_\ast-Q_n=\Theta(R^{-n})$ in that family, hence
+$D_{I_{3322}}(\varepsilon) = O(\log \tfrac1\varepsilon)$. See the public release
+and its correction record, Zenodo concept DOI
+[10.5281/zenodo.21782008](https://doi.org/10.5281/zenodo.21782008), version of
+record v2.0.0, DOI [10.5281/zenodo.21799071](https://doi.org/10.5281/zenodo.21799071).
+
+**Disclosure.** The $I_{3322}$ companion [I3322] is **our own release**. Its
+certificate chain is independent of the present paper's engines, but none of the
+numbers in this subsection is re-derived here: no engine of this paper touches
+them, and Table 8.1 has no row for §7.1. They are reported on the companion's
+authority, exactly as [Ehr00] and [KRS03] are reported on theirs in §7.3.
+
+**Status of the $I_{3322}$ rate, per the current release.** [Correction, second
+pass: an earlier draft of this section quoted a superseded status document
+("no device-independent quantitative dimension bound is claimed") predating the
+promoted rate result.] The current $I_{3322}$ rate companion proves **both
+halves**: $D(\varepsilon)=\Theta(\log(1/\varepsilon))$, with the upper half a
+constructive truncation of the attaining $\ell^2(\mathbb Z)$ carrier and the
+lower half the statement $S-S_d \ge c(1+d)^{-p}e^{-Cd}$ *for every*
+$d$-dimensional strategy — windowed or not — with existential constants
+$c,p,C>0$, carried by a sealed certificate chain with machine-checked
+combinatorial cores. So both objects carry two-sided laws:
+
+| object | lower bound on $D$ | upper bound on $D$ |
+|---|---|---|
+| $I_{3322}$ | $\Omega(\log 1/\varepsilon)$, every $d$-dimensional strategy (certified; existential constants) | $O(\log 1/\varepsilon)$, constructive truncation family |
+| $K_5$ at $t_\ast$ | $\Omega(\varepsilon^{-1/4})$, **unconditional, explicit constant** | $O(\varepsilon^{-1/4})$, achieved along an explicit family, exact arithmetic |
+
+The contrast is therefore between two *theorems*, not between a theorem and
+evidence — which makes it cleaner: the qualitative gap between
+$\log(1/\varepsilon)$ and $\varepsilon^{-1/4}$ is far larger than any
+conceivable tightening of either side, and the $K_5$ constants are explicit
+where the $I_{3322}$ lower constants are existential.
+
+The moral we draw is narrow and, we think, correct: **dimension laws for
+non-closure witnesses are not a single phenomenon.** Both objects have a
+$2\times2$ unimodular transfer operator with a geometric multiplier, and the
+multipliers do not predict the dimension law. What predicts it is the arithmetic
+of the parameter at which attainment fails.
+
+### 7.2 Priority
+
+Reported as our sweep found it, with the negatives stated as negatives.
+
+1. **The DPP source contains no rate.** We read the full arXiv LaTeX source of
+   [DPP] ($57\,125$ bytes, not a rendering). Zero occurrences of
+   `\varepsilon`, "Diophantine", "continued", "irrationality measure",
+   "quantitative", "$\Theta$", or "minimal dimension". The one place a dimension
+   could have entered is the invocation of [KRS02, Thm. 6], and it is purely
+   existential — the sentence quoted in §1.2.
+2. **The citing literature contains no rate.** A sweep of the citing set of
+   [DPP] — $110$ records, enumerated through a structured bibliographic API —
+   returned zero Diophantine or rate hits. *We record this as supporting evidence,
+   not as a reproducible check:* the enumeration was not snapshotted with the API
+   name, query string and date, and a citing set is a moving target, so the count
+   is defensible only up to the growth of the citing set since the sweep. (By
+   contrast item 1 above is reproducible: the [DPP] arXiv LaTeX source is a fixed
+   $57\,125$-byte file.) The nearest neighbour is Coladangelo–Stark [CS20], which
+   is an exact non-attainability *existence* result — a categorically different
+   statement; the elementary non-closure proof via embezzlement of
+   arXiv:1904.02350 is another nearby witness, likewise with no rate.
+3. **The nearest prior art is folklore, not a paper.** See §7.4.
+4. **Provisional, not closed.** We label the priority of $D(\varepsilon)=
+   \Theta(\varepsilon^{-1/4})$ **new, provisional**: "no evidence found", not
+   "proved absent". Two documents remain outstanding; see §7.3.
+
+### 7.3 Documents we could not read in full (disclosed)
+
+* **[KRS03]** Kruglyak–Rabanovich–Samoĭlenko, *Decomposition of a scalar matrix
+  into a sum of orthogonal projections*, Linear Algebra Appl. **370** (2003)
+  217–225. The article is open archive, but every automated route we tried was
+  blocked. We obtained the publisher's abstract verbatim: *"We describe the set of
+  all $(\alpha,n)$, for which the scalar complex matrix $\alpha I_n$ is a sum of
+  $k$ idempotent Hermitian matrices, and get the minimal number of summands for
+  each $\alpha I_n$."* This is the same table as our $d_5$, read along the other
+  axis (they minimise $k$ at fixed $n$; we want minimal $n$ at $k=5$), and it
+  **supplies** Lemma 4.7 rather than threatening the dimension law — a
+  realisability table is not a relation between carrier dimension and
+  $f_q$-infimum deficit. What raises the confidence in Lemma 4.7 above a bare
+  second-hand report is that [Shu07] does not merely cite [KRS03] in passing but
+  *uses* it, in the proof of her Theorem 15, for exactly the statement we need
+  (an irreducible $p/q\in\Sigma_n$ realised in $q$-dimensional space), and her
+  reference list gives [KRS03] with matching volume, year and pages. Lemma 4.7 is
+  nonetheless labelled SECONDARY throughout, and the paper's own statement,
+  Lemma 4.6, is proved without it, from primary text plus two exact machine
+  checks.
+* **[Ehr00]** Ehrhardt, *On sums of five projections equal to a multiple of the
+  identity*, preprint, Chemnitz, 2000. Not obtained; absent from the TU Chemnitz
+  2000 preprint series index; no open copy located. Its content is pinned by two
+  primary sources ([KRS02, Rem. 5]; [Sam04, Rem. 5]), both reporting that it
+  proves $[3/2,5/2]\subset\Sigma_5$ by a different method — a strictly smaller
+  interval than $W$, with no dimension content.
+
+### 7.4 Pre-empting the folklore objection
+
+A reader who knows this area will immediately produce the *trace obstruction*: if
+$\lambda=p/q$ and $\lambda I_d$ is a sum of projections then $\lambda d$ is a sum
+of ranks, hence $q\mid d$ — "so of course dimension is controlled by the
+denominator". This is Lemma 4.2, it is folklore, and we claim nothing for it.
+
+It is not the result. The trace obstruction is an *exact-realisation* bound at
+*rational* $\lambda$. Theorem 1.1 is an *$\varepsilon$-approximation rate* at an
+*irrational* $\lambda$, and the conversion between them is exactly what is new:
+one must (i) express the approximation deficit as a variance, (ii) reduce it to
+the two-sided rational approximation problem via the product identity
+$\varepsilon=(\lambda_1-\sqrt5)(\sqrt5-\lambda_2)$, (iii) bound the one-sided
+errors below by $\lVert q\sqrt5\rVert>1/(5q)$, and (iv) show the resulting
+exponent is *attained* by continued-fraction convergents. Steps (i)–(iv) are the
+paper. We found nothing in the literature performing that conversion — for
+$\sqrt5$, for $K_5$, or for any other non-closure witness.
+
+---
+
+## 8. Verification appendix
+
+**What the stack does and does not cover.** Every numbered *arithmetic* claim in
+§§2–4 and §6 is a machine check. The following are **not** machine-checked and are
+labelled as such in Table 8.1: §5.2's uniform constant in actual dimension,
+§5.3's Open Lemma (unproved by construction), §5.4's Liouville-exponent remark,
+all of §7.1 (the $I_{3322}$ numbers — see the disclosure there), Lemma 4.7 (a
+SECONDARY citation), Cor. 4.8's $4.866$–$9.732$ interval (a consequence of
+Lemma 4.6 and Lemma 4.7 rather than a computation). Prose
+statements, attributions and the proofs of Lemmas 4.5 and 4.6 are of course not
+machine checks either; the engines confirm their conclusions.
+
+All checks are in exact arithmetic — `Fraction` over $\mathbb Q$, the real
+quadratic field $\mathbb Q(\sqrt5)$, the cyclotomic field $\mathbb Q(\zeta_5)$,
+exact integer arithmetic, and $80$-digit `Decimal` where a real number must be
+compared to a printed constant — with the single deliberate exception of check
+C17, which *exhibits* the failure of floating point on this problem.
+
+**Architecture of the stack, stated exactly.** Three engines are supplied. Engines
+2 and 3 use only $\mathbb Q$: they do not use the quadratic or cyclotomic
+arithmetic of engine 1, and (since R1) engine 3 contains no floating point at all —
+its window test is the exact integer condition $p^2-5pq+5q^2\le0$. They are **not
+mutually independent**: engine 3's base-interval dimension $2l$ is engine 2's
+conclusion, so engine 3 is *sequential* on engine 2. To close the resulting gap —
+that a paper selling exact verification would otherwise have **no** claim checked
+twice — engine 2 additionally re-derives the §4.2 table (checks K4–K5) from
+scratch by rational interval arithmetic: it brackets $\sqrt5$ between consecutive
+convergents to $60$-plus digits and bounds each $\varepsilon$ and each
+$N\varepsilon^{1/4}$ by comparisons of integers, never forming an element of
+$\mathbb Q(\sqrt5)$ and never calling `Decimal`. The §4.2 table and the
+six-figure plateau of Theorem B are therefore the one load-bearing claim of this
+paper that **is** certified by two engines sharing no number representation and
+no verification code; the one shared ingredient is the convergent recursion
+that generates the $\lambda$ pairs themselves.
+
+| script | what it certifies | checks | status |
+|---|---|---|---|
+| `appendix/verify_dimension_law.py` | §§2–6: setup, Theorem A, Theorem B, §5.4, §6 | C1–C26 (43 assertions) | exit 0 |
+| `appendix/verify_krs_dimension.py` | Lemma 4.5 ($\dim = 2l$, $7\,921$ cases); independent re-derivation of the §4.2 table over $\mathbb Q$ | K1–K5 (6 assertions) | exit 0 |
+| `appendix/verify_transport_dimension.py` | Lemma 4.6 ($d\le 2q$ across the window, $4\,000$ cases, reduction into $[3/2,2]$) | T1–T3 (4 assertions) | exit 0 |
+
+Run: `python verify_dimension_law.py && python verify_krs_dimension.py &&
+python verify_transport_dimension.py` (stdlib only; ~18 s total on the repair-round
+machine, dominated by engine 2's $7\,921$-case exhaustive recursion — timings are
+machine-dependent and are reported, not asserted).
+
+### Table 8.1 — claims to checks
+
+| § | claim | check(s) |
+|---|---|---|
+| 1.1 | DPP Prop. 4.1's middle branch $nt(nt-1)$ is the maximum of the three branches exactly on $[1/n,(n-1)/n]$ | C1 |
+| 2.1 | $5\times$ DPP's $t$-window $=[(5-\sqrt5)/2,(5+\sqrt5)/2]$; $t_\ast$ inside; $f_{\mathrm{vect}}(t_\ast)=5-\sqrt5$ | C2 |
+| 2.2 | $\det M_n=1$, $\operatorname{tr}M_n=n-2$; hyperbolic iff $n\ge5$; fixed points $=$ window endpoints; multiplier $\varphi^{-4}$ | C3 |
+| 2.3 | $\mathfrak q$ Coxeter-invariant; $\mathfrak q=(k^2/5)(\lambda^2-5\lambda+5)$; window $=\{\mathfrak q<0\}$ | C4 |
+| 3.1 | Prop. 3.1 (value $=\tau(S^2)-\tau(S)$; deficit $=\operatorname{Var}_\tau(S)$) | C5 |
+| 3.6 | Remark 3.6 (mean-marginal weakening) on a fixture with *unequal* marginals | C5b |
+| 3.2 | Prop. 3.2 (law of total variance; dropped term strictly positive) | C6 |
+| 3.3 | $5-2\sqrt5>1/2$ | C7 |
+| 3.3 | $\lVert q\sqrt5\rVert>1/(5q)$, all $q\le200\,000$, exact integers | C8 |
+| 3.3 | $1/5$ conservative *asymptotically*: $\liminf_q q\lVert q\sqrt5\rVert=1/\sqrt{20}$ along the convergents, but $\inf_q<1/\sqrt{20}$ (attained near $q=4$) | C10 |
+| 3.4 | Theorem A: floor $N\varepsilon^{1/4}>25^{-1/4}=0.4472135955$ | C9 |
+| 3.4 | Remark 3.4a: the Diophantine step at the *reduced* denominator $q_l\mid n_l$ | C9b |
+| 4.1 | Prop. 4.1: $\varepsilon=\mu(1-\mu)(\lambda_1-\lambda_2)^2=(\lambda_1-\sqrt5)(\sqrt5-\lambda_2)$ | C11 |
+| 4.1 | exact marginals hold per index $i$ for equal-rank two-block carriers | C12 |
+| 4.2 | convergents of $\sqrt5=[2;\overline4\,]$ straddle | C13 |
+| 4.2 | Theorem B: the table; $N\varepsilon^{1/4}\to0.973249$; six figures from $N=1292$ (two separate tolerances); consistency with the floor; $5\nmid h_n$ | C14; independently K4–K5 |
+| 4.2 | asymptote $=((2+\sqrt5)/(2\sqrt5))^{1/2}$; tight to $2.176$ *in the denominator convention*; $10.9$–$21.8$ in actual dimension | C15 |
+| 4.2 | crude $(5/2,2)$ vs convergent $(9/4,38/17)$: factor $5779$; exact values | C18 |
+| 4.3 | Lemma 4.2 (trace bound $q\mid d$) | C19 |
+| 4.3 | Lemma 4.3 (equal-rank: $5q\mid pd \iff q\mid d$ and ($5\mid p$ or $5\mid d/q$)) | C20 |
+| 4.3 | Lemma 4.5 (KRS construction has dimension $2l$) — *proved in text*; K1–K3 confirm | K1–K3 |
+| 4.3 | Lemma 4.6 ($q\le d_5(p/q)\le 2q$ across the window) — *proved in text*; T2 is an exhaustive proof of the transport step for $q<400$, T1 a $4\,000$-point confirmation of the reduction | T1–T3 |
+| 5.2 | consecutive $\varepsilon$ differ by $(2+\sqrt5)^4=321.997$; uniform constant $4.12275$ (denominator convention) | C16 |
+| 5.2 | uniform constant in **actual** dimension | *not checked* |
+| 5.2/8 | instrument: naive `float` evaluation collapses; extended precision required | C17 |
+| 5.3 | Open Lemma (drift) | *not proved, not claimed* |
+| 5.4 | $\varphi\in W$; $\liminf$ ratio exactly $2$ | C25 |
+| 5.4 | the four constants $0.4729/0.9732$ ($\sqrt5$) and $0.6687/0.8507$ ($\varphi$) | C26 |
+| 5.4 | Liouville-exponent remark | *not checked* |
+| 4.3 | Lemma 4.7 (SECONDARY citation, [KRS03] via [Shu07]) | *not checked* |
+| 4.3 | Cor. 4.8's interval $4.866\le C_{\mathrm{act}}\le9.732$ | *not checked* (follows from Lemmas 4.6–4.7) |
+| 7.1 | all $I_{3322}$ numbers | *not checked here*; our own release [I3322] |
+| 6.2 | Prop. 6.1: the $M_{15}$ carrier at $\lambda=4/3$, exact over $\mathbb Q$ | C21 |
+| 6.2 | Prop. 6.2: the $4/3$ orbit; same multiplier; integral dimension vectors; $\mathfrak q\equiv+5$ | C22 |
+| 6.3 | Prop. 6.3: $M_2$ pentagon; bi-infinite dimension vectors; descent never terminates | C23 |
+| 6.3 | $4/3$ and $5/2$ disagree on descent termination | C24 |
+
+### 8.2 A numerical warning, and why it is in the paper
+
+The deficits in Table §4.2 are exact elements of $\mathbb Q(\sqrt5)$ of the form
+$a+b\sqrt5$ with $a,b$ of size $O(1)$ and $a+b\sqrt5\approx10^{-20}$. Evaluating
+them by `float(a) + float(b)*sqrt(5)` suffers **total cancellation** below
+$\varepsilon\approx10^{-13}$. Check C17 reproduces the failure: the last three
+rows of the table, computed that way, give ratios
+$$1.1236,\qquad 0.0000,\qquad 20.1620$$
+instead of $0.973249$ — a "result" that would have read as a spectacular breakdown
+of the law at large $N$. All published tables must be evaluated in extended
+precision ($80$-digit decimal here). We include the failure as a check rather than
+a footnote because it occurs *exactly at the regime the theorem is about*, where a
+casual verification is most likely to be attempted and most likely to mislead.
+
+---
+
+## References
+
+* **[DPP]** K. Dykema, V. I. Paulsen, J. Prakash, *Non-closure of the set of
+  quantum correlations via graphs*, Comm. Math. Phys. **365** (2019) 1125–1142;
+  arXiv:1709.05032.
+* **[CS20]** A. Coladangelo, J. Stark, *An inherently infinite-dimensional quantum
+  correlation*, Nat. Commun. **11**, 3335 (2020).
+* **[Ehr00]** T. Ehrhardt, *On sums of five projections equal to a multiple of the
+  identity*, preprint, Chemnitz, 2000. *(Not obtained; cited via [KRS02, Rem. 5]
+  and [Sam04, Rem. 5], which report that it proves $[3/2,5/2]\subset\Sigma_5$ by a
+  different method.)*
+* **[Kru02]** S. A. Kruglyak, *Coxeter functors for one class of $\ast$-quivers*
+  (Russian), Ukraïn. Mat. Zh. **54** (2002), no. 6, 789–797; English transl.,
+  Ukrainian Math. J. **54** (2002), no. 6, 967–978. *(The star-quiver
+  Coxeter functor for the $n$-projection problem. Title as rendered by the
+  English translation; [KRS02]'s own reference list, item [5], and [Shu07]'s
+  render it slightly differently.)*
+* **[KRS02]** S. A. Kruglyak, V. I. Rabanovich, Yu. S. Samoĭlenko, *On sums of
+  projections*, Funktsional. Anal. i Prilozhen. **36** (2002), no. 3, 20–35;
+  English transl., Funct. Anal. Appl. **36** (2002) 182–195.
+* **[KRS03]** S. A. Kruglyak, V. I. Rabanovich, Yu. S. Samoĭlenko, *Decomposition
+  of a scalar matrix into a sum of orthogonal projections*, Linear Algebra Appl.
+  **370** (2003) 217–225. *(Full text not obtained; see §7.3.)*
+* **[PSSTW]** V. I. Paulsen, S. Severini, D. Stahlke, I. G. Todorov, A. Winter,
+  *Estimating quantum chromatic numbers*, J. Funct. Anal. **270** (2016)
+  2188–2222.
+* **[Sam04]** Yu. S. Samoĭlenko, *When is a sum of projections equal to a scalar
+  operator?*, J. Nonlinear Math. Phys. **11** (2004), Suppl., 92–103. *(English
+  rendering of [KRS02, §1], including the dimension maps (2.5).)*
+* **[Shu07]** T. Shulman, *On universal $C^\ast$-algebras generated by $n$
+  projections with scalar sum*, Proc. Amer. Math. Soc. **137** (2009), 115–122;
+  arXiv:0707.3053.
+* **[I3322]** S. Douglas, *The I3322 quantum value: a certified
+  two-sided window and correction record*, v2.0.0, Zenodo; version-of-record DOI
+  10.5281/zenodo.21799071 (concept DOI 10.5281/zenodo.21782008). *(Our own
+  release; see the disclosure in §7.1.)*

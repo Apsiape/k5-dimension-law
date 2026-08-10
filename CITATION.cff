@@ -1,0 +1,52 @@
+cff-version: 1.2.0
+message: "If you use this paper or its verification engines, please cite this work."
+title: "How much dimension does an epsilon-approximation to a non-attained quantum correlation cost? A Diophantine answer for K_5"
+type: article
+authors:
+  - given-names: Seth
+    family-names: Douglas
+    email: apsiape@gmail.com
+    orcid: "https://orcid.org/0009-0007-4708-3252"
+version: 1.0.0
+date-released: "2026-08-10"
+license: CC-BY-4.0
+abstract: >-
+  Dykema, Paulsen and Prakash proved that the finite-dimensional quantum
+  correlation set C_q(5,2) is not closed via a K_5 graph correlation function,
+  by an argument existential in dimension. We answer the quantitative question
+  it leaves open. Let D(eps) be the least block dimension of a
+  finite-dimensional carrier whose value exceeds the infimum by at most eps, at
+  exact marginals and at the distinguished parameter t = 1/sqrt(5). Then
+  D(eps) = Theta(eps^(-1/4)), and the exponent is arithmetic in origin: the
+  lower bound is the Diophantine inequality ||q sqrt(5)|| > 1/(5q) transported
+  through the law of total variance, and the upper bound is attained by feeding
+  consecutive continued-fraction convergents of sqrt(5) into a two-block
+  carrier, where the deficit is exactly the product of the two one-sided
+  approximation errors. The constant is bracketed to a factor 2.176 in the
+  denominator convention, between an unconditional floor 0.4472135955 and an
+  attained value 0.9732489895. We also show that orbit topology and attainment
+  are different invariants on this object, and contrast K_5 with I3322, where
+  the analogous cost is only logarithmic, concluding that dimension laws for
+  non-closure witnesses are governed by the arithmetic of the parameter rather
+  than by a universal rate.
+keywords:
+  - sums of projections
+  - tracial states
+  - quantum correlations
+  - non-closure
+  - continued fractions
+  - Diophantine approximation
+  - Coxeter functor
+  - Tits form
+  - star quiver
+  - approximation rate
+  - dimension law
+  - exact arithmetic verification
+preferred-citation:
+  type: article
+  title: "How much dimension does an epsilon-approximation to a non-attained quantum correlation cost? A Diophantine answer for K_5"
+  authors:
+    - given-names: Seth
+      family-names: Douglas
+      orcid: "https://orcid.org/0009-0007-4708-3252"
+  year: 2026
