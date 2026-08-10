@@ -235,7 +235,9 @@ If you find an error, it belongs in this record too.
 
 ## Citing
 
-See [`CITATION.cff`](CITATION.cff). Version 1.0.0; no DOI has been minted yet.
+See [`CITATION.cff`](CITATION.cff). Version 1.0.0. Concept DOI (all versions):
+[10.5281/zenodo.21876896](https://doi.org/10.5281/zenodo.21876896); v1.0.0
+version DOI: [10.5281/zenodo.21876899](https://doi.org/10.5281/zenodo.21876899).
 
 ## Licence
 
