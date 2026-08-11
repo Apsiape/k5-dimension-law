@@ -260,7 +260,7 @@ symmetric dimension vector $(k;r,\dots,r)$ of an $n$-projection configuration
 rays and $k\mapsto nr'-k$ at the centre; their composite is the Coxeter
 transformation
 $$M_n \;=\; \begin{pmatrix} n-1 & -n\\ 1 & -1\end{pmatrix},
-\qquad \det M_n = 1,\quad \operatorname{tr} M_n = n-2,$$
+\qquad \det M_n = 1,\quad \mathrm{tr} M_n = n-2,$$
 inducing on $\lambda = nr/k$ the Möbius map
 $$\Phi_n(\lambda) \;=\; \frac{n-\lambda}{(n-1)-\lambda}.$$
 This is **Kruglyak's own instrument for this exact problem** [Kru02]; we validate
@@ -295,11 +295,11 @@ appear coupled — a coupling §6 shows is not real.
 
 A **carrier** is a triple $(A,\tau,(P_i)_{i=1}^5)$ where $A=\bigoplus_{l} M_{n_l}$
 is a finite-dimensional $C^\ast$-algebra, $\tau=\bigoplus_l \lambda_l
-\operatorname{tr}_{n_l}$ is a tracial state ($\lambda_l>0$, $\sum_l\lambda_l=1$,
-$\operatorname{tr}$ normalised), and the $P_i$ are projections in $A$. Put
+\mathrm{tr}_{n_l}$ is a tracial state ($\lambda_l>0$, $\sum_l\lambda_l=1$,
+$\mathrm{tr}$ normalised), and the $P_i$ are projections in $A$. Put
 $$S \;=\; \sum_{i=1}^5 P_i,\qquad
-s_l \;=\; \operatorname{tr}_{n_l}(S_l) \;=\;
-\frac{\sum_i \operatorname{rank} P_{i,l}}{n_l}\;\in\;\tfrac{1}{n_l}\mathbb Z,
+s_l \;=\; \mathrm{tr}_{n_l}(S_l) \;=\;
+\frac{\sum_i \mathrm{rank} P_{i,l}}{n_l}\;\in\;\tfrac{1}{n_l}\mathbb Z,
 \qquad N \;=\; \max_l n_l .$$
 
 **Exact-marginal regime.** We require $\tau(P_i)=t_\ast=1/\sqrt5$ for every
@@ -307,7 +307,7 @@ $i=1,\dots,5$.
 
 **The deficit.** For a carrier in this regime,
 $$\varepsilon \;:=\; \sum_{v\neq w}\tau(e_ve_w) \;-\; f_{\mathrm{vect}}(t_\ast)
-\;=\; \tau(S^2)-\tau(S)^2 \;=\; \operatorname{Var}_\tau(S) \;\ge\;0,$$
+\;=\; \tau(S^2)-\tau(S)^2 \;=\; \mathrm{Var}_\tau(S) \;\ge\;0,$$
 by Prop. 3.1 below; and
 $$D(\varepsilon) \;:=\; \min\{\,N : \text{some carrier in the regime has deficit}
 \le \varepsilon\,\}.$$
@@ -338,7 +338,7 @@ $\sum_i \tau(P_i) = 5t$. Then*
 $$\sum_{v\neq w}\tau(e_ve_w) \;=\; \tau(S^2)-\tau(S)
 \;\ge\; \tau(S)^2-\tau(S) \;=\; f_{\mathrm{vect}}(t),$$
 *with equality iff $S = 5t\cdot 1$; and the deficit relative to
-$f_{\mathrm{vect}}(t)$ equals $\operatorname{Var}_\tau(S)$ exactly.*
+$f_{\mathrm{vect}}(t)$ equals $\mathrm{Var}_\tau(S)$ exactly.*
 
 *Proof.* $S^2 = \sum_i P_i + \sum_{i\neq j}P_iP_j$, so
 $\tau(S^2)-\tau(S) = \sum_{v\neq w}\tau(e_ve_w)$. Cauchy–Schwarz for the trace
@@ -354,7 +354,7 @@ because it is the shortest route to the non-attainment half of [DPP, Thm. 4.2]
 and because it is the identity the whole quantitative theory is built on. Combined
 with block-trace rationality it reproves non-attainment in two lines and never
 touches piecewise linearity: if $S=\lambda\cdot 1$ then $\lambda = s_l =
-(\sum_i\operatorname{rank}P_{i,l})/n_l\in\mathbb Q$ for every block, so no carrier
+(\sum_i\mathrm{rank}P_{i,l})/n_l\in\mathbb Q$ for every block, so no carrier
 attains at $\lambda_\ast=\sqrt5$.
 
 ### 3.2 The total-variance strengthening
@@ -363,17 +363,17 @@ The naive route to a lower bound assumes each block $S_l$ is a scalar $s_l\cdot
 I_{n_l}$. That hypothesis is unnecessary.
 
 **Proposition 3.2.** *For any carrier,*
-$$\operatorname{Var}_\tau(S)
-\;=\; \underbrace{\sum_l \lambda_l \operatorname{Var}_{\operatorname{tr}_{n_l}}(S_l)}_{\ \ge\ 0}
-\;+\; \operatorname{Var}_\lambda(s)
-\;\ge\; \operatorname{Var}_\lambda(s)
+$$\mathrm{Var}_\tau(S)
+\;=\; \underbrace{\sum_l \lambda_l \mathrm{Var}_{\mathrm{tr}_{n_l}}(S_l)}_{\ \ge\ 0}
+\;+\; \mathrm{Var}_\lambda(s)
+\;\ge\; \mathrm{Var}_\lambda(s)
 \;=\; \sum_l \lambda_l\,(s_l - \tau(S))^2 .$$
 
 *Proof.* The law of total variance for the two-stage measure "pick block $l$ with
-probability $\lambda_l$, then evaluate $\operatorname{tr}_{n_l}$". Exactly:
-$\tau(S^2)=\sum_l\lambda_l\operatorname{tr}(S_l^2)$ and
+probability $\lambda_l$, then evaluate $\mathrm{tr}_{n_l}$". Exactly:
+$\tau(S^2)=\sum_l\lambda_l\mathrm{tr}(S_l^2)$ and
 $\tau(S)=\sum_l\lambda_l s_l$, so
-$\tau(S^2)-\tau(S)^2 = \sum_l\lambda_l[\operatorname{tr}(S_l^2)-s_l^2]
+$\tau(S^2)-\tau(S)^2 = \sum_l\lambda_l[\mathrm{tr}(S_l^2)-s_l^2]
 + [\sum_l\lambda_l s_l^2 - (\sum_l\lambda_l s_l)^2]$. $\square$
 
 Verified exactly on rational fixtures with deliberately non-scalar blocks, where
@@ -423,9 +423,9 @@ Q\,\varepsilon^{1/4} \;>\; 25^{-1/4} \;=\; 0.4472135955\ldots$$
 convention, and a fortiori in actual block dimension.*
 
 *Proof.* Exact marginals give $\tau(S)=\sum_i\tau(P_i)=5t_\ast=\sqrt5$. By
-Prop. 3.1 the deficit is $\operatorname{Var}_\tau(S)$, and by Prop. 3.2
+Prop. 3.1 the deficit is $\mathrm{Var}_\tau(S)$, and by Prop. 3.2
 $$\varepsilon \;\ge\; \sum_l \lambda_l\,(s_l-\sqrt5)^2 .$$
-Each $s_l = a_l/n_l$ with $a_l = \sum_i\operatorname{rank}P_{i,l}\in\mathbb Z$;
+Each $s_l = a_l/n_l$ with $a_l = \sum_i\mathrm{rank}P_{i,l}\in\mathbb Z$;
 writing $s_l=p_l/q_l$ in lowest terms, $q_l\mid n_l$, hence $q_l\le n_l\le N$.
 Then
 $$|s_l-\sqrt5| \;=\; \frac{|p_l-q_l\sqrt5|}{q_l}
@@ -482,7 +482,7 @@ per-index hypothesis from the mean-marginal one.)
 
 Take $A = M_{n_1}\oplus M_{n_2}$ with weights $(\mu,1-\mu)$ and block values
 $\lambda_1>\sqrt5>\lambda_2$, both rational, each block realised with *equal
-ranks* (so $\operatorname{tr}_{n_l}(P_{i,l})=\lambda_l/5$ for every $i$).
+ranks* (so $\mathrm{tr}_{n_l}(P_{i,l})=\lambda_l/5$ for every $i$).
 
 **Proposition 4.1.** *Exact marginals hold — $\tau(P_i)=t_\ast$ for every $i$ —
 precisely when $\mu\lambda_1+(1-\mu)\lambda_2=\sqrt5$, and then*
@@ -493,7 +493,7 @@ $$\varepsilon \;=\; \mu(1-\mu)(\lambda_1-\lambda_2)^2
 equals $t_\ast=\sqrt5/5$ iff the stated affine condition holds. Then
 $\mu=(\sqrt5-\lambda_2)/(\lambda_1-\lambda_2)$ and
 $1-\mu=(\lambda_1-\sqrt5)/(\lambda_1-\lambda_2)$; the blocks are scalar, so
-$\operatorname{Var}_\tau(S)=\operatorname{Var}_\lambda(s)=\mu(1-\mu)(\lambda_1-\lambda_2)^2$,
+$\mathrm{Var}_\tau(S)=\mathrm{Var}_\lambda(s)=\mu(1-\mu)(\lambda_1-\lambda_2)^2$,
 and substituting collapses the $(\lambda_1-\lambda_2)^2$. $\square$
 
 Checks C11, C12. This identity is the whole reason the law is Diophantine:
@@ -1111,9 +1111,9 @@ machine-dependent and are reported, not asserted).
 |---|---|---|
 | 1.1 | DPP Prop. 4.1's middle branch $nt(nt-1)$ is the maximum of the three branches exactly on $[1/n,(n-1)/n]$ | C1 |
 | 2.1 | $5\times$ DPP's $t$-window $=[(5-\sqrt5)/2,(5+\sqrt5)/2]$; $t_\ast$ inside; $f_{\mathrm{vect}}(t_\ast)=5-\sqrt5$ | C2 |
-| 2.2 | $\det M_n=1$, $\operatorname{tr}M_n=n-2$; hyperbolic iff $n\ge5$; fixed points $=$ window endpoints; multiplier $\varphi^{-4}$ | C3 |
+| 2.2 | $\det M_n=1$, $\mathrm{tr}M_n=n-2$; hyperbolic iff $n\ge5$; fixed points $=$ window endpoints; multiplier $\varphi^{-4}$ | C3 |
 | 2.3 | $\mathfrak q$ Coxeter-invariant; $\mathfrak q=(k^2/5)(\lambda^2-5\lambda+5)$; window $=\{\mathfrak q<0\}$ | C4 |
-| 3.1 | Prop. 3.1 (value $=\tau(S^2)-\tau(S)$; deficit $=\operatorname{Var}_\tau(S)$) | C5 |
+| 3.1 | Prop. 3.1 (value $=\tau(S^2)-\tau(S)$; deficit $=\mathrm{Var}_\tau(S)$) | C5 |
 | 3.6 | Remark 3.6 (mean-marginal weakening) on a fixture with *unequal* marginals | C5b |
 | 3.2 | Prop. 3.2 (law of total variance; dropped term strictly positive) | C6 |
 | 3.3 | $5-2\sqrt5>1/2$ | C7 |

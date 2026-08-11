@@ -209,7 +209,7 @@ The result §6 actually proves — and it is a good one — is narrower: *no **t
 
 **Why it fails.** At least two further steps in Theorem A's chain are strict inequalities on any carrier the paper actually builds:
 
-* Prop. 3.2 drops $\sum_l\lambda_l\operatorname{Var}_{\operatorname{tr}}(S_l)\ge0$, strictly positive whenever a block is non-scalar (this is precisely what check C6 verifies — "the dropped term is strictly positive on non-scalar blocks");
+* Prop. 3.2 drops $\sum_l\lambda_l\mathrm{Var}_{\mathrm{tr}}(S_l)\ge0$, strictly positive whenever a block is non-scalar (this is precisely what check C6 verifies — "the dropped term is strictly positive on non-scalar blocks");
 * $1/(5n_l^2)\ge 1/(5N^2)$ is strict unless every block has dimension $N$ — and in the §4.2 two-block family one block has denominator $k_n<N=k_{n+1}$, so it *is* strict at the optimum.
 
 The remark's *conclusion* (the residual gap is genuine, not methodological) is defensible; the supporting sentence is not.

@@ -83,7 +83,7 @@ dimension the corresponding bracket is a factor $10.9$–$21.8$).
 
 **Why the exponent is $-1/4$.** The lower bound is the Diophantine inequality
 $\lVert q\sqrt5\rVert > 1/(5q)$ transported through the law of total variance:
-the approximation deficit *is* $\operatorname{Var}_\tau(S)$, and only the
+the approximation deficit *is* $\mathrm{Var}_\tau(S)$, and only the
 block-averaged data survives, which is forced to be rational. The upper bound
 comes from an exact identity — for a two-block carrier the deficit is the
 **product of the two one-sided approximation errors**,
