@@ -996,7 +996,7 @@ Reported as our sweep found it, with the negatives stated as negatives.
    "quantitative", "$\Theta$", or "minimal dimension". The one place a dimension
    could have entered is the invocation of [KRS02, Thm. 6], and it is purely
    existential — the sentence quoted in §1.2.
-2. **The citing literature contains no rate.** A sweep of the citing set of
+2. **The citing literature contains no rate for this witness.** A sweep of the citing set of
    [DPP] — $110$ records, enumerated through a structured bibliographic API —
    returned zero Diophantine or rate hits. *We record this as supporting evidence,
    not as a reproducible check:* the enumeration was not snapshotted with the API
@@ -1005,8 +1005,15 @@ Reported as our sweep found it, with the negatives stated as negatives.
    contrast item 1 above is reproducible: the [DPP] arXiv LaTeX source is a fixed
    $57\,125$-byte file.) The nearest neighbour is Coladangelo–Stark [CS20], which
    is an exact non-attainability *existence* result — a categorically different
-   statement; the elementary non-closure proof via embezzlement of
-   arXiv:1904.02350 is another nearby witness, likewise with no rate.
+   statement. The elementary non-closure proof via embezzlement of
+   arXiv:1904.02350 is a nearer one, and it **does** carry a rate: its abstract
+   states that an $\varepsilon$-close to optimal strategy requires an entangled
+   state of dimension $2^{\Omega(\varepsilon^{-1/8})}$. That is a dimension
+   *lower* bound only — the paper gives no matching upper bound, no explicit
+   near-optimal strategy with quantified dimension, and no tightness claim — so
+   it does not constitute a two-sided characterization. It is, however, prior art
+   for the existence of a dimension rate attached to a non-closure witness, and
+   the claim below is scoped accordingly.
 3. **The nearest prior art is folklore, not a paper.** See §7.4.
 4. **Provisional, not closed.** We label the priority of $D(\varepsilon)=
    \Theta(\varepsilon^{-1/4})$ **new, provisional**: "no evidence found", not
