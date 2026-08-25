@@ -235,9 +235,15 @@ If you find an error, it belongs in this record too.
 
 ## Citing
 
-See [`CITATION.cff`](CITATION.cff). Version 1.0.0. Concept DOI (all versions):
-[10.5281/zenodo.21876896](https://doi.org/10.5281/zenodo.21876896); v1.0.0
-version DOI: [10.5281/zenodo.21876899](https://doi.org/10.5281/zenodo.21876899).
+See [`CITATION.cff`](CITATION.cff). Version 1.0.1. Concept DOI (all versions):
+[10.5281/zenodo.21876896](https://doi.org/10.5281/zenodo.21876896); v1.0.1
+version DOI:
+[10.5281/zenodo.22099141](https://doi.org/10.5281/zenodo.22099141) —
+note: this record's Zenodo metadata carries the stale version string
+"1.0.0" from the `.zenodo.json` shipped at tag time (fixed in this
+commit for future releases); its archive is the v1.0.1 tree, which
+contains the Section 7.2 correction. v1.0.0 version DOI:
+[10.5281/zenodo.21876899](https://doi.org/10.5281/zenodo.21876899).
 
 ## Licence
 
