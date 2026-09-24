@@ -2,7 +2,7 @@
 
 **The paper: [paper/PAPER-K5.md](paper/PAPER-K5.md)** — *"How much dimension
 does an $\varepsilon$-approximation to a non-attained quantum correlation cost?
-A Diophantine answer for $K_5$"* (v1.0.0). Statement, proofs, conventions,
+A Diophantine answer for $K_5$"* (v1.0.2). Statement, proofs, conventions,
 priority discussion and verification appendix.
 
 ---
@@ -17,12 +17,15 @@ too, at the point where it bites.
   $K_5$ non-closure witness. §5.4 gives the shape of the general answer for
   quadratic irrationals, but that two-parameter formula is *stated, not proved*;
   its ingredients are proved here only for $\sqrt5$.
-- **Exact marginals are load-bearing, and the drifted problem is open.** Every
-  result assumes the carrier's marginals are exactly $t_\ast$. If the marginals
-  may drift by $\delta$, the Diophantine obstruction can be voided. The
-  conjectural $\Theta(\min(\varepsilon^{-1/4},\delta^{-1/2}))$ law of §5.3 is
-  **not proved and not claimed**. This is the one place the paper's regime is
-  genuinely narrower than the physical question.
+- **Exact marginals are load-bearing, and the drifted problem is now settled
+  (v1.0.2).** Every result of §§3–4 assumes the carrier's marginals are exactly
+  $t_\ast$. If the marginals may drift by $\delta$, the cost against the fixed
+  target is $\Theta(\min(\varepsilon^{-1/4},\delta^{-1/4}))$ (Theorem 5.3): the
+  same fourth root, **not** the $\delta^{-1/2}$ that v1.0.0–1.0.1 conjectured
+  in an Open Lemma. That conjecture was false: an explicit two-block carrier at
+  denominator $17$ has deficit exactly zero with marginals off by
+  $6\times10^{-7}$. The $\delta^{-1/2}$ form survives only for a deficit
+  referenced to the carrier's own mean (Prop. 5.4).
 - **The constant is bracketed, not pinned.** $D(\varepsilon)$ is a minimum over
   *all* finite-dimensional carriers. $0.9732489895$ is the sharpest constant so
   far *attained*, by an explicit family; it is not a matching lower bound.
@@ -43,7 +46,7 @@ too, at the point where it bites.
   rather than a reproducible check, because its API, query and date were not
   snapshotted.
 - **Some claims are not machine-checked, and are named.** §5.2's uniform constant
-  in actual dimension, §5.3's Open Lemma, §5.4's Liouville-exponent remark,
+  in actual dimension, §5.4's Liouville-exponent remark,
   Lemma 4.7, Cor. 4.8's interval, and all of §7.1's comparison numbers. Table 8.1
   marks each *not checked* in place.
 
@@ -128,7 +131,7 @@ the failure of floating point on this problem.
 
 | script | what it certifies | checks | status |
 |---|---|---|---|
-| `verification/verify_dimension_law.py` | §§2–6: setup, Theorem A, Theorem B, §5.4, §6 | C1–C26 (43 assertions) | exit 0 |
+| `verification/verify_dimension_law.py` | §§2–6: setup, Theorem A, Theorem B, §5.3, §5.4, §6 | C1–C29 (48 assertions) | exit 0 |
 | `verification/verify_krs_dimension.py` | Lemma 4.5 ($\dim = 2l$, 7 921 cases); independent re-derivation of the §4.2 table over $\mathbb{Q}$ | K1–K5 (6 assertions) | exit 0 |
 | `verification/verify_transport_dimension.py` | Lemma 4.6 ($d \le 2q$ across the window, 4 000 cases, reduction into $[3/2,2]$) | T1–T3 (4 assertions) | exit 0 |
 
@@ -156,8 +159,8 @@ docstrings, because a shared ingredient inside a claimed two-engine check is
 exactly the thing a reader is entitled to be told about.
 
 **What the stack does not cover**, labelled *not checked* in Table 8.1 of the
-paper: §5.2's uniform constant in actual dimension; §5.3's Open Lemma (unproved
-by construction); §5.4's Liouville-exponent remark; all of §7.1's $I_{3322}$
+paper: §5.2's uniform constant in actual dimension; §5.4's Liouville-exponent
+remark; all of §7.1's $I_{3322}$
 numbers; Lemma 4.7 (a secondary citation); and Cor. 4.8's $4.866$–$9.732$
 interval (a consequence of two lemmas, not a computation). Prose, attributions,
 and the proofs of Lemmas 4.5 and 4.6 are of course not machine checks either;
@@ -193,7 +196,7 @@ cd verification && python verify_dimension_law.py && python verify_krs_dimension
 ```
 
 Each prints one `[PASS]`/`[FAIL]` line per check, a summary count, and exits `0`
-on a full pass and `1` otherwise. Expect `43`, `6` and `4` assertions
+on a full pass and `1` otherwise. Expect `48`, `6` and `4` assertions
 respectively. Total runtime is on the order of 20 seconds, dominated by engine
 2's exhaustive 7 921-case recursion; timings are machine-dependent and are
 reported, not asserted.
@@ -233,9 +236,20 @@ rather than a uniform tone of confidence.
 
 If you find an error, it belongs in this record too.
 
+**v1.0.2 (2026-09-24): the Open Lemma of §5.3 was false.** Versions 1.0.0–1.0.1
+conjectured, explicitly unproved and unclaimed, that letting the marginals drift
+by $\delta$ costs $\delta^{-1/2}$. It costs $\delta^{-1/4}$ — the same fourth
+root as the deficit — against the fixed target the paper defines. The refuting
+carrier is a two-block straddling pair at denominator $17$ whose deficit is
+exactly zero with marginals off by $6\times10^{-7}$, and the corrected law is
+proved in both directions (Theorem 5.3, checks C27–C29). Found while
+transporting §§3–4 to another five-projection problem; see
+[`RELEASE-NOTES-v1.0.2.md`](RELEASE-NOTES-v1.0.2.md).
+
 ## Citing
 
-See [`CITATION.cff`](CITATION.cff). Version 1.0.1. Concept DOI (all versions):
+See [`CITATION.cff`](CITATION.cff). Version 1.0.2 (v1.0.2 version DOI: to be
+minted on release; until then cite the concept DOI). Concept DOI (all versions):
 [10.5281/zenodo.21876896](https://doi.org/10.5281/zenodo.21876896); v1.0.1
 version DOI:
 [10.5281/zenodo.22099141](https://doi.org/10.5281/zenodo.22099141) —

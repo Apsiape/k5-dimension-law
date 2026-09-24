@@ -325,7 +325,10 @@ one reports the denominator $q$ of the block value instead, and the "total
 dimension" convention $\sum_l n_l$, and shows the exponent is the same under all
 three. (ii) The exact-marginal requirement is essential to the
 lower bound and is *not* a normalisation: if the marginals are allowed to drift by
-$\delta$ the Diophantine obstruction can be voided. This is §5.3, and it is open.
+$\delta$ the Diophantine obstruction of Lemma 3.3 can be voided for a single block.
+It cannot be voided at the level of the law: §5.3 (Theorem 5.3, new in v1.0.2)
+shows that drift is priced at the same exponent $-1/4$, and that the
+$\delta^{-1/2}$ conjectured in earlier versions was wrong.
 
 ---
 
@@ -757,21 +760,185 @@ rules out a better one at a given $\varepsilon$ — a non-convergent straddling
 pair, or a carrier with three or more blocks. What is established is the bracket
 $[0.4472,\,0.9732]$ of §5.1, and Remark 3.5 says what closing it would require.
 
-### 5.3 Exact marginals, and the open drift lemma
+### 5.3 Drifted marginals: the former Open Lemma is false, and the correct law is again a fourth root
 
 Everything above assumes exact marginals. The assumption is load-bearing and not
-cosmetic.
+cosmetic — but not in the way versions 1.0.0–1.0.1 of this paper conjectured.
+Those versions stated, as an Open Lemma explicitly "not proved and not claimed":
 
-**Open Lemma (drift).** *Suppose the marginals are allowed to drift:
-$|\tau(P_i)-t_\ast|\le\delta$ for each $i$. Then a rational $s_l$ may sit within
-$\delta$ of $\sqrt5$ and Lemma 3.3 gives nothing. Conjecturally $\delta$-drift
-costs $\Omega(\delta^{-1/2})$, so that
-$D(\varepsilon,\delta)=\Theta\!\big(\min(\varepsilon^{-1/4},\delta^{-1/2})\big)$.*
+> *(v1.0.0–1.0.1, superseded.) Suppose the marginals are allowed to drift:
+> $|\tau(P_i)-t_\ast|\le\delta$ for each $i$. Then a rational $s_l$ may sit within
+> $\delta$ of $\sqrt5$ and Lemma 3.3 gives nothing. Conjecturally $\delta$-drift
+> costs $\Omega(\delta^{-1/2})$, so that
+> $D(\varepsilon,\delta)=\Theta\!\big(\min(\varepsilon^{-1/4},\delta^{-1/2})\big)$.*
 
-This is **not proved and not claimed.** It is the natural next theorem, and the
-one place where the paper's regime is genuinely narrower than the physical
-question ("how well can a bounded-dimension device approximate the boundary
-correlation, marginals and all?"). We name it rather than hide it.
+Under the paper's own definition of the deficit this is **false**: the drift
+exponent is $1/4$, not $1/2$. This section states the drifted problem precisely,
+proves the correct law (Theorem 5.3), exhibits the carrier that refutes the
+conjecture (Proposition 5.2), and records the one reading of "deficit" under
+which the conjectured formula does hold (Proposition 5.4). The error was found on
+2026-09-24 while transporting §§3–4 to another five-projection problem (the
+exact realisations of a Schur channel of Musat and Rørdam are five projections
+summing to $\tfrac{5\sqrt2}{3}\cdot1$); two independent derivations agree, and
+checks C27–C29 certify the arithmetic in exact form.
+
+**The drifted regime.** A carrier has *drift* $\delta$ if
+$|\tau(P_i)-t_\ast|\le\delta$ for every $i$. Put
+$m:=\tau(S)=\sum_i\tau(P_i)$, so $|m-\sqrt5|\le5\delta$. Prop. 3.1 holds for every
+carrier and gives $\text{value}=\tau(S^2)-\tau(S)=\mathrm{Var}_\tau(S)+m^2-m$.
+The deficit of §1.3 and §2.4 is measured against the infimum *at the target*,
+$f_{\mathrm{vect}}(t_\ast)=5-\sqrt5$; under drift it reads
+$$\varepsilon_T\;:=\;\text{value}-f_{\mathrm{vect}}(t_\ast)
+\;=\;\mathrm{Var}_\tau(S)+(m-\sqrt5)(m+\sqrt5-1),\tag{5.1}$$
+which can be *negative* when $m<\sqrt5$. Define
+$$D(\varepsilon,\delta)\;:=\;\min\{\,N:\ \text{some carrier with drift}\le\delta
+\ \text{has}\ \varepsilon_T\le\varepsilon\,\},$$
+so that $D(\varepsilon,0)=D(\varepsilon)$. A *mean-referenced* deficit,
+$\varepsilon_V:=\text{value}-f_{\mathrm{vect}}(m/5)=\mathrm{Var}_\tau(S)$, is
+treated in Prop. 5.4; the two coincide at exact marginals.
+
+**Proposition 5.2 (a straddling pair with zero deficit).** *Let
+$\lambda_1>\sqrt5>\lambda_2$ be rational block values realised with equal ranks as
+in §4.1, but now with the weight $\mu$ on the first block free, and write
+$m=\mu\lambda_1+(1-\mu)\lambda_2$. Then*
+$$\varepsilon_T\;=\;(m-\lambda_2)(\lambda_1-m)+m^2-m-5+\sqrt5
+\;=\;m(\lambda_1+\lambda_2-1)-\lambda_1\lambda_2-5+\sqrt5,$$
+*affine in $m$, and it vanishes exactly at*
+$$m_0=\frac{\lambda_1\lambda_2+5-\sqrt5}{\lambda_1+\lambda_2-1},\qquad
+\sqrt5-m_0=\frac{(\lambda_1-\sqrt5)(\sqrt5-\lambda_2)}{\lambda_1+\lambda_2-1}>0 .$$
+*The corresponding weight $\mu_0=(m_0-\lambda_2)/(\lambda_1-\lambda_2)$ lies in
+$(0,1)$, all five marginals equal $m_0/5$, and the drift is*
+$$\delta_0\;=\;\frac{\sqrt5-m_0}{5}\;=\;\frac{\varepsilon_{\rm exact}}{5(\lambda_1+\lambda_2-1)},
+\qquad\varepsilon_{\rm exact}=(\lambda_1-\sqrt5)(\sqrt5-\lambda_2),$$
+*the exact-marginal deficit of the same pair (Prop. 4.1).*
+
+*Proof.* Scalar blocks give
+$\mathrm{Var}_\tau(S)=\mu(1-\mu)(\lambda_1-\lambda_2)^2=(m-\lambda_2)(\lambda_1-m)$;
+substitute into (5.1) and expand — the quadratic terms cancel. The root and the
+identity for $\sqrt5-m_0$ follow from
+$(\lambda_1-\sqrt5)(\lambda_2-\sqrt5)=\lambda_1\lambda_2-\sqrt5(\lambda_1+\lambda_2)+5$.
+Since $\sqrt5-m_0>0$ and $\sqrt5-m_0<\sqrt5-\lambda_2$ (because
+$\lambda_1-\sqrt5<\lambda_1+\lambda_2-1$, i.e. $\lambda_2>1-\sqrt5$), one has
+$m_0\in(\lambda_2,\lambda_1)$. Equal ranks (Lemma 4.4) make every $\tau(P_i)$ equal
+to $m_0/5$.
+$\square$
+
+For the first genuine convergent pair $(\lambda_1,\lambda_2)=(9/4,38/17)$,
+$$m_0=\frac{682-68\sqrt5}{237}=2.2360648840\ldots,\qquad
+\delta_0=\frac{305\sqrt5-682}{1185}=6.1868138\times10^{-7},\qquad
+\mu_0=0.052412\ldots,$$
+at denominator $N=17$ (check C27). The deficit is exactly $0$: the value equals
+$5-\sqrt5$ to infinite precision, with marginals off by $6\times10^{-7}$. Under
+the conjectured law such a carrier would have needed
+$N=\Omega(\delta_0^{-1/2})\approx1271$.
+
+**Theorem 5.3 (the drift law, fixed target).** *Let $0\le\varepsilon\le1$ and
+$0\le\delta\le1/100$.*
+
+*(a) (Lower bound, unconditional.) Every carrier with drift $\le\delta$ and
+$\varepsilon_T\le\varepsilon$ has a block whose reduced denominator satisfies*
+$$q_l\;>\;\big(10\max\{\sqrt{\varepsilon},\,4.7\sqrt\delta\}\big)^{-1/2}
+\;\ge\;\min\big(0.3162\,\varepsilon^{-1/4},\ 0.1458\,\delta^{-1/4}\big),$$
+*hence $D(\varepsilon,\delta)\ge Q>0.1458\,\min(\varepsilon^{-1/4},\delta^{-1/4})$
+in every convention of §5.1.*
+
+*(b) (Upper bound, attained.) Along consecutive convergent pairs of $\sqrt5$ the
+carriers of Prop. 5.2 have $\varepsilon_T=0$ and*
+$$N\,\delta_0^{1/4}\;\longrightarrow\;
+\frac{0.9732489895}{\big(5(2\sqrt5-1)\big)^{1/4}}\;=\;0.4767956449\ldots$$
+*in the denominator convention $N=k_{n+1}$. Together with Theorem B (the case
+$\delta=0$) and the rounding of §5.2,
+$D(\varepsilon,\delta)\le(2+\sqrt5)\min\big(0.9733\,\varepsilon^{-1/4},\,
+0.4768\,\delta^{-1/4}\big)(1+o(1))$.*
+
+*Consequently*
+$$\boxed{\,D(\varepsilon,\delta)\;=\;\Theta\!\big(\min(\varepsilon^{-1/4},\delta^{-1/4})\big)\,}$$
+*and the conjectured $\delta^{-1/2}$ is false.*
+
+*Proof of (a).* From (5.1), $|m-\sqrt5|\le5\delta$ and
+$m+\sqrt5-1\le2\sqrt5-1+5\delta$,
+$$\mathrm{Var}_\tau(S)\;\le\;\varepsilon+5\delta\,(2\sqrt5-1+5\delta)
+\;\le\;\varepsilon+17.62\,\delta\qquad(\delta\le1/100).$$
+By Prop. 3.2, $\mathrm{Var}_\tau(S)\ge\sum_l\lambda_l(s_l-m)^2$, so some block has
+$|s_l-m|\le\sqrt{\mathrm{Var}_\tau(S)}$, whence
+$$|s_l-\sqrt5|\;\le\;\sqrt{\varepsilon+17.62\,\delta}+5\delta
+\;\le\;\sqrt\varepsilon+4.7\sqrt\delta\;\le\;2\max\{\sqrt\varepsilon,4.7\sqrt\delta\},$$
+using $5\delta\le0.5\sqrt\delta$ for $\delta\le1/100$. Lemma 3.3 gives
+$|s_l-\sqrt5|>1/(5q_l^2)$, and the displayed bound follows; $q_l\mid n_l$ as in
+Theorem A. $\square$
+
+*Proof of (b).* $\delta_0=\varepsilon_{\rm exact}/(5(\lambda_1+\lambda_2-1))$ by
+Prop. 5.2; along the convergents $\lambda_1+\lambda_2-1\to2\sqrt5-1$ while
+$N\varepsilon_{\rm exact}^{1/4}\to0.9732489895$ (Theorem B); take fourth roots.
+Consecutive $\delta_0$ differ asymptotically by the same factor $(2+\sqrt5)^4$
+as consecutive $\varepsilon$ (§5.2), so rounding to the next available pair
+costs at most $2+\sqrt5$. The block values are realised exactly as in §4.3
+(Lemma 4.6, Cor. 4.8); only the weight changes. $\square$
+
+The drift family (drift in $\mathbb Q(\sqrt5)$, ratios in $80$-digit arithmetic;
+check C28):
+
+| $\lambda_1>\sqrt5$ | $\lambda_2<\sqrt5$ | $N$ | $\delta_0$ | $N\delta_0^{1/4}$ | $N\delta_0^{1/2}$ |
+|---|---|---:|---:|---:|---:|
+| $9/4$ | $2$ | $4$ | $2.0239\times10^{-4}$ | $0.477100$ | $5.69\times10^{-2}$ |
+| $9/4$ | $38/17$ | $17$ | $6.1868\times10^{-7}$ | $0.476777$ | $1.34\times10^{-2}$ |
+| $161/72$ | $38/17$ | $72$ | $1.9231\times10^{-9}$ | $0.476797$ | $3.16\times10^{-3}$ |
+| $161/72$ | $682/305$ | $305$ | $5.9721\times10^{-12}$ | $0.476796$ | $7.45\times10^{-4}$ |
+| $2889/1292$ | $682/305$ | $1292$ | $1.8547\times10^{-14}$ | $0.476796$ | $1.76\times10^{-4}$ |
+| $51841/23184$ | $12238/5473$ | $23184$ | $1.7889\times10^{-19}$ | $0.476796$ | $9.81\times10^{-6}$ |
+| $51841/23184$ | $219602/98209$ | $98209$ | $5.5555\times10^{-22}$ | $0.476796$ | $2.31\times10^{-6}$ |
+
+The last column tends to $0$: no bound of the form $D\ge c\,\delta^{-1/2}$ can hold.
+
+**Why the heuristic failed.** The superseded sentence imagined a single rational
+block sitting within $\delta$ of $\sqrt5$ — variance zero, the mean carrying the
+whole drift. That is indeed the cheapest carrier when the deficit is referenced
+to the carrier's own mean (Prop. 5.4), and it costs $\delta^{-1/2}$. Against the
+*fixed* target $f_{\mathrm{vect}}(t_\ast)$, however, a mean *below* $\sqrt5$
+lowers the quadratic $m^2-m$ and pays for the variance of a straddling pair;
+(5.1) is then affine in $m$ and can be made exactly zero. The problem is again
+two-sided rational approximation, the convergents are again the extremisers,
+and two irrationality exponents again multiply into a fourth root. Drift is not
+a second, cheaper knob: in the paper's regime it obeys the same law as the
+deficit.
+
+**Proposition 5.4 (mean-referenced deficit).** *With
+$\varepsilon_V=\mathrm{Var}_\tau(S)$ in place of $\varepsilon_T$, and
+$D_V(\varepsilon,\delta)$ defined accordingly,
+$D_V(\varepsilon,\delta)=\Theta\big(\min(\varepsilon^{-1/4},\delta^{-1/2})\big)$:
+every carrier with drift $\le\delta$ and $\varepsilon_V\le\varepsilon$ has a block
+with $q_l>(5(\sqrt\varepsilon+5\delta))^{-1/2}\ge
+\min(0.3162\,\varepsilon^{-1/4},0.1414\,\delta^{-1/2})$, and a single block at a
+convergent $h_n/k_n$ with $|h_n/k_n-\sqrt5|\le5\delta$ has $\varepsilon_V=0$ and
+$N=k_n=O(\delta^{-1/2})$.*
+
+*Proof.* Lower: some block has $|s_l-m|\le\sqrt{\varepsilon_V}$, so
+$|s_l-\sqrt5|\le\sqrt\varepsilon+5\delta\le2\max\{\sqrt\varepsilon,5\delta\}$,
+and Lemma 3.3. Upper: $|h_n/k_n-\sqrt5|<1/(k_nk_{n+1})<1/(4k_n^2)$ (check C29),
+so the least $n$ with $k_n\ge(20\delta)^{-1/2}$ works; Theorem B covers
+$\delta=0$. $\square$
+
+So the conjectured formula was the answer to a different question. The paper's
+definition (§1.3, §2.4: "the amount by which its value exceeds the infimum")
+fixes the target, and the physical question of "the boundary correlation,
+marginals and all" is likewise a fixed-target question; for both, the answer is
+Theorem 5.3.
+
+**Remark 5.5 (the physical metric).** DPP's correlation (§1.2) lists every
+$p(0,0|v,w)=\tau(P_vP_w)$ separately. Symmetrising a carrier over the ten affine
+maps $x\mapsto ax+b$ of $\mathbb Z_5$, $a\in\{1,2\}$ — a direct sum of ten
+relabelled copies of a realisation in $M_k$, so dimension $10k$, twice the cyclic
+symmetrisation of Lemma 4.4 which it contains, with the denominator unchanged —
+makes all pair traces equal to $\text{value}/20$, because
+the ten maps carry each unordered pair to each unordered pair exactly once
+(check C27). The zero-deficit carriers of Prop. 5.2 then reproduce *every* pair
+probability of the target exactly, at $N=17$ in the denominator convention, and
+miss only the five marginals, by $\delta_0=6.2\times10^{-7}$. Requiring pair
+probabilities within $\varepsilon'$ and marginals within $\delta$ therefore also
+gives $\Theta(\min(\varepsilon'^{-1/4},\delta^{-1/4}))$: the lower bound applies
+Theorem 5.3(a) with $\varepsilon=20\varepsilon'$, since
+$|\varepsilon_T|\le20\varepsilon'$, and the family just described has
+$\varepsilon'=0$.
 
 ### 5.4 The two ends of the law move in opposite directions
 
@@ -1071,7 +1238,7 @@ $\sqrt5$, for $K_5$, or for any other non-closure witness.
 **What the stack does and does not cover.** Every numbered *arithmetic* claim in
 §§2–4 and §6 is a machine check. The following are **not** machine-checked and are
 labelled as such in Table 8.1: §5.2's uniform constant in actual dimension,
-§5.3's Open Lemma (unproved by construction), §5.4's Liouville-exponent remark,
+§5.4's Liouville-exponent remark,
 all of §7.1 (the $I_{3322}$ numbers — see the disclosure there), Lemma 4.7 (a
 SECONDARY citation), Cor. 4.8's $4.866$–$9.732$ interval (a consequence of
 Lemma 4.6 and Lemma 4.7 rather than a computation). Prose
@@ -1103,7 +1270,7 @@ that generates the $\lambda$ pairs themselves.
 
 | script | what it certifies | checks | status |
 |---|---|---|---|
-| `appendix/verify_dimension_law.py` | §§2–6: setup, Theorem A, Theorem B, §5.4, §6 | C1–C26 (43 assertions) | exit 0 |
+| `appendix/verify_dimension_law.py` | §§2–6: setup, Theorem A, Theorem B, §5.3, §5.4, §6 | C1–C29 (48 assertions) | exit 0 |
 | `appendix/verify_krs_dimension.py` | Lemma 4.5 ($\dim = 2l$, $7\,921$ cases); independent re-derivation of the §4.2 table over $\mathbb Q$ | K1–K5 (6 assertions) | exit 0 |
 | `appendix/verify_transport_dimension.py` | Lemma 4.6 ($d\le 2q$ across the window, $4\,000$ cases, reduction into $[3/2,2]$) | T1–T3 (4 assertions) | exit 0 |
 
@@ -1141,7 +1308,10 @@ machine-dependent and are reported, not asserted).
 | 5.2 | consecutive $\varepsilon$ differ by $(2+\sqrt5)^4=321.997$; uniform constant $4.12275$ (denominator convention) | C16 |
 | 5.2 | uniform constant in **actual** dimension | *not checked* |
 | 5.2/8 | instrument: naive `float` evaluation collapses; extended precision required | C17 |
-| 5.3 | Open Lemma (drift) | *not proved, not claimed* |
+| 5.3 | former Open Lemma (drift, v1.0.0–1.0.1): $D(\varepsilon,\delta)=\Theta(\min(\varepsilon^{-1/4},\delta^{-1/2}))$ | **refuted** by C27–C28 (v1.0.2) |
+| 5.3 | Prop. 5.2: two-block $\varepsilon_T$ is affine in $m$; zero at $m_0$; $\sqrt5-m_0=\varepsilon_{\rm exact}/(\lambda_1+\lambda_2-1)$; the $(9/4,38/17)$ carrier in closed form; the ten-map pair symmetrisation of Remark 5.5 | C27 |
+| 5.3 | Theorem 5.3(b): $N\delta_0^{1/4}\to0.4767956449$ along 40 convergent pairs, $N\delta_0^{1/2}\to0$ | C28 |
+| 5.3 | Theorem 5.3(a) and Prop. 5.4 constants; identity (5.1) on non-scalar fixtures; $\lvert h_n/k_n-\sqrt5\rvert<1/(4k_n^2)$ | C29 |
 | 5.4 | $\varphi\in W$; $\liminf$ ratio exactly $2$ | C25 |
 | 5.4 | the four constants $0.4729/0.9732$ ($\sqrt5$) and $0.6687/0.8507$ ($\varphi$) | C26 |
 | 5.4 | Liouville-exponent remark | *not checked* |

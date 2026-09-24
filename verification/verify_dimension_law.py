@@ -4,14 +4,17 @@ VERIFICATION APPENDIX, ENGINE 1 --- "How much dimension does an
 eps-approximation to a non-attained quantum correlation cost?  A Diophantine
 answer for K_5".
 
-Every numbered arithmetic claim of the paper's sections 2-4 and 6 is checked
-here in EXACT arithmetic: Fraction over Q, the real quadratic field
+Every numbered arithmetic claim of the paper's sections 2-4, 5.3 and 6 is
+checked here in EXACT arithmetic: Fraction over Q, the real quadratic field
 Q(sqrt 5), the cyclotomic field Q(zeta_5), exact integers, and 80-digit
 Decimal where a real number must be compared with a printed constant.  No
 floating point is load-bearing; floats appear in printed diagnostics, and
 check C17 deliberately EXHIBITS the failure of floating point on this problem.
 
-Check labels C1..C26 are the ones used in the paper's Table 8.1.
+Check labels C1..C29 are the ones used in the paper's Table 8.1.  C27-C29
+(v1.0.2) certify section 5.3: the drift law D(eps, delta) =
+Theta(min(eps^{-1/4}, delta^{-1/4})) and the refutation of the delta^{-1/2}
+conjectured in v1.0.0-1.0.1.
 
 stdlib only.  Exit 0 on full pass, 1 otherwise.
 Runtime: a second or so on a modern machine, dominated by C8's exhaustive
@@ -1081,12 +1084,172 @@ def part_orbit(kappa):
           f"attained ratio phi/sqrt5 = {ATTP/ATT5:.6f}")
 
 
+# ===========================================================================
+# SECTION 5.3 CHECKS -- drifted marginals (v1.0.2): the former Open Lemma is
+# false; the drift law is D(eps, delta) = Theta(min(eps^{-1/4}, delta^{-1/4}))
+# ===========================================================================
+def eps_T_two_block(H, L, m):
+    """Fixed-target deficit (5.1) of the equal-rank two-block carrier with
+    scalar block values H > sqrt5 > L and mean m = mu H + (1-mu) L:
+    Var = (m - L)(H - m), and eps_T = Var + (m - sqrt5)(m + sqrt5 - 1)."""
+    return (m - L) * (H - m) + (m - R5) * (m + R5 - 1)
+
+
+def part_drift():
+    section("PAPER SECTION 5.3 -- drifted marginals: the former Open Lemma is "
+            "false, and the drift exponent is 1/4")
+
+    # C27 -- PROPOSITION 5.2, exactly in Q(sqrt5).  For a straddling pair with the
+    #        weight free, eps_T is AFFINE in the mean m,
+    #            eps_T = m (H + L - 1) - H L - 5 + sqrt5,
+    #        vanishes at m0 = (H L + 5 - sqrt5)/(H + L - 1), and
+    #            sqrt5 - m0 = eps_exact/(H + L - 1),  eps_exact = (H - sqrt5)(sqrt5 - L)
+    #        (the exact-marginal deficit of Prop. 4.1), with mu0 in (0,1).
+    pairs = [(F(5, 2), F(2)), (F(9, 4), F(2)), (F(9, 4), F(38, 17)),
+             (F(161, 72), F(38, 17)), (F(161, 72), F(682, 305))]
+    ok = True
+    for hi, lo in pairs:
+        H, L = Q5(hi, 0), Q5(lo, 0)
+        m0 = (H * L + 5 - R5) / (H + L - 1)
+        for m in (m0, Q5(F(11, 5), 0), Q5(F(9, 4), 0)):
+            if eps_T_two_block(H, L, m) != m * (H + L - 1) - H * L - 5 + R5:
+                ok = False
+        if not eps_T_two_block(H, L, m0).is_zero():
+            ok = False
+        _mu, d_exact = two_block(hi, lo)
+        if (R5 - m0) != d_exact / (H + L - 1) or (R5 - m0).sign() <= 0:
+            ok = False
+        mu0 = (m0 - L) / (H - L)
+        if mu0.sign() <= 0 or (Q5(1, 0) - mu0).sign() <= 0:
+            ok = False
+    check("C27  Prop. 5.2: for an equal-rank straddling pair with free weight, the "
+          "fixed-target deficit eps_T = Var + (m - sqrt5)(m + sqrt5 - 1) is AFFINE "
+          "in the mean m, vanishes exactly at m0 = (H L + 5 - sqrt5)/(H + L - 1), "
+          "sqrt5 - m0 = eps_exact/(H + L - 1) > 0, and mu0 in (0,1) -- exact in "
+          "Q(sqrt5) on 5 pairs, identity tested at 3 values of m each", ok)
+
+    H, L = Q5(F(9, 4), 0), Q5(F(38, 17), 0)
+    m0 = (H * L + 5 - R5) / (H + L - 1)
+    drift = (R5 - m0) / 5
+    mu0 = (m0 - L) / (H - L)
+    closed = (m0 == (Q5(682, 0) - Q5(68, 0) * R5) / Q5(237, 0)
+              and drift == (Q5(305, 0) * R5 - 682) / Q5(1185, 0))
+    # the value of this carrier is EXACTLY f_vect(t*) = 5 - sqrt5
+    value = (m0 - L) * (H - m0) + m0 * m0 - m0
+    exact_value = value == Q5(5, 0) - R5
+    # Remark 5.5: the ten affine maps x -> a x + b (a in {1,2}) of Z_5 carry each
+    # unordered pair to each unordered pair exactly once
+    maps = [(a, b) for a in (1, 2) for b in range(5)]
+    cover = True
+    for i in range(5):
+        for k in range(i + 1, 5):
+            imgs = [frozenset(((a * i + b) % 5, (a * k + b) % 5)) for a, b in maps]
+            if len(set(imgs)) != 10 or any(len(s) != 2 for s in imgs):
+                cover = False
+    check("C27  the explicit refuting carrier (9/4, 38/17), denominator 17: "
+          "m0 = (682 - 68 sqrt5)/237, drift delta0 = (305 sqrt5 - 682)/1185 = "
+          "6.1868e-7, value EXACTLY 5 - sqrt5 (deficit 0); and the ten affine maps "
+          "of Z_5 hit every unordered pair exactly once (Remark 5.5)",
+          closed and exact_value and cover,
+          f"m0 = {float(m0):.12f}, delta0 = {float(drift):.6e}, mu0 = {float(mu0):.6f}")
+
+    # C28 -- THEOREM 5.3(b): along consecutive convergent pairs, N delta0^{1/4}
+    #        -> 0.9732489895 / (5(2 sqrt5 - 1))^{1/4} = 0.4767956449, and
+    #        N delta0^{1/2} -> 0 (so the conjectured Omega(delta^{-1/2}) fails).
+    getcontext().prec = 80
+    R5D = Decimal(5).sqrt()
+    ATT5 = ((2 + R5D) / (2 * R5D)).sqrt()
+    KD = ATT5 / (5 * (2 * R5D - 1)).sqrt().sqrt()
+    h, k_ = [2], [1]
+    hp, kp = 1, 0
+    for _ in range(40):
+        h.append(4 * h[-1] + hp)
+        k_.append(4 * k_[-1] + kp)
+        hp, kp = h[-2], k_[-2]
+    rows = []
+    for i in range(len(k_) - 1):
+        a = Decimal(h[i]) / Decimal(k_[i])
+        b = Decimal(h[i + 1]) / Decimal(k_[i + 1])
+        hi, lo = (a, b) if a > b else (b, a)
+        eps = (hi - R5D) * (R5D - lo)
+        d0 = eps / (5 * (hi + lo - 1))
+        N = max(k_[i], k_[i + 1])
+        rows.append((N, d0, Decimal(N) * d0.sqrt().sqrt(), Decimal(N) * d0.sqrt()))
+    print()
+    print(f"    {'N':>7s} {'delta0':>13s} {'N*delta0^(1/4)':>15s} {'N*delta0^(1/2)':>15s}")
+    print("    " + "-" * 56)
+    for N, d0, r4, r2 in rows[:8]:
+        print(f"    {N:>7d} {float(d0):>13.4e} {float(r4):>15.9f} {float(r2):>15.4e}")
+    print("    " + "-" * 56)
+    r4s = [r for (_N, _d, r, _s) in rows]
+    r2s = [s for (_N, _d, _r, s) in rows]
+    check("C28  Theorem 5.3(b): N delta0^{1/4} -> 0.9732489895/(5(2 sqrt5-1))^{1/4} "
+          "= 0.4767956449 along 40 convergent pairs (tail within 1e-25 of the "
+          "limit; the limit recomputed in 80-digit Decimal)",
+          abs(r4s[-1] - KD) < Decimal("1e-25")
+          and all(abs(r - KD) < Decimal("1e-20") for r in r4s[-6:])
+          and abs(KD - Decimal("0.4767956448948477")) < Decimal("1e-15"),
+          f"limit = {KD:.16f}, last = {r4s[-1]:.16f}")
+    r2n = [Decimal(N) * s for (N, _d, _r, s) in rows]      # N^2 delta0^{1/2}
+    check("C28  and N delta0^{1/2} -> 0: strictly decreasing from the second pair "
+          "on, with N^2 delta0^{1/2} -> limit^2 = 0.2273 (so N delta0^{1/2} = O(1/N), "
+          "below 1e-24 at the 40th pair) -- NO bound D >= c delta^{-1/2} can hold: "
+          "the v1.0.0-1.0.1 Open Lemma is refuted",
+          all(r2s[i + 1] < r2s[i] for i in range(1, len(r2s) - 1))
+          and r2s[-1] < Decimal("1e-24")
+          and abs(r2n[-1] - KD * KD) < Decimal("1e-20"),
+          f"N delta0^(1/2) at N=17: {float(r2s[1]):.3e}; at the 40th pair: "
+          f"{float(r2s[-1]):.1e}; N^2 delta0^(1/2) -> {r2n[-1]:.10f}")
+
+    # C29 -- THEOREM 5.3(a) and PROP. 5.4: the explicit constants, the identity
+    #        (5.1) on carriers with NON-scalar blocks, and the convergent bound
+    #        |h_n/k_n - sqrt5| < 1/(4 k_n^2) used in Prop. 5.4's upper bound.
+    ok_const = (5 * (2 * R5D - 1 + Decimal("0.05")) <= Decimal("17.62")
+                and Decimal("17.62").sqrt() + Decimal("0.5") <= Decimal("4.7")
+                and 1 / Decimal(10).sqrt() >= Decimal("0.3162")
+                and 1 / Decimal(47).sqrt() >= Decimal("0.1458")
+                and 1 / Decimal(50).sqrt() >= Decimal("0.1414")
+                and abs((2 + R5D) * KD - Decimal("2.0197")) < Decimal("1e-3")
+                and 5 * Decimal("0.01") <= Decimal("0.5") * Decimal("0.01").sqrt())
+    # identity (5.1) on the C6 fixtures (non-scalar blocks): value - (5 - sqrt5)
+    # == Var + (m - sqrt5)(m + sqrt5 - 1), exactly in Q(sqrt5)
+    fixtures = [
+        ([F(1, 3), F(1, 3), F(1, 3)], [[F(1), F(3)], [F(2), F(2)], [F(0), F(5), F(1)]]),
+        ([F(2, 7), F(5, 7)], [[F(1), F(2), F(4)], [F(3), F(3)]]),
+        ([F(1, 2), F(1, 4), F(1, 4)], [[F(5)], [F(0), F(2)], [F(1), F(1), F(4)]]),
+    ]
+    ok_id = True
+    for lams, blocks in fixtures:
+        s = [sum(sp, F(0)) / len(sp) for sp in blocks]
+        s2 = [sum((x * x for x in sp), F(0)) / len(sp) for sp in blocks]
+        m = sum((lams[i] * s[i] for i in range(len(s))), F(0))
+        tS2 = sum((lams[i] * s2[i] for i in range(len(s))), F(0))
+        value = Q5(tS2 - m, 0)
+        var = Q5(tS2 - m * m, 0)
+        mq = Q5(m, 0)
+        if value - (Q5(5, 0) - R5) != var + (mq - R5) * (mq + R5 - 1):
+            ok_id = False
+    ok_conv = True
+    for n in range(1, 41):
+        diff = Q5(F(h[n], k_[n]), 0) - R5
+        absdiff = diff if diff.sign() > 0 else -diff
+        if not (absdiff < Q5(F(1, 4 * k_[n] * k_[n]), 0)):
+            ok_conv = False
+    check("C29  Theorem 5.3(a)/Prop. 5.4 constants (5(2 sqrt5-1+0.05) <= 17.62, "
+          "sqrt(17.62)+0.5 <= 4.7, 10^{-1/2} >= 0.3162, 47^{-1/2} >= 0.1458, "
+          "50^{-1/2} >= 0.1414, (2+sqrt5)*0.4768 = 2.020); identity (5.1) holds "
+          "exactly on the non-scalar C6 fixtures; |h_n/k_n - sqrt5| < 1/(4 k_n^2) "
+          "for 40 convergents",
+          ok_const and ok_id and ok_conv)
+
+
 def main() -> int:
     print(__doc__)
     kappa = part_setup()
     FLOOR_D = part_lower()
     part_upper(FLOOR_D)
     part_orbit(kappa)
+    part_drift()
 
     section("RESULT")
     print(f"  checks executed: {COUNT['n']}")
@@ -1102,6 +1265,9 @@ def main() -> int:
     print("||q sqrt5|| > 1/(5q), via the law of total variance with NO")
     print("block-scalar assumption); upper bound attained along the")
     print("continued-fraction convergents of sqrt5, N eps^{1/4} -> 0.9732489895.")
+    print("Drift (v1.0.2): D(eps, delta) = Theta(min(eps^{-1/4}, delta^{-1/4}))")
+    print("against the fixed target; the delta^{-1/2} of the former Open Lemma")
+    print("is refuted by an explicit zero-deficit carrier at denominator 17.")
     return 0
 
 
