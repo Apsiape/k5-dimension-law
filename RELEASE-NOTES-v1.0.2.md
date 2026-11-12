@@ -59,3 +59,15 @@ derivations reached the same counterexample and the same corrected law;
 the arithmetic was then recomputed in exact form for this release. As in
 v1.0.1, the correction is filed openly and the superseded statement is
 kept visible in Section 5.3.
+
+## Addendum (v1.1.0, 2026-11-11)
+
+Version 1.1.0 retains the convergent drift family above
+(N delta^(1/4) -> 0.4767956449) as a valid, nonoptimal control and improves
+the sharp denominator drift liminf to 0.3642394613 using intermediate
+semiconvergents (limsup 0.7714715591). It also proves the exact threshold
+delta_min(N) = e_N/[5(a_N+b_N-1)] and the full nonnegative-tolerance
+criterion e_N <= eps + 5(a_N+b_N-1) delta. The v1.0.2 Section 5.3 sentence
+calling the convergents the extremisers was false as written; the Farey
+neighbours are. The fourth-root correction remains valid, and Theorem
+5.3(a)'s lower bound is unchanged.

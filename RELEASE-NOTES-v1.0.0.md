@@ -46,6 +46,10 @@ convention. That is a bracket, not a pin — $D$ is a minimum over all carriers
 and $0.9732489895$ is the sharpest *attained* constant, not a matching lower
 bound.
 
+> **Addendum (v1.1.0, 2026-11-11).** Superseded: the denominator minimum is now
+> exact (Farey neighbours); sharp liminf/limsup $0.7434960689$/$1.5747499445$.
+> The convergent calculation above remains valid.
+
 ## What is explicitly not claimed in v1.0.0
 
 - The **drift regime**. All results assume exact marginals. §5.3's conjecture

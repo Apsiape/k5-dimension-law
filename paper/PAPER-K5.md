@@ -2,23 +2,27 @@
 
 **Seth Douglas** — ORCID [0009-0007-4708-3252](https://orcid.org/0009-0007-4708-3252)
 
-Version 1.0.0, public edition, 2026-08-10.
+Version 1.1.0, 2026-11-11. Exact denominator law and fixed-target drift.
 
 Companion verification code, shipped with this paper:
 `verification/verify_dimension_law.py`, `verification/verify_krs_dimension.py`,
-`verification/verify_transport_dimension.py`. *(The text below refers to these
-three engines by their working-draft location `appendix/…`; in this repository
-they are under `verification/`. Nothing else about them changed.)*
+`verification/verify_transport_dimension.py`, and, from v1.1.0,
+`verification/verify_farey_field.py` and `verification/verify_farey_intervals.py`
+(§8.3). *(The text below refers to the first three engines by their
+working-draft location `appendix/…`; in this repository they are under
+`verification/`. Nothing else about them changed.)*
 
-> **Public-edition note, 2026-08-10.** This is the promoted text of record,
-> unchanged in every theorem, proof, constant, table and reference. Three blocks
-> of drafting apparatus that the working draft itself designated
-> `STRIP BEFORE CIRCULATION` have been removed here, and nothing else: (i) the
-> draft banner; (ii) the `DRAFTING NOTE` block auditing the paper's rendering
-> against its internal source statement; (iii) the `Editorial to-do` section.
-> All three were internal drafting scaffolding for the review rounds and carry no
-> mathematical content. The review record that generated them is shipped in full
-> under `review/`.
+> **Edition history.** The public edition of 2026-08-10 removed only drafting
+> apparatus from its working draft; the review record is preserved in `review/`.
+> Version 1.0.1 (2026-08-25) corrected §7.2; version 1.0.2 (2026-09-24)
+> corrected §5.3. Version 1.1.0 makes the mathematical changes listed here: an
+> exact Farey law in the denominator convention, sharp lower and upper limiting
+> constants, and the exact fixed-target drift criterion. It retains valid older
+> convergent calculations as nonoptimal control families. The fourth-root
+> exponent survives. Version 1.1.0 also corrects three v1.0.2 sentences that
+> were false as written: §4.1 and §5.3 called the convergents the extremisers
+> (at $Q=21$ the optimum is $(47/21,38/17)$), and §5.2 called the convergent
+> deficit ratio an exact fixed factor (it is only the limit).
 
 ---
 
@@ -44,15 +48,25 @@ variance identity, and the upper bound is attained by feeding consecutive
 continued-fraction convergents of $\sqrt5$ into a two-block carrier, where the
 deficit is exactly the **product of the two one-sided approximation errors**,
 $$\varepsilon = (\lambda_1-\sqrt5)(\sqrt5-\lambda_2).$$
-The constant is **bracketed to a factor $2.176$**, both ends in the *denominator*
-convention: $N\varepsilon^{1/4}\to 0.9732489895$ along the convergents, against an
-unconditional floor of $0.4472135955$ in the same convention (§5.1; in actual
-block dimension the corresponding bracket is a factor $10.9$–$21.8$). It is a
-bracket and not a pin: $D$ is a minimum over *all* carriers, and $0.9732489895$
-is the sharpest constant so far *attained*, not a matching lower bound. The
-ratio $N\varepsilon^{1/4}$ is computed across $3.76$ decades of dimension and
-$15.05$ decades of $\varepsilon$, and is flat to six significant figures over the
-last $1.88$ and $7.52$ of those respectively (from $N = 1292$ on).
+In the *denominator convention*, put $Q=\max_l q_l$ for the reduced
+block-value denominators and write $D_{\rm den}$ for the corresponding minimum;
+$D$ without a subscript continues to mean actual block dimension. We determine
+the denominator problem exactly. If $b_Q<\sqrt5<a_Q$ are the Farey neighbours
+of order $Q$, the minimum deficit is
+$$e_Q=(a_Q-\sqrt5)(\sqrt5-b_Q),\qquad
+D_{\rm den}(\varepsilon)=\min\{Q:e_Q\le\varepsilon\}.$$
+Its sharp limiting constants are
+$$\liminf_{\varepsilon\downarrow0}D_{\rm den}(\varepsilon)\varepsilon^{1/4}
+=\left(\frac4{5\varphi^2}\right)^{1/4}=0.7434960689\ldots,$$
+$$\limsup_{\varepsilon\downarrow0}D_{\rm den}(\varepsilon)\varepsilon^{1/4}
+=\left(\frac{\varphi^{10}}{20}\right)^{1/4}=1.5747499445\ldots.$$
+The lower limit is approached along the intermediate semiconvergent pairs at
+$Q=21,89,377,\ldots$; consecutive convergents retain their valid but nonoptimal
+limit $0.9732489895$. A supporting-line inequality proves the lower bound for
+all carriers, including non-scalar blocks, and two scalar neighbour blocks
+attain it. The same inequality determines the fixed-target drift threshold
+exactly (§5.3), whose liminf constant is $0.3642394613$ (limsup
+$0.7714715591$).
 
 Two structural remarks accompany the law. First, the framework in which it lives
 — the star-quiver Coxeter functor $\Phi_5$, the window
@@ -140,40 +154,38 @@ the **deficit** of a finite-dimensional carrier to be the amount by which its
 value exceeds the infimum, and
 $$D(\varepsilon) \;:=\; \min\{\, N :\ \text{some finite-dimensional carrier at
 exact marginals has deficit} \le \varepsilon \,\},$$
-$N$ being the largest matrix-block dimension used. (§2.3 makes all of this
+$N$ being the largest matrix-block dimension used. (§2.4 makes all of this
 precise; §5 records the three dimension conventions and shows the exponent is
 independent of the choice.)
 
-**Theorem 1.1 (the dimension law).**
-$$\boxed{\,D(\varepsilon) \;=\; \Theta\!\left(\varepsilon^{-1/4}\right)\,}$$
-The box holds in **every** convention of §5.1; the two constants below are both
-stated in the *denominator* convention, where the bracket is tightest. Explicitly:
+**Theorem 1.1 (dimension law and exact denominator minimum).**
+$$\boxed{D(\varepsilon)=\Theta(\varepsilon^{-1/4})}$$
+in every dimension convention of §5.1. With
+$D_{\rm den}(\varepsilon)=\min\{Q:e_Q\le\varepsilon\}$,
+$$e_Q=(a_Q-\sqrt5)(\sqrt5-b_Q),\qquad Q\ge1,$$
+where $b_Q<\sqrt5<a_Q$ are the Farey neighbours of order $Q$. Furthermore
+$$\liminf D_{\rm den}(\varepsilon)\varepsilon^{1/4}
+=L:=\left(\frac4{5\varphi^2}\right)^{1/4}=0.7434960689\ldots,$$
+$$\limsup D_{\rm den}(\varepsilon)\varepsilon^{1/4}
+=U:=\left(\frac{\varphi^{10}}{20}\right)^{1/4}=1.5747499445\ldots,$$
+with limits as $\varepsilon\downarrow0$. The first is attained along the
+$j=1$ intermediate semiconvergent pairs, including $Q=21,89,377,\ldots$.
+The second is approached at tolerances just below the preceding $j=3$
+plateau heights, where the next convergent denominator is required.
 
-* **(A, lower, unconditional.)** Every finite-dimensional carrier at exact
-  marginals whose block values have reduced denominators $q_l$ has deficit
-  $\varepsilon > 1/(25Q^4)$ with $Q=\max_l q_l$, i.e.
-  $Q\varepsilon^{1/4} > 25^{-1/4} = 0.4472135955$; since $q_l$ divides the block
-  dimension $n_l$, $Q\le N=\max_l n_l$ and the same bound holds a fortiori in
-  actual block dimension. No block-scalar assumption is made; the bound is proved
-  through the law of total variance and holds for arbitrary finite-dimensional
-  carriers.
-* **(B, upper; the exponent and the constant are achieved along an explicit
-  family.)** Two-block carriers built from consecutive continued-fraction
-  convergents of $\sqrt5$ achieve
-  $N\varepsilon^{1/4}\to \big(\tfrac{2+\sqrt5}{2\sqrt5}\big)^{1/2}
-  = 0.9732489895$ in the denominator convention, computed across
-  $N = 17 \to 98\,209$ and
-  $\varepsilon = 1.08\times10^{-5}\to 9.64\times10^{-21}$ and flat to six
-  significant figures from $N = 1292$ on (i.e. across $N=1292\to98\,209$ and
-  $\varepsilon = 3.22\times10^{-13}\to 9.64\times10^{-21}$).
+Theorem A's unconditional inequality $\varepsilon>1/(25Q^4)$ remains valid,
+and Theorem B's consecutive-convergent family still has limit $0.9732489895$;
+neither number is a sharp endpoint of the exact law. The proof of the exact
+minimum is in §4.2a. The conversion to actual block dimension uses
+$D_{\rm den}\le D\le2D_{\rm den}$ on primary realization evidence (§5.1).
+The ten-place decimals of $L$, $U$ and of the related constants in
+§§5.2–5.4 are rounded in the last place.
 
-The exponent is **Diophantine**: it is set by the irrationality measure of the
-parameter, not by any universal rate and not by the multiplier of the underlying
-dynamics. §5.4 records how *both* ends of the law move with the arithmetic of the
-parameter — and that they move in *opposite* directions, the golden ratio
-$\varphi$ having a strictly higher floor and a strictly lower attained constant
-than $\sqrt5$ — and §7 exhibits an object in the same family of questions where
-the answer is logarithmic instead.
+The exponent is arithmetic: the variance identity transports a two-sided
+rational-approximation problem. Section 5.4 compares the sharp liminf and
+limsup at $\sqrt5$ and $\varphi$. The latter has the higher best-case constant
+and the lower worst-case constant. Section 7 contrasts a logarithmic law on a
+different witness.
 
 ### 1.4 What is recovery and what is new
 
@@ -197,11 +209,11 @@ published mathematics that we quote and validate rather than derive.
 2. Theorem A: the unconditional lower bound $\varepsilon > 1/(25N^4)$, with the
    *total-variance* form of the argument (Prop. 3.2), which removes the
    block-scalar hypothesis a naive derivation would need.
-3. Theorem B and the identity $\varepsilon = (\lambda_1-\sqrt5)(\sqrt5-\lambda_2)$
-   (Prop. 4.1) — the product of two one-sided approximation errors — together
-   with the convergent construction that makes the exponent tight and brackets
-   the constant (to the factor $2.176$ of §4.2, in the denominator convention;
-   it is a bracket, not a pin).
+3. Theorem B's product identity and the exact optimization in §4.2a:
+   $e_Q=(a_Q-\sqrt5)(\sqrt5-b_Q)$ for all carriers at bounded reduced
+   denominator. The sharp liminf and limsup replace the former bracket.
+   The same supporting line gives the exact fixed-target drift criterion
+   $e_Q\le\varepsilon+5(a_Q+b_Q-1)\delta$ (§5.3).
 4. The observation that *orbit topology and attainment are different invariants*
    on this object, with the explicit witness $\lambda=4/3$ (§6). This is a
    clarifying negative result, not a theorem we are claiming as an advance; it is
@@ -318,6 +330,13 @@ Theorem B: Prop. 3.1 gives only the inequality, and it is the convergent family 
 §4.2 that drives the excess to $0$. Until §4 the reader may therefore read
 $\varepsilon$ as the excess over the vectorial bound; from §4.2 on, the two
 readings coincide.
+
+For clarity, define
+$$e_Q:=\min\{\varepsilon:\text{exact-marginal carrier with }
+\max_l\mathrm{den}(s_l)\le Q\},\qquad
+D_{\rm den}(\varepsilon):=\min\{Q:e_Q\le\varepsilon\}.$$
+Section 4.2a proves attainment of this minimum for every $Q\ge1$.
+The unqualified $D$ above retains the actual-block convention.
 
 Two remarks fix the scope, both revisited in §5. (i) $N$ here is the largest
 *matrix block dimension*; §5.1 also records the "denominator convention", in which
@@ -451,20 +470,14 @@ in *both* conventions with the *same* constant, and the lower bound is
 independent of Lemma 4.6 entirely. Check C9b verifies the reduced-denominator step
 on carriers whose block values are non-reduced.
 
-**Remark 3.5 (sharpness of the argument, not of the constant).** The chain has one
-lossy step that is *quantitatively controlled* — the passage from
-$\lVert q\sqrt5\rVert>1/(5q)$ to the asymptotically tight
-$1/(\sqrt{20}\,q)$, worth a factor $(5/\sqrt{20})^{1/2}=1.0574$ — plus two
-inequalities that are strict on the extremal family: the within-block variance
-dropped in Prop. 3.2 (strictly positive whenever a block is non-scalar; check C6),
-and $q_l\le Q$ (strict at the optimum, where the two-block carrier of §4.2 has
-denominators $k_n<k_{n+1}=Q$). Even with the tight Diophantine constant a factor
-$0.9732/0.4729=2.058$ remains between the floor and Theorem B's attained value.
-The residual gap is therefore genuine and not an artefact of the method: it is the
-gap between the worst case over all $Q$ and the achievable subsequence. Closing it
-would require knowing, for each $Q$, the best pair of rationals with denominators
-$\le Q$ straddling $\sqrt5$, which is the three-distance problem for $\sqrt5$
-rather than a new inequality.
+**Remark 3.5 (the former gap is closed in denominators).** Theorem A's
+pointwise Diophantine floor is valid but nonsharp. Section 4.2a uses the mean
+constraint as well as the rational support restriction: the quadratic
+$(s-a_Q)(s-b_Q)$ is nonnegative at every admissible block mean. Averaging it
+retains the two-sided information lost by a uniform nearest-integer bound.
+Equality forces scalar blocks at the two Farey neighbours. This identifies
+the minimum over all carriers, not only a better subsequence of examples.
+The sharp lower and upper limiting constants are $L$ and $U$ of Theorem 1.1.
 
 **Remark 3.6 (the hypothesis can be weakened; observation).** The proof uses only
 $\sum_i\tau(P_i)=5t_\ast$ — the *mean* marginal is exactly $t_\ast$ — and not the
@@ -502,8 +515,9 @@ and substituting collapses the $(\lambda_1-\lambda_2)^2$. $\square$
 Checks C11, C12. This identity is the whole reason the law is Diophantine:
 **the deficit is the product of the two one-sided approximation errors to
 $\sqrt5$.** Minimising it at bounded denominator is therefore a simultaneous
-two-sided rational-approximation problem, and the extremisers are the
-continued-fraction convergents.
+two-sided rational-approximation problem. At fixed denominator bound its
+extremisers are the Farey neighbours, which include intermediate
+semiconvergents as well as consecutive convergents (§4.2a).
 
 ### 4.2 The convergent construction
 
@@ -520,8 +534,8 @@ N\varepsilon_n^{1/4}\;\longrightarrow\;
 \left(\frac{k_{n+1}/k_n}{2\sqrt5}\right)^{1/2}
 =\left(\frac{2+\sqrt5}{2\sqrt5}\right)^{1/2}.$$
 
-**Theorem B (upper bound; the exponent and the constant are achieved along an
-explicit family).** *In the denominator convention,*
+**Theorem B (upper bound; the exponent is achieved along an explicit family,
+with family constant $0.9732489895$).** *In the denominator convention,*
 $$N\,\varepsilon^{1/4} \;\longrightarrow\;
 \left(\frac{2+\sqrt5}{2\sqrt5}\right)^{1/2} \;=\; 0.9732489895\ldots$$
 *along the convergent family; the ratio agrees with its limit to six significant
@@ -558,12 +572,74 @@ so the engine certifies the sentence actually printed.
 Two exact sample values: the crude pair $(5/2,2)$ has
 $\varepsilon = (9\sqrt5-20)/2$, and the first genuine convergent pair
 $(9/4,38/17)$ has $\varepsilon = (305\sqrt5-682)/68$ — a factor $5779$ smaller at
-denominator $17$ (check C18). Against Theorem A's floor the law is $\Theta$,
-**tight to a factor $2.176$ in the denominator convention** — both constants
-being denominator constants after Theorem A's reduced-denominator form (check
-C15). In actual block dimension the corresponding gap is wider, a factor
-$10.9$–$21.8$ ($0.4472$ against Cor. 4.8's $4.866$–$9.732$); the two numbers must
-not be crossed.
+denominator $17$ (check C18). These convergent calculations remain valid
+controls. The bracket previously inferred from them is superseded by the exact
+minimum below; the best family includes proper intermediate semiconvergents.
+
+### 4.2a The exact Farey law and its limiting constants
+
+**Theorem B1 (exact denominator minimum).** Let $b_Q<\alpha<a_Q$ be the
+Farey neighbours of order $Q$, where $\alpha=\sqrt5$. Then
+$$e_Q=(a_Q-\alpha)(\alpha-b_Q),\qquad
+D_{\rm den}(\varepsilon)=\min\{Q:e_Q\le\varepsilon\}.$$
+
+*Proof.* For any admissible carrier, $\sum_l\lambda_ls_l=\alpha$ and every
+$s_l$ has reduced denominator at most $Q$, so
+$(s_l-a_Q)(s_l-b_Q)\ge0$. Props. 3.1–3.2 give the exact identity
+$$\varepsilon-(a_Q-\alpha)(\alpha-b_Q)
+=\sum_l\lambda_l\mathrm{Var}_{\mathrm{tr}}(S_l)
+ +\sum_l\lambda_l(s_l-a_Q)(s_l-b_Q)\ge0.$$
+For $Q\ge2$ the endpoints lie in $[2,5/2]\subset W$; for $Q=1$ they are
+$2,3\in W$. Lemmas 4.4 and 4.6 realize scalar endpoint blocks with equal
+per-index traces, and Prop. 4.1 with weight
+$(\alpha-b_Q)/(a_Q-b_Q)$ attains the bound. Symmetrization preserves the
+scalar value and its denominator. This proves the minimum for arbitrary
+carriers, including non-scalar and many-block ones. Equality requires scalar
+blocks supported at the two endpoints. $\square$
+
+For completeness, adjacent fractions $p/q<r/s$ with $rq-ps=1$ have no
+interior rational with denominator below $q+s$: an interior integer vector
+is a positive integer combination of $(p,q),(r,s)$. Thus starting from
+$2/1,3/1$, the mediant gives every next neighbour change. Put
+$$\rho=2+\alpha=\varphi^3,\quad r=\alpha-2=\rho^{-1},\quad
+(h_{-1},k_{-1})=(1,0),\quad(h_0,k_0)=(2,1).$$
+The recurrence $(h_{n+1},k_{n+1})=4(h_n,k_n)+(h_{n-1},k_{n-1})$
+gives $x_n=h_n-\alpha k_n=(-r)^{n+1}$. The four consecutive states based at
+$h_n/k_n$ pair it with
+$$\frac{h_{n-1}+jh_n}{k_{n-1}+jk_n},\qquad j=1,2,3,4.$$
+Their numerator errors $(j-\rho)x_n$ have the opposite sign; after $j=4$
+the moving endpoint switches. Hence these are all states of the mediant path.
+For $Q_{n,j}=k_{n-1}+jk_n$ the exact product is
+$$e_{Q_{n,j}}=\frac{(\rho-j)x_n^2}{k_n Q_{n,j}}.$$
+Since $k_{n-1}/k_n\to r$ and $k_n^2x_n^2\to1/20$, its lower plateau
+endpoint and the next-denominator upper supremum have limits
+$$L_j=\frac{(j+r)^3(\rho-j)}{20},\qquad
+U_j=\frac{(j+1+r)^4(\rho-j)}{20(j+r)}.$$
+The expression for the next denominator remains valid at $j=4$.
+
+| $j$ | examples of $Q$ | $L_j$ | $U_j$ |
+|---|---|---|---|
+| 1 | $21,89,377$ | $(6-2\sqrt5)/5$ | $(15+5\sqrt5)/8$ |
+| 2 | $38,161,682$ | $5/4$ | $(14+6\sqrt5)/5$ |
+| 3 | $55,233,987$ | $(6+2\sqrt5)/5$ | $\varphi^{10}/20$ |
+| 4 | $72,305,1292$ | $(9+4\sqrt5)/20$ | $(6+2\sqrt5)/5$ |
+
+**Corollary B2 (sharp limiting constants).** $\min_jL_j=L_1$ and
+$\max_jU_j=U_3$, so
+$$\liminf_{\varepsilon\downarrow0}D_{\rm den}(\varepsilon)\varepsilon^{1/4}
+=L_1^{1/4}=L=0.7434960689\ldots,$$
+$$\limsup_{\varepsilon\downarrow0}D_{\rm den}(\varepsilon)\varepsilon^{1/4}
+=U_3^{1/4}=U=1.5747499445\ldots.$$
+Indeed, $Q^4e_Q$ increases on each constant-deficit plateau, with extrema at
+$Q_i$ and $Q_{i+1}-1$. Replacing the latter by $Q_{i+1}$ has no limiting
+cost. For the inverse staircase,
+$D_{\rm den}(\varepsilon)=Q_i$ on $e_{Q_i}\le\varepsilon<e_{Q_{i-1}}$;
+its endpoint fourth powers are $Q_i^4e_{Q_i}$ and the supremum
+$Q_i^4e_{Q_{i-1}}$. Reindexing gives the same limiting extrema. The liminf
+uses $j=1$, whose denominators include $21,89,377,\ldots$; the limsup uses
+tolerances just below $j=3$ plateau heights and the following $j=4$
+convergent denominator. These are asymptotic constants, not bounds obtained
+by rounding to the next member of the old convergent-only family.
 
 ### 4.3 Realising the block values: the dimension lemma
 
@@ -704,14 +780,16 @@ $(2,4)\to(4,3)\to(3,1)\to(1,2)\to(2,4)$ of period $4$; hence
 $h_n\equiv 2,4,3,1\pmod 5$ cyclically and never $\equiv0$. Asserted in check
 C14.)*
 
-**Corollary 4.8 (Theorem B in actual dimension).** *Along the convergent family,*
-$$N_{\mathrm{actual}}\,\varepsilon^{1/4} \;\longrightarrow\; C_{\mathrm{act}},
-\qquad
-4.866 \;\le\; C_{\mathrm{act}} \;\le\; 9.732,$$
-*with $C_{\mathrm{act}} = 5\times 0.9732489895 = 4.8662$ exactly under Lemma 4.7,
-and the upper end $2\times$ that on primary evidence alone (Lemma 4.6).* The
-exponent is unaffected. This residue — $q$ versus $2q$ — is the one loose constant
-in the paper, and §5.1 states it as such.
+**Corollary 4.8 (Theorem B for merged equal-rank blocks).** *For that chosen realization of the convergent family,
+the limit points of $N_{\mathrm{actual}}\,\varepsilon^{1/4}$ lie in*
+$$[\,4.866,\;9.732\,];$$
+*the limit is $C_{\mathrm{act}} = 5\times 0.9732489895 = 4.8662$ under Lemma 4.7.
+On primary evidence alone (Lemma 4.6) the upper end is $2\times$ that, and the
+limit need not exist.* The
+exponent is unaffected. This is the cost of the chosen merged equal-rank
+realization, not a lower bound on $D$, which permits cyclic copies to remain
+separate matrix blocks. Section 5.1 gives the sharper conversion for that
+minimum. Exact total-dimension constants are not determined here.
 
 ---
 
@@ -719,46 +797,55 @@ in the paper, and §5.1 states it as such.
 
 ### 5.1 The three dimension conventions
 
-| convention | what $N$ is | lower constant | upper constant (convergents) | upper constant (uniform) | bracket |
-|---|---|---:|---:|---:|---:|
-| denominator | $\max_l q_l$ | $0.4472$ (Thm. A, directly) | $0.9732$ (Thm. B) | $4.123$ | $2.176$ |
-| actual block dimension | $\max_l n_l$ | $0.4472$ (Thm. A) | $4.866$–$9.732$ (Cor. 4.8) | $20.6$–$41.2$ ($\times(2+\sqrt5)$) | $10.9$–$21.8$ |
-| total Hilbert dimension | $\sum_l n_l$ | $0.4472$ (Thm. A) | $9.732$–$19.46$ | $41.2$–$82.4$ | $21.8$–$43.5$ |
+The definitions of §2.4 distinguish $Q=\max_lq_l$,
+$N=\max_ln_l$ and $H=\sum_ln_l$. Write $D_{\rm den},D,D_{\rm tot}$ for
+these three minima. All have exponent $-1/4$. Only $D_{\rm den}$ has sharp
+unconditional constants proved here.
 
-$\Theta(\varepsilon^{-1/4})$ holds under **all three**; only the constant moves,
-and the bracket is tightest — a factor $2.176$ — in the denominator convention,
-where both ends are proved directly. Theorem A is stated at the reduced
-denominator $q_l$ and, since $q_l\mid n_l\le\sum_l n_l$, the *same* constant
-$0.4472$ is a floor in every column; in particular **the lower bound does not go
-through Lemma 4.6 at all.** The upper bound is naturally stated in denominators
-(Prop. 4.1 is about $\lambda_1,\lambda_2$), and Lemma 4.6 is the bridge to actual
-dimension, at a cost of at most a factor $2$.
+| convention | exact comparison on primary evidence | sharp denominator reference |
+|---|---|---|
+| reduced denominator $Q$ | exact staircase $D_{\rm den}$ | liminf $L=0.7434960689$, limsup $U=1.5747499445$ |
+| actual matrix-block dimension $N$ | $D_{\rm den}\le D\le2D_{\rm den}$ | liminf in $[L,2L]$, limsup in $[U,2U]$ |
+| total Hilbert dimension $H$ | $D_{\rm den}\le D_{\rm tot}\le20D_{\rm den}$ | corresponding bounds $[L,20L]$, $[U,20U]$ |
 
-The third row is the one a reader coming from $C_q(5,2)$ will want, since "the
-dimension of a quantum strategy" normally means $\dim H=\sum_l n_l$. It needs no
-new work: for the lower bound $\max_l n_l\le\sum_l n_l$, so Theorem A applies a
-fortiori; for the upper bound the carriers of §4.2 have exactly two blocks, so
-$\sum_l n_l\le 2\max_l n_l$, doubling Cor. 4.8's interval. Any published statement
-must say which convention it is in; we report all three, and every table in §4 is
-in the denominator convention and labelled.
+The lower comparisons follow from $q_l\mid n_l$.
+For the upper comparisons, realize each Farey endpoint in $M_d$ with
+$d\le2q$ (Lemma 4.6). Equalize the marginals by five cyclic relabelled copies,
+retaining them as five summands instead of merging them into $M_{5d}$.
+For the two endpoint groups, use weights $\mu/5$ and $(1-\mu)/5$ on their
+five copies. Then all per-index marginals are exact, each sum remains scalar,
+and the largest block size is at most $2Q$. The total size is at most
+$5(2q_a+2q_b)\le20Q$. Thus the displayed bounds are finite inequalities,
+not merely asymptotic comparisons. The factor five in Cor. 4.8 concerns its
+chosen merged realization; it is not forced by the definition of $D$.
 
-### 5.2 Subsequence versus uniform tightness
+Conditional on the secondary Lemma 4.7, take $d=q$ instead: then
+$D=D_{\rm den}$ and $D_{\rm tot}\le10D_{\rm den}$. We retain the secondary
+status and assert no unconditional exact constants for actual or total
+dimension. These comparisons also apply to the drift minimizers in §5.3.
 
-The achievable deficits along the convergents form a geometric subsequence: two
-consecutive $\varepsilon$ differ by the fixed factor
-$$(2+\sqrt5)^4 \;=\; \varphi^{12} \;=\; 321.9968944\ldots$$
-(check C16). Hence Theorem B is a statement about a subsequence, and for an
-*arbitrary* $\varepsilon$ one must round up to the next available convergent,
-paying at most $((2+\sqrt5)^4)^{1/4}=2+\sqrt5=4.2360679$. The uniform constant in
-the denominator convention is therefore
-$$0.9732489895\times(2+\sqrt5)\;=\;4.12275\ldots,$$
-and in actual dimension $5\times$ that (subject to Cor. 4.8's residue). We report
-the subsequence constant as the sharpest *attained* one and the uniform constant as
-the honest one for a $\Theta$ statement. Neither is claimed to be the constant of
-$D$ itself: $D(\varepsilon)$ is a minimum over *all* carriers, and nothing here
-rules out a better one at a given $\varepsilon$ — a non-convergent straddling
-pair, or a carrier with three or more blocks. What is established is the bracket
-$[0.4472,\,0.9732]$ of §5.1, and Remark 3.5 says what closing it would require.
+### 5.2 Exact subsequence and uniform constants
+
+The sharp denominator best-case constant is $L$ and the sharp asymptotic
+uniform upper constant is $U$:
+$$L=\left(\frac4{5\varphi^2}\right)^{1/4},\qquad
+U=\left(\frac{\varphi^{10}}{20}\right)^{1/4}.$$
+In particular, for every $\eta>0$ and all sufficiently small $\varepsilon>0$,
+$$(L-\eta)\varepsilon^{-1/4}\le D_{\rm den}(\varepsilon)
+\le(U+\eta)\varepsilon^{-1/4}.$$
+Neither endpoint can be improved. Neither is a bound for every
+$\varepsilon$: at $\varepsilon=e_{21}$,
+$D_{\rm den}\varepsilon^{1/4}=0.74321\ldots<L$, and as
+$\varepsilon\uparrow e_{233}$ it tends to $1.574753\ldots>U$. Theorem A's
+$0.4472$ remains the uniform lower constant. The proof is the complete four-node
+staircase in §4.2a, including the inverse-staircase endpoint convention.
+
+The earlier limit $0.9732489895$ remains correct along consecutive
+convergents. Their consecutive deficit ratio tends to
+$(2+\sqrt5)^4=\varphi^{12}$; it is not exactly that fixed factor at finite
+indices. Rounding solely within that family gives the valid but nonsharp
+asymptotic upper constant $4.12275\ldots$. Intermediate semiconvergents
+replace it by the sharp $U=1.5747499445\ldots$.
 
 ### 5.3 Drifted marginals: the former Open Lemma is false, and the correct law is again a fourth root
 
@@ -832,8 +919,10 @@ $5-\sqrt5$ to infinite precision, with marginals off by $6\times10^{-7}$. Under
 the conjectured law such a carrier would have needed
 $N=\Omega(\delta_0^{-1/2})\approx1271$.
 
-**Theorem 5.3 (the drift law, fixed target).** *Let $0\le\varepsilon\le1$ and
-$0\le\delta\le1/100$.*
+**Theorem 5.3 (drift law, fixed target).** *Part (a) assumes
+$0\le\varepsilon\le1$, $0\le\delta\le1/100$ as before; the exact criterion in
+(c) holds for all nonnegative tolerances; at $(\varepsilon,\delta)=(0,0)$ no
+$Q$ qualifies, and $D_{\rm den}(0,0)=\infty$ (non-attainment).*
 
 *(a) (Lower bound, unconditional.) Every carrier with drift $\le\delta$ and
 $\varepsilon_T\le\varepsilon$ has a block whose reduced denominator satisfies*
@@ -842,14 +931,27 @@ $$q_l\;>\;\big(10\max\{\sqrt{\varepsilon},\,4.7\sqrt\delta\}\big)^{-1/2}
 *hence $D(\varepsilon,\delta)\ge Q>0.1458\,\min(\varepsilon^{-1/4},\delta^{-1/4})$
 in every convention of §5.1.*
 
-*(b) (Upper bound, attained.) Along consecutive convergent pairs of $\sqrt5$ the
-carriers of Prop. 5.2 have $\varepsilon_T=0$ and*
-$$N\,\delta_0^{1/4}\;\longrightarrow\;
-\frac{0.9732489895}{\big(5(2\sqrt5-1)\big)^{1/4}}\;=\;0.4767956449\ldots$$
-*in the denominator convention $N=k_{n+1}$. Together with Theorem B (the case
-$\delta=0$) and the rounding of §5.2,
-$D(\varepsilon,\delta)\le(2+\sqrt5)\min\big(0.9733\,\varepsilon^{-1/4},\,
-0.4768\,\delta^{-1/4}\big)(1+o(1))$.*
+*(b) (Sharp drift limits in denominators.) The neighbour carriers of
+Prop. 5.2 have zero deficit and*
+$$\delta_Q=\frac{e_Q}{5(a_Q+b_Q-1)}.$$
+*Along $j=1$ intermediate semiconvergent pairs,*
+$$Q\delta_Q^{1/4}\longrightarrow
+\frac{L}{[5(2\sqrt5-1)]^{1/4}}=0.3642394613\ldots.$$
+*This is also $\liminf_{\delta\downarrow0}D_{\rm den}(0,\delta)\delta^{1/4}$.
+The limsup is $U/[5(2\sqrt5-1)]^{1/4}=0.7714715591\ldots$.
+The older convergent-family value $0.4767956449$ remains correct as a
+nonoptimal attained constant.*
+
+*(c) (Exact denominator feasibility.) For $Q\ge1$ put
+$c_Q=a_Q+b_Q-1$. A carrier with reduced denominators at most $Q$, drift at
+most $\delta$, and fixed-target deficit at most $\varepsilon$ exists if
+and only if*
+$$e_Q\le\varepsilon+5c_Q\delta.$$
+*Consequently*
+$$D_{\rm den}(\varepsilon,\delta)
+=\min\{Q:e_Q\le\varepsilon+5c_Q\delta\},$$
+*and the least drift allowing nonpositive fixed-target deficit at order $Q$
+is exactly $e_Q/(5c_Q)$. The exact drift lower bound is therefore proved.*
 
 *Consequently*
 $$\boxed{\,D(\varepsilon,\delta)\;=\;\Theta\!\big(\min(\varepsilon^{-1/4},\delta^{-1/4})\big)\,}$$
@@ -867,16 +969,28 @@ using $5\delta\le0.5\sqrt\delta$ for $\delta\le1/100$. Lemma 3.3 gives
 $|s_l-\sqrt5|>1/(5q_l^2)$, and the displayed bound follows; $q_l\mid n_l$ as in
 Theorem A. $\square$
 
-*Proof of (b).* $\delta_0=\varepsilon_{\rm exact}/(5(\lambda_1+\lambda_2-1))$ by
-Prop. 5.2; along the convergents $\lambda_1+\lambda_2-1\to2\sqrt5-1$ while
-$N\varepsilon_{\rm exact}^{1/4}\to0.9732489895$ (Theorem B); take fourth roots.
-Consecutive $\delta_0$ differ asymptotically by the same factor $(2+\sqrt5)^4$
-as consecutive $\varepsilon$ (§5.2), so rounding to the next available pair
-costs at most $2+\sqrt5$. The block values are realised exactly as in §4.3
-(Lemma 4.6, Cor. 4.8); only the weight changes. $\square$
+*Proof of (b) and (c).* At arbitrary mean $m=\tau(S)$, the supporting
+polynomial of §4.2a and total variance give
+$$\varepsilon_T\ge(a_Q+b_Q-1)m-a_Qb_Q-5+\sqrt5
+=e_Q+c_Q(m-\sqrt5)\ge e_Q-5c_Q\delta.$$
+This proves necessity for every admissible carrier, without scalar or
+per-index-equality assumptions. For sufficiency use the exact-marginal
+neighbour carrier if $e_Q\le\varepsilon$. Otherwise set
+$$m=\sqrt5-\frac{e_Q-\varepsilon}{c_Q}.$$
+Since $b_Q\ge2>1-\sqrt5$, one has
+$e_Q/c_Q<\sqrt5-b_Q$, so $m\in(b_Q,\sqrt5)$ and the scalar neighbour
+weights are positive. Symmetrization makes every marginal $m/5$; their drift
+is $(e_Q-\varepsilon)/(5c_Q)\le\delta$ and Prop. 5.2 makes the deficit
+exactly $\varepsilon$. This proves (c).
 
-The drift family (drift in $\mathbb Q(\sqrt5)$, ratios in $80$-digit arithmetic;
-check C28):
+Since $c_Q\to2\sqrt5-1$, the lower and upper endpoints of the drift
+staircase have the limits of §4.2a divided by $5(2\sqrt5-1)$ at the fourth
+power level. This proves (b), including its lower bound. The exact-marginal
+case and the pure-drift case imply the same fourth-root Theta law; §5.1
+transfers it to actual and total dimension. $\square$
+
+The historical convergent control family (nonoptimal; drift in $\mathbb Q(\sqrt5)$,
+ratios in $80$-digit arithmetic; check C28):
 
 | $\lambda_1>\sqrt5$ | $\lambda_2<\sqrt5$ | $N$ | $\delta_0$ | $N\delta_0^{1/4}$ | $N\delta_0^{1/2}$ |
 |---|---|---:|---:|---:|---:|
@@ -897,8 +1011,8 @@ to the carrier's own mean (Prop. 5.4), and it costs $\delta^{-1/2}$. Against the
 *fixed* target $f_{\mathrm{vect}}(t_\ast)$, however, a mean *below* $\sqrt5$
 lowers the quadratic $m^2-m$ and pays for the variance of a straddling pair;
 (5.1) is then affine in $m$ and can be made exactly zero. The problem is again
-two-sided rational approximation, the convergents are again the extremisers,
-and two irrationality exponents again multiply into a fourth root. Drift is not
+two-sided rational approximation, the Farey neighbours are the extremisers,
+and the two one-sided approximation errors give a fourth root. Drift is not
 a second, cheaper knob: in the paper's regime it obeys the same law as the
 deficit.
 
@@ -940,49 +1054,40 @@ Theorem 5.3(a) with $\varepsilon=20\varepsilon'$, since
 $|\varepsilon_T|\le20\varepsilon'$, and the family just described has
 $\varepsilon'=0$.
 
-### 5.4 The two ends of the law move in opposite directions
+### 5.4 The two sharp limiting constants move in opposite directions
 
-It is tempting to say that $\sqrt5$, being badly approximable, is the hardest
-parameter in the window, or — noticing that $\varphi$ is worse-approximable
-still — that $\varphi$ is uniformly harder. Both are wrong, and the reason is
-worth the display, because it is what "Diophantine rather than universal" actually
-means here.
+For exact marginals $\alpha/5$, write $D_{{\rm den},\alpha}$ for the
+reduced-denominator minimum. The supporting-line proof of §4.2a applies to
+both $\alpha=\sqrt5$ and $\alpha=\varphi$, with scalar Farey endpoints
+realizable in the window for all sufficiently large denominator bounds.
 
-Both arguments of §§3–4 generalise verbatim from $\sqrt5$ to any quadratic
-irrational $\alpha\in W$ with conjugate $\alpha'$ and convergent-denominator growth
-$\rho=\lim_n k_{n+1}/k_n$: Prop. 3.2 and Lemma 3.3 give the floor, and Prop. 4.1's
-product identity $\varepsilon=(\lambda_1-\alpha)(\alpha-\lambda_2)$ with
-$|h_n/k_n-\alpha|\sim 1/((\alpha-\alpha')k_n^2)$ gives the attained constant:
-$$N\varepsilon^{1/4}\;>\;\big(\liminf_q q\lVert q\alpha\rVert\big)^{1/2}
-\ \ \text{asymptotically (§3.3)}
-\qquad\text{and}\qquad
-N\varepsilon^{1/4}\;\longrightarrow\;\Big(\frac{\rho}{\alpha-\alpha'}\Big)^{1/2}.$$
+| target $\alpha$ | exact $\liminf D_{{\rm den},\alpha}(\varepsilon)\varepsilon^{1/4}$ | exact $\limsup D_{{\rm den},\alpha}(\varepsilon)\varepsilon^{1/4}$ |
+|---|---|---|
+| $\sqrt5$ | $(4/(5\varphi^2))^{1/4}=0.7434960689\ldots$ | $(\varphi^{10}/20)^{1/4}=1.5747499445\ldots$ |
+| $\varphi$ | $(\varphi/\sqrt5)^{1/2}=0.8506508084\ldots$ | $\varphi(\varphi/\sqrt5)^{1/2}=1.3763819205\ldots$ |
 
-| $\alpha$ | $\liminf_q q\lVert q\alpha\rVert$ | asymptotic floor $(\cdot)^{1/2}$ | $\rho$ | $\alpha-\alpha'$ | attained $(\rho/(\alpha-\alpha'))^{1/2}$ |
-|---|---:|---:|---:|---:|---:|
-| $\sqrt5$ | $1/\sqrt{20}=0.2236$ | $0.4729$ | $2+\sqrt5$ | $2\sqrt5$ | $0.9732$ |
-| $\varphi=(1+\sqrt5)/2$ | $1/\sqrt5=0.4472$ | $0.6687$ | $\varphi$ | $\sqrt5$ | $0.8507$ |
+*Proof for $\varphi$.* Its continued fraction $[1;\overline1]$ has no
+proper intermediate semiconvergents, so every neighbour change is a
+convergent. The Fibonacci recursion gives $q_{i+1}/q_i\to\varphi$ and
+$q_i|p_i-\varphi q_i|\to1/\sqrt5$. Consecutive endpoint-error products
+therefore have $q_i^4e_{q_i}\to\varphi^2/5$ and
+$q_{i+1}^4e_{q_i}\to\varphi^6/5$. Inverting the staircase as in §4.2a
+and taking fourth roots gives the second row. The first row is Cor. B2.
+$\square$
 
-So $\varphi$'s liminf is exactly twice $\sqrt5$'s (Hurwitz: $\varphi$ is the
-worst-approximable point of $W$, and check C25 confirms the ratio $2$) — but the
-$D(\varepsilon)$ floors it induces differ by only $\sqrt2$, and the *attained*
-constant at $\varphi$ is $13\%$ **lower** than at $\sqrt5$, because $\varphi$'s
-convergent denominators grow by $\rho=\varphi$ per step against $2+\sqrt5$ for
-$\sqrt5$, so the rounding-up cost to the next available convergent is far smaller.
-Being badly approximable raises the floor and slow convergent growth lowers the
-ceiling, and at $\varphi$ the second effect wins: **$\varphi$ is not "twice as
-hard"; along its convergents it is strictly cheaper than $\sqrt5$.** All four
-constants are check C26 (recomputed in $140$-digit `Decimal` over $40$ ($\sqrt5$)
-and $90$ ($\varphi$) convergents).
+Thus $\varphi$ is harder in the best asymptotic case and cheaper in the
+worst asymptotic case. The older sentence that it is cheaper *along the
+convergent families* remains literally true, because those limits are
+$0.8507$ and $0.9732$. That comparison is not the sharp best-case comparison
+for $\sqrt5$. The present table compares the two sharp invariants of the
+actual denominator minimum and shows why neither parameter is uniformly
+ordered by these constants.
 
-The two ends of the law therefore move in *opposite* directions with the
-arithmetic of the parameter, and no single scalar invariant of $\alpha$ orders
-"hardness". At the far end, Liouville-type parameters in $W$ are arbitrarily
-cheap: for them the exponent $-1/4$ itself is replaced by one governed by the
-irrationality measure. **This is the precise sense in which the law is Diophantine
-rather than universal.** We prove the law at $t_\ast=1/\sqrt5$; the two-parameter
-formula above is stated as the shape of the general answer, not as a theorem —
-its ingredients are proved here only for $\sqrt5$.
+The proof here is restricted to these two quadratic parameters. For a general
+periodic continued fraction, the successive-denominator ratios may cycle
+rather than have one limit, so a single growth number and conjugate gap do
+not by themselves constitute a general formula. No universal exponent or
+constant for all irrational parameters is asserted.
 
 ---
 
@@ -1094,7 +1199,10 @@ $\{\mathfrak q<0\}$ (§2.3) is precisely why they look coupled.
 This has a positive corollary for §3–§4: the mechanism that makes $D(\varepsilon)$
 polynomial is *not* the geometry of the orbit. It is the rationality obstruction,
 graded by Diophantine approximation. The orbit multiplier $\varphi^{-4}$ appears
-nowhere in the exponent $-1/4$ or in the constant $0.9732$.
+nowhere as a causal ingredient of the exponent $-1/4$ or the sharp
+Farey constants $L,U$ (the powers of $\varphi$ in $L$ and $U$ come from
+$\rho=2+\sqrt5=\varphi^3$, the continued-fraction growth of $\sqrt5$, not from
+the Coxeter multiplier).
 
 ---
 
@@ -1184,7 +1292,9 @@ Reported as our sweep found it, with the negatives stated as negatives.
 3. **The nearest prior art is folklore, not a paper.** See §7.4.
 4. **Provisional, not closed.** We label the priority of $D(\varepsilon)=
    \Theta(\varepsilon^{-1/4})$ **new, provisional**: "no evidence found", not
-   "proved absent". Two documents remain outstanding; see §7.3.
+   "proved absent". Two documents remain outstanding; see §7.3. The v1.1
+   additions (§§4.2a, 5.3(b,c), 5.4) carry the same provisional label; their
+   Farey/Stern–Brocot ingredients are classical.
 
 ### 7.3 Documents we could not read in full (disclosed)
 
@@ -1226,24 +1336,27 @@ It is not the result. The trace obstruction is an *exact-realisation* bound at
 one must (i) express the approximation deficit as a variance, (ii) reduce it to
 the two-sided rational approximation problem via the product identity
 $\varepsilon=(\lambda_1-\sqrt5)(\sqrt5-\lambda_2)$, (iii) bound the one-sided
-errors below by $\lVert q\sqrt5\rVert>1/(5q)$, and (iv) show the resulting
-exponent is *attained* by continued-fraction convergents. Steps (i)–(iv) are the
-paper. We found nothing in the literature performing that conversion — for
+errors below, and (iv) attain the rate by scalar straddling blocks. The
+original release used a uniform Diophantine inequality and consecutive
+convergents. Version 1.1 strengthens these steps to the exact supporting-line
+bound and all Farey neighbour pairs, including intermediate semiconvergents.
+These are the quantitative statements made here. We found nothing in the literature performing that conversion — for
 $\sqrt5$, for $K_5$, or for any other non-closure witness.
 
 ---
 
 ## 8. Verification appendix
 
-**What the stack does and does not cover.** Every numbered *arithmetic* claim in
-§§2–4 and §6 is a machine check. The following are **not** machine-checked and are
-labelled as such in Table 8.1: §5.2's uniform constant in actual dimension,
-§5.4's Liouville-exponent remark,
-all of §7.1 (the $I_{3322}$ numbers — see the disclosure there), Lemma 4.7 (a
-SECONDARY citation), Cor. 4.8's $4.866$–$9.732$ interval (a consequence of
-Lemma 4.6 and Lemma 4.7 rather than a computation). Prose
-statements, attributions and the proofs of Lemmas 4.5 and 4.6 are of course not
-machine checks either; the engines confirm their conclusions.
+**What the stack does and does not cover.** The three legacy engines check
+the original convergent constructions and their arithmetic, with the old
+claim identifiers retained below. Version 1.1 adds two independent Farey
+engines (§8.3) and analytic proofs for the exact minimum, staircase endpoints,
+parameter comparison and drift criterion. Finite arithmetic checks confirm
+those proofs; they do not replace universal quantifiers by an enumeration.
+The primary-source realization arguments remain Lemmas 4.5–4.6; Lemma 4.7
+remains SECONDARY. Optimal unconditional actual and total dimension constants
+are not certified here. The $I_{3322}$ numbers in §7.1 remain outside these
+checks, as disclosed there.
 
 All checks are in exact arithmetic — `Fraction` over $\mathbb Q$, the real
 quadratic field $\mathbb Q(\sqrt5)$, the cyclotomic field $\mathbb Q(\zeta_5)$,
@@ -1251,7 +1364,7 @@ exact integer arithmetic, and $80$-digit `Decimal` where a real number must be
 compared to a printed constant — with the single deliberate exception of check
 C17, which *exhibits* the failure of floating point on this problem.
 
-**Architecture of the stack, stated exactly.** Three engines are supplied. Engines
+**Architecture of the legacy stack, stated exactly.** Three original engines are retained. Engines
 2 and 3 use only $\mathbb Q$: they do not use the quadratic or cyclotomic
 arithmetic of engine 1, and (since R1) engine 3 contains no floating point at all —
 its window test is the exact integer condition $p^2-5pq+5q^2\le0$. They are **not
@@ -1263,10 +1376,12 @@ scratch by rational interval arithmetic: it brackets $\sqrt5$ between consecutiv
 convergents to $60$-plus digits and bounds each $\varepsilon$ and each
 $N\varepsilon^{1/4}$ by comparisons of integers, never forming an element of
 $\mathbb Q(\sqrt5)$ and never calling `Decimal`. The §4.2 table and the
-six-figure plateau of Theorem B are therefore the one load-bearing claim of this
-paper that **is** certified by two engines sharing no number representation and
+six-figure plateau of Theorem B are therefore a legacy load-bearing claim of this
+paper certified by two engines sharing no number representation and
 no verification code; the one shared ingredient is the convergent recursion
-that generates the $\lambda$ pairs themselves.
+that generates the $\lambda$ pairs themselves. The legacy engines are shipped
+unchanged; the printed labels of C15, C16, C25 and C26 keep the v1.0 wording,
+which §§4.2a, 5.2 and 5.4 supersede.
 
 | script | what it certifies | checks | status |
 |---|---|---|---|
@@ -1299,24 +1414,24 @@ machine-dependent and are reported, not asserted).
 | 4.1 | exact marginals hold per index $i$ for equal-rank two-block carriers | C12 |
 | 4.2 | convergents of $\sqrt5=[2;\overline4\,]$ straddle | C13 |
 | 4.2 | Theorem B: the table; $N\varepsilon^{1/4}\to0.973249$; six figures from $N=1292$ (two separate tolerances); consistency with the floor; $5\nmid h_n$ | C14; independently K4–K5 |
-| 4.2 | asymptote $=((2+\sqrt5)/(2\sqrt5))^{1/2}$; tight to $2.176$ *in the denominator convention*; $10.9$–$21.8$ in actual dimension | C15 |
+| 4.2 | historical convergent asymptote $=((2+\sqrt5)/(2\sqrt5))^{1/2}$; former bracket superseded by §4.2a | C15 (legacy) |
 | 4.2 | crude $(5/2,2)$ vs convergent $(9/4,38/17)$: factor $5779$; exact values | C18 |
 | 4.3 | Lemma 4.2 (trace bound $q\mid d$) | C19 |
 | 4.3 | Lemma 4.3 (equal-rank: $5q\mid pd \iff q\mid d$ and ($5\mid p$ or $5\mid d/q$)) | C20 |
 | 4.3 | Lemma 4.5 (KRS construction has dimension $2l$) — *proved in text*; K1–K3 confirm | K1–K3 |
 | 4.3 | Lemma 4.6 ($q\le d_5(p/q)\le 2q$ across the window) — *proved in text*; T2 is an exhaustive proof of the transport step for $q<400$, T1 a $4\,000$-point confirmation of the reduction | T1–T3 |
-| 5.2 | consecutive $\varepsilon$ differ by $(2+\sqrt5)^4=321.997$; uniform constant $4.12275$ (denominator convention) | C16 |
-| 5.2 | uniform constant in **actual** dimension | *not checked* |
+| 5.2 | convergent-only deficit ratio tends to $(2+\sqrt5)^4$; old nonsharp asymptotic upper constant $4.12275$ | C16 (legacy); exact finite-ratio wording corrected |
+| 5.1 | $D_{\rm den}\le D\le2D_{\rm den}$ and $D_{\rm tot}\le20D_{\rm den}$ | proved from Lemma 4.6 and unmerged cyclic copies |
 | 5.2/8 | instrument: naive `float` evaluation collapses; extended precision required | C17 |
 | 5.3 | former Open Lemma (drift, v1.0.0–1.0.1): $D(\varepsilon,\delta)=\Theta(\min(\varepsilon^{-1/4},\delta^{-1/2}))$ | **refuted** by C27–C28 (v1.0.2) |
 | 5.3 | Prop. 5.2: two-block $\varepsilon_T$ is affine in $m$; zero at $m_0$; $\sqrt5-m_0=\varepsilon_{\rm exact}/(\lambda_1+\lambda_2-1)$; the $(9/4,38/17)$ carrier in closed form; the ten-map pair symmetrisation of Remark 5.5 | C27 |
-| 5.3 | Theorem 5.3(b): $N\delta_0^{1/4}\to0.4767956449$ along 40 convergent pairs, $N\delta_0^{1/2}\to0$ | C28 |
+| 5.3 | historical convergent drift limit $0.4767956449$, $N\delta_0^{1/2}\to0$ | C28 (legacy control); sharp law is Theorem 5.3(b,c) |
 | 5.3 | Theorem 5.3(a) and Prop. 5.4 constants; identity (5.1) on non-scalar fixtures; $\lvert h_n/k_n-\sqrt5\rvert<1/(4k_n^2)$ | C29 |
-| 5.4 | $\varphi\in W$; $\liminf$ ratio exactly $2$ | C25 |
-| 5.4 | the four constants $0.4729/0.9732$ ($\sqrt5$) and $0.6687/0.8507$ ($\varphi$) | C26 |
-| 5.4 | Liouville-exponent remark | *not checked* |
+| 5.4 | $\varphi\in W$; ratio $2$ of the legacy Diophantine constants (not dimension liminfs) | C25 (legacy) |
+| 5.4 | legacy floors/convergent limits, superseded as the parameter comparison | C26 (legacy); sharp limits proved in §5.4 |
+| 4.2a/5.3/5.4 | exact Farey law, four node types, both sharp limits and exact drift feasibility | analytic proofs; independent arithmetic confirmation §8.3 |
 | 4.3 | Lemma 4.7 (SECONDARY citation, [KRS03] via [Shu07]) | *not checked* |
-| 4.3 | Cor. 4.8's interval $4.866\le C_{\mathrm{act}}\le9.732$ | *not checked* (follows from Lemmas 4.6–4.7) |
+| 4.3 | Cor. 4.8's interval for its chosen merged equal-rank convergent family | consequence of Lemmas 4.6–4.7; not a sharp minimum for $D$ |
 | 7.1 | all $I_{3322}$ numbers | *not checked here*; our own release [I3322] |
 | 6.2 | Prop. 6.1: the $M_{15}$ carrier at $\lambda=4/3$, exact over $\mathbb Q$ | C21 |
 | 6.2 | Prop. 6.2: the $4/3$ orbit; same multiplier; integral dimension vectors; $\mathfrak q\equiv+5$ | C22 |
@@ -1336,6 +1451,42 @@ of the law at large $N$. All published tables must be evaluated in extended
 precision ($80$-digit decimal here). We include the failure as a check rather than
 a footnote because it occurs *exactly at the regime the theorem is about*, where a
 casual verification is most likely to be attempted and most likely to mislead.
+
+### 8.3 Independent v1.1 Farey checks
+
+The new scripts `verification/verify_farey_field.py` and
+`verification/verify_farey_intervals.py` independently implement exact
+quadratic-field arithmetic and certified rational intervals, respectively.
+Both headers register their predictions before execution. Run the field
+engine first, then the interval engine, which compares independently
+computed results with the field engine's output file `engine_a.json` and
+writes its own `engine_b.json`; both files are written next to the scripts.
+Both engines are standard-library only and run with `python -B` on any
+platform (`cd verification && python -B verify_farey_field.py && python -B
+verify_farey_intervals.py`); each exits 0 on a full pass. Each needs about
+15 MB of memory and 2–3 s on the release machine; timings are
+machine-dependent and are reported, not asserted. The release run used
+`python -I -B`; its two JSON files and printed transcripts
+(`verify_farey_field.stdout.txt`, `verify_farey_intervals.stdout.txt`) are
+shipped in `verification/`.
+
+Both engines exhaust all reduced rational support means in $[0,5]$ at orders
+$1\le Q\le12$: 42,519 straddling pairs for each of the deficit and zero-deficit
+drift objectives. For the deficit this is the entire block-mean relaxation
+(two-point extreme measures); for drift the enumeration confirms Theorem
+5.3(c), whose proof covers all supports. The analytic
+supporting-line identity covers all actual carriers and the neighbour
+construction attains the relaxed minimum. Positive controls reproduce
+$e_4=(17\sqrt5-38)/4$, $e_{17}=(305\sqrt5-682)/68$ and
+$\delta_{17}=(305\sqrt5-682)/1185$; a planted non-neighbour pair loses.
+
+An independent scan of 300,000 denominators for each parameter agrees with
+the mediant engine on 34 $\sqrt5$ and 26 $\varphi$ nodes. The two arithmetic
+representations also certify 100 $\sqrt5$ large-node records through
+$Q=4,472,197,161,895,732$, with independent large-node generation. Finite
+computations are labelled COMPUTED; the universal optimality and limiting
+constants are PROVED by §§4.2a, 5.3 and 5.4. The older engines and tables remain
+controls rather than certificates of the new optimality theorem.
 
 ---
 

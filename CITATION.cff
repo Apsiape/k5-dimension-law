@@ -7,8 +7,8 @@ authors:
     family-names: Douglas
     email: apsiape@gmail.com
     orcid: "https://orcid.org/0009-0007-4708-3252"
-version: 1.0.2
-date-released: "2026-09-24"
+version: 1.1.0
+date-released: "2026-11-11"
 doi: 10.5281/zenodo.21876896
 license: CC-BY-4.0
 abstract: >-
@@ -17,19 +17,25 @@ abstract: >-
   by an argument existential in dimension. We answer the quantitative question
   it leaves open. Let D(eps) be the least block dimension of a
   finite-dimensional carrier whose value exceeds the infimum by at most eps, at
-  exact marginals and at the distinguished parameter t = 1/sqrt(5). Then
-  D(eps) = Theta(eps^(-1/4)), and the exponent is arithmetic in origin: the
-  lower bound is the Diophantine inequality ||q sqrt(5)|| > 1/(5q) transported
-  through the law of total variance, and the upper bound is attained by feeding
-  consecutive continued-fraction convergents of sqrt(5) into a two-block
-  carrier, where the deficit is exactly the product of the two one-sided
-  approximation errors. The constant is bracketed to a factor 2.176 in the
-  denominator convention, between an unconditional floor 0.4472135955 and an
-  attained value 0.9732489895. We also show that orbit topology and attainment
-  are different invariants on this object, and contrast K_5 with I3322, where
-  the analogous cost is only logarithmic, concluding that dimension laws for
-  non-closure witnesses are governed by the arithmetic of the parameter rather
-  than by a universal rate.
+  exact marginals and at the distinguished parameter t = 1/sqrt(5). Then D(eps)
+  = Theta(eps^(-1/4)), and the exponent is arithmetic in origin: the lower bound
+  is the Diophantine inequality ||q sqrt(5)|| > 1/(5q) transported through the
+  law of total variance, and the upper bound is attained by feeding consecutive
+  continued-fraction convergents of sqrt(5) into a two-block carrier, where the
+  deficit is exactly the product of the two one-sided approximation errors. In
+  the denominator convention the minimum is exact, e_Q = (a_Q - sqrt5)(sqrt5 -
+  b_Q) with Farey neighbours of order Q; the sharp liminf and limsup of
+  D_den(eps) eps^(1/4) are 0.7434960689 and 1.5747499445, and D_den <= D <= 2
+  D_den. The same supporting-line inequality determines the fixed-target drift
+  threshold exactly, with liminf constant 0.3642394613. We also show that orbit
+  topology and attainment are different invariants on this object, and contrast
+  K_5 with I3322, where the analogous cost is only logarithmic, concluding that
+  dimension laws for non-closure witnesses are governed by the arithmetic of the
+  parameter rather than by a universal rate. Version 1.1.0 adds the exact Farey
+  law, the sharp constants and the exact drift law, and corrects three v1.0.2
+  sentences that were false as written: Sections 4.1 and 5.3 called the
+  convergents the extremisers, and Section 5.2 called the convergent deficit
+  ratio an exact fixed factor.
 keywords:
   - sums of projections
   - tracial states
@@ -37,6 +43,7 @@ keywords:
   - non-closure
   - continued fractions
   - Diophantine approximation
+  - Farey sequence
   - Coxeter functor
   - Tits form
   - star quiver

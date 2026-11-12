@@ -1,0 +1,26 @@
+BRUTE B 1 values 6 pairs 9 epsilon winner (Fraction(3, 1), Fraction(2, 1)) drift winner (Fraction(3, 1), Fraction(2, 1))
+BRUTE B 2 values 11 pairs 30 epsilon winner (Fraction(5, 2), Fraction(2, 1)) drift winner (Fraction(5, 2), Fraction(2, 1))
+BRUTE B 3 values 21 pairs 108 epsilon winner (Fraction(7, 3), Fraction(2, 1)) drift winner (Fraction(7, 3), Fraction(2, 1))
+BRUTE B 4 values 31 pairs 234 epsilon winner (Fraction(9, 4), Fraction(2, 1)) drift winner (Fraction(9, 4), Fraction(2, 1))
+BRUTE B 5 values 51 pairs 638 epsilon winner (Fraction(9, 4), Fraction(11, 5)) drift winner (Fraction(9, 4), Fraction(11, 5))
+BRUTE B 6 values 61 pairs 918 epsilon winner (Fraction(9, 4), Fraction(11, 5)) drift winner (Fraction(9, 4), Fraction(11, 5))
+BRUTE B 7 values 91 pairs 2040 epsilon winner (Fraction(9, 4), Fraction(11, 5)) drift winner (Fraction(9, 4), Fraction(11, 5))
+BRUTE B 8 values 111 pairs 3038 epsilon winner (Fraction(9, 4), Fraction(11, 5)) drift winner (Fraction(9, 4), Fraction(11, 5))
+BRUTE B 9 values 141 pairs 4914 epsilon winner (Fraction(9, 4), Fraction(20, 9)) drift winner (Fraction(9, 4), Fraction(20, 9))
+BRUTE B 10 values 161 pairs 6408 epsilon winner (Fraction(9, 4), Fraction(20, 9)) drift winner (Fraction(9, 4), Fraction(20, 9))
+BRUTE B 11 values 211 pairs 10998 epsilon winner (Fraction(9, 4), Fraction(20, 9)) drift winner (Fraction(9, 4), Fraction(20, 9))
+BRUTE B 12 values 231 pairs 13184 epsilon winner (Fraction(9, 4), Fraction(20, 9)) drift winner (Fraction(9, 4), Fraction(20, 9))
+PAIR COUNT: 42519 epsilon + 42519 drift; all independent rational interval minima agree
+SCAN B sqrt5 300000 denominator cases; 34 change nodes; ALL agree
+NODES: 1,2,3,4,5,9,13,17,21,38,55,72,89,161,233,305,377,682,987,1292,1597,2889,4181,5473,6765,12238,17711,23184,28657,51841,75025,98209,121393,219602
+SCAN B phi 300000 denominator cases; 26 change nodes; ALL agree
+NODES: 1,2,3,5,8,13,21,34,55,89,144,233,377,610,987,1597,2584,4181,6765,10946,17711,28657,46368,75025,121393,196418
+POSITIVE CONTROLS e4,e17,d17: 0.00328890437410621 1.0781432880256e-05 6.18681380470384e-07 PASS
+NEGATIVE CONTROL non-neighbour pair loses PASS
+INDEPENDENT LARGE MEDIANT GENERATION: all 100 asymptotic inputs agree
+ASYMPTOTIC B j 1 N4e 0.305572809000084 D4e_sup 3.27254248593737
+ASYMPTOTIC B j 2 N4e 1.25 D4e_sup 5.48328157299975
+ASYMPTOTIC B j 3 N4e 2.09442719099992 D4e_sup 6.14959346906221
+ASYMPTOTIC B j 4 N4e 0.897213595499958 D4e_sup 2.09442719099992
+INTERVAL ASYMPTOTIC CHECKS: 100 node records PASS
+ALL ENGINE B CHECKS PASS
