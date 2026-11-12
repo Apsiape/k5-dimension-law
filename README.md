@@ -394,8 +394,8 @@ transporting §§3–4 to another five-projection problem; see
 
 ## Citing
 
-See [`CITATION.cff`](CITATION.cff). Version 1.1.0 (v1.1.0 version DOI: to be
-minted on release; until then cite the concept DOI). Concept DOI (all versions):
+See [`CITATION.cff`](CITATION.cff). Version 1.1.0 version DOI:
+[10.5281/zenodo.24148371](https://doi.org/10.5281/zenodo.24148371). Concept DOI (all versions):
 [10.5281/zenodo.21876896](https://doi.org/10.5281/zenodo.21876896); v1.0.2
 version DOI:
 [10.5281/zenodo.22944181](https://doi.org/10.5281/zenodo.22944181); v1.0.1
